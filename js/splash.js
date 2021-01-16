@@ -34,7 +34,7 @@ function loadName() {
 
 // factor must be an integer greater than 1
 function scale(original, factor) {
-  
+
   var scaled = []
   for (var i = 0; i < factor * original.length; i++) {
     scaled[i] = [];
@@ -56,22 +56,83 @@ function scale(original, factor) {
 
 }
 
+scaledName = scale(loadName(), 3);
+
 // http://jsfiddle.net/guffa/tvt5k/
 // http://stackoverflow.com/questions/20160827/when-generating-normally-distributed-random-values-what-is-the-most-efficient-w
 function generateNormal() {
-
   return ((Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3) / 3;
+}
 
+function pickColors(numSquaresH, numSquaresV) {
+  var colors = new Float32Array(numSquaresH * numSquaresV * 4);
+
+  for (i = 0; i < numSquaresH; i++) {
+    for (j = 0; j < numSquaresV; j++) {
+      var index = getIndex(i, j, numSquaresH);
+
+      if ( i < scaledName.length && j < scaledName[0].length && scaledName[i][j] == 1) {
+        colors[index] = 0;
+        colors[index + 1] = 110;
+        colors[index + 2] = 207;
+        colors[index + 3] = 105 + 100 * generateNormal();
+      }
+
+      else {
+        colors[index] = 0;
+        colors[index + 1] = 110;
+        colors[index + 2] = 207;
+        colors[index + 3] = 150 + 100 * generateNormal();
+      }
+    }
+  }
+  return colors;
+}
+
+function assignColors(x, y, squareLength, numSquaresH, colors, imoutData) {
+
+
+  for (i = 0; i < x; i++) {
+    for (j = 0; j < y; j++) {
+      var index = getIndex(i,j,x);
+
+      var iBox = Math.floor(i / squareLength);
+      var jBox = Math.floor(j / squareLength);
+
+      var indexBox = getIndex(iBox, jBox, numSquaresH);
+
+      imoutData.data[index] = colors[indexBox]
+      imoutData.data[index + 1] = colors[indexBox + 1];
+      imoutData.data[index + 2] = colors[indexBox + 2];
+      imoutData.data[index + 3] = colors[indexBox + 3];
+
+    }
+  }
+}
+
+function drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasContext) {
+  // console.log(numSquaresV);
+
+  for (i = 0; i < numSquaresH; i++) {
+    for (j = 0; j < numSquaresV; j++) {
+      var index = getIndex(i, j, numSquaresH);
+
+      var r = colors[index];
+      var g = colors[index + 1];
+      var b = colors[index + 2];
+      var alpha = Math.round(colors[index + 3] / 255. * 100) / 100.;
+      var rgba = "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+
+      myCanvasContext.fillStyle = rgba;
+      myCanvasContext.fillRect(i * squareLength, j * squareLength, squareLength, squareLength);
+    }
+  }
 }
 
 // adapted from http://stackoverflow.com/questions/3914203/javascript-filter-image-color
 function drawCanvas(){
 
-  // writing my name
-
-  var name = scale(loadName(),5);
-
-  var numSquaresH = name.length;
+  var numSquaresH = scaledName.length;
 
   // create a new canvas element
   // var myCanvas = document.createElement("canvas");
@@ -85,64 +146,26 @@ function drawCanvas(){
     g = d.getElementsByTagName('body')[0],
     x = w.innerWidth || e.clientWidth || g.clientWidth,
     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-  // alert(x + ' × ' + y);
 
   myCanvas.width = x;
   myCanvas.height = y;
 
-  var imoutData = myCanvasContext.createImageData(x,y);
-
   var squareLength = x / numSquaresH;
-
   var numSquaresV = Math.max(Math.ceil(y / squareLength));
 
-  var numSquaresTot = numSquaresV * numSquaresH;
+  var colors = pickColors(numSquaresH, numSquaresV);
 
+  myCanvasContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
+  drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasContext);
 
-  var colors = new Float32Array(numSquaresTot * 4);
-  for (i = 0; i < numSquaresH; i++) {
-    for (j = 0; j < numSquaresV; j++) {
-      var index = getIndex(i, j, numSquaresH);
+  // var imoutData = myCanvasContext.createImageData(x,y);
 
+  // assignColors(x, y, squareLength, numSquaresH, colors, imoutData);
 
-      if ( i < name.length && j < name[0].length && name[i][j] == 1) {
-        colors[index] = 0;
-        colors[index + 1] = 110;
-        colors[index + 2] = 207;
-        colors[index + 3] = 125 + 100 * generateNormal();
-      }
+  // myCanvasContext.putImageData(imoutData, 0, 0);
 
-      else {
-        colors[index] = 0;
-        colors[index + 1] = 110;
-        colors[index + 2] = 207;
-        colors[index + 3] = 150 + 100 * generateNormal();
-      }
-
-    }
-  }
-
-  // alert("got here");
-
-  for (i = 0; i < x; i++) {
-    for (j = 0; j < y; j++) {
-      var index = getIndex(i,j,x);
-
-      iBox = Math.floor(i / squareLength);
-      jBox = Math.floor(j / squareLength);
-
-      indexBox = getIndex(iBox, jBox, numSquaresH);
-
-      imoutData.data[index] = colors[indexBox]
-      imoutData.data[index + 1] = colors[indexBox + 1];
-      imoutData.data[index + 2] = colors[indexBox + 2];
-      imoutData.data[index + 3] = colors[indexBox + 3];
-
-    }
-  }
-
-  myCanvasContext.putImageData(imoutData,0,0);
-	// document.body.appendChild(myCanvas);
+  colors = undefined;
+  imoutData = undefined;
 
 }
 
