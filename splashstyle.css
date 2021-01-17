@@ -1,4 +1,35 @@
-* { 
-	margin : 0;
-	padding: 0; 
+* {
+  margin : 0;
+  padding: 0;
+}
+
+.page {
+  position: relative;
+}
+
+.bottom-section {
+  position: absolute;
+  bottom: 0px;
+}
+
+.bottom-section > .links {
+  margin-bottom: 30px;
+  transition: 0.5s;
+}
+
+.bottom-section > .links > a {
+  background-color: rgba(256, 256, 256, 0.6);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.settings-tray {
+  height: 200px;
+  width: 100vw;
+  background-color: rgba(256, 256, 256, 0.6);
+  overflow: hidden;
+  transition: 0.5s;
+}
+.settings-tray.closed {
+  height: 0px;
 }

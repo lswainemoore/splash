@@ -184,3 +184,8 @@ function drawBackground(){
 
 
 }
+
+function toggleSettings() {
+  // see https://stackoverflow.com/a/36317392
+  $('.settings-tray').toggleClass('closed');
+}

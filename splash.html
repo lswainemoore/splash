@@ -1,24 +1,38 @@
 <html>
 
-	<head>
-		<script type="text/javascript" src="js/splash.js"></script>
-		<script type="text/javascript" src="js/jQuery.js"></script>
-  		<link rel="stylesheet" href="splashstyle.css">
-	</head>
-  	<body onload="drawBackground()">
-  		<canvas id='squares'></canvas>
-  		<script>
-	  		// $( document ).ready(function() {
-	  		// 	createBackground();
-	  		// });
-			// $( window ).on("resize", function(){
-			// 	drawBackground();
-			// });
-			setInterval(drawBackground, 100);
+  <head>
+    <script type="text/javascript" src="js/splash.js"></script>
+    <script type="text/javascript" src="js/jQuery.js"></script>
+      <link rel="stylesheet" href="splashstyle.css">
+  </head>
+    <body onload="drawBackground()">
+      <div class="page">
+        <canvas id='squares'></canvas>
+        <div class="bottom-section">
+          <div class="links">
+            <a href="/">blah</a>
+            <a href="javascript:void(0)" onclick="toggleSettings()">Settings</a>
+            <a href="/">blah</a>
+          </div>
+          <div class="settings-tray closed">
+            <p>blah1</p>
+            <p>blah2</p>
+            <p>blah3</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        // $( document ).ready(function() {
+        //  createBackground();
+        // });
+      // $( window ).on("resize", function(){
+      //  drawBackground();
+      // });
+      setInterval(drawBackground, 1000);
 
-  		</script>
+      </script>
 
-  	</body>
+    </body>
 
 
 
