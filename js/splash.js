@@ -56,7 +56,19 @@ function scale(original, factor) {
 
 }
 
-scaledName = scale(loadName(), 3);
+var scaledName = scale(loadName(), 3);
+
+var params = {
+  color: {
+    r: 0,
+    g: 110,
+    b: 207
+  },
+  onAlpha: 105,
+  offAlpha: 150,
+  onNoise: 100,
+  offNoise: 100
+};
 
 // http://jsfiddle.net/guffa/tvt5k/
 // http://stackoverflow.com/questions/20160827/when-generating-normally-distributed-random-values-what-is-the-most-efficient-w
@@ -72,17 +84,17 @@ function pickColors(numSquaresH, numSquaresV) {
       var index = getIndex(i, j, numSquaresH);
 
       if ( i < scaledName.length && j < scaledName[0].length && scaledName[i][j] == 1) {
-        colors[index] = 0;
-        colors[index + 1] = 110;
-        colors[index + 2] = 207;
-        colors[index + 3] = 105 + 100 * generateNormal();
+        colors[index] = params.color.r;
+        colors[index + 1] = params.color.g;
+        colors[index + 2] = params.color.b;
+        colors[index + 3] = params.onAlpha + params.onNoise * generateNormal();
       }
 
       else {
-        colors[index] = 0;
-        colors[index + 1] = 110;
-        colors[index + 2] = 207;
-        colors[index + 3] = 150 + 100 * generateNormal();
+        colors[index] = params.color.r;
+        colors[index + 1] = params.color.g;
+        colors[index + 2] = params.color.b;
+        colors[index + 3] = params.offAlpha + params.offNoise * generateNormal();
       }
     }
   }
@@ -90,8 +102,6 @@ function pickColors(numSquaresH, numSquaresV) {
 }
 
 function assignColors(x, y, squareLength, numSquaresH, colors, imoutData) {
-
-
   for (i = 0; i < x; i++) {
     for (j = 0; j < y; j++) {
       var index = getIndex(i,j,x);
@@ -189,3 +199,5 @@ function toggleSettings() {
   // see https://stackoverflow.com/a/36317392
   $('.settings-tray').toggleClass('closed');
 }
+
+

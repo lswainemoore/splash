@@ -15,9 +15,11 @@
             <a href="/">blah</a>
           </div>
           <div class="settings-tray closed">
-            <p>blah1</p>
-            <p>blah2</p>
-            <p>blah3</p>
+            <input type="range" min="0" max="256" value="0" id="onAlpha">
+            <input type="range" min="0" max="1000" value="0" id="onNoise">
+            <br>
+            <input type="range" min="0" max="256" value="0" id="offAlpha">
+            <input type="range" min="0" max="1000" value="0" id="offNoise">
           </div>
         </div>
       </div>
@@ -28,7 +30,21 @@
       // $( window ).on("resize", function(){
       //  drawBackground();
       // });
-      setInterval(drawBackground, 1000);
+        // setInterval(drawBackground, 100);
+        // bind
+        [
+          'onAlpha',
+          'offAlpha',
+          'onNoise',
+          'offNoise'
+        ].forEach(function(name) {
+          var slider = $('#' + name);
+          slider.val(params[name]);
+          slider.on('input', function() {
+            params[name] = parseInt(this.value);
+            drawBackground();
+          })
+        });
 
       </script>
 
