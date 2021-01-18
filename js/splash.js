@@ -1,3 +1,28 @@
+class Histogram {
+  constructor(numBuckets = 20., lowerBound = 0., upperBound = 1.) {
+    this.numBuckets = numBuckets;
+    this.lowerBound = lowerBound;
+    this.upperBound = upperBound;
+    this.reset();
+  }
+
+  reset() {
+    this.buckets = {};
+    for (i in [...Array(this.numBuckets)]) {
+      this.buckets[i] = 0;
+    }
+  }
+
+  addVal(val) {
+    const step = (this.upperBound - this.lowerBound) / this.numBuckets;
+    var index = Math.floor(val / step);
+    if (index == this.numBuckets) {
+      // this makes the last bucket inclusive of the upper bound
+      index--;
+    }
+    this.buckets[index]++;
+  }
+}
 
 //returns index in data given with variable I, height variable J, and width W
 function getIndex (i,j,w) {
@@ -56,7 +81,7 @@ function scale(original, factor) {
 
 }
 
-var scaledName = scale(loadName(), 3);
+var scaledName = scale(loadName(), 5);
 
 var params = {
   color: {
@@ -64,20 +89,53 @@ var params = {
     g: 110,
     b: 207
   },
-  onAlpha: 105,
-  offAlpha: 150,
-  onNoise: 100,
-  offNoise: 100
+  onAlpha: .35,
+  offAlpha: .5,
+  onNoise: .4,
+  offNoise: .4
 };
+
+var histograms = {
+  on: new Histogram(),
+  off: new Histogram(),
+}
 
 // http://jsfiddle.net/guffa/tvt5k/
 // http://stackoverflow.com/questions/20160827/when-generating-normally-distributed-random-values-what-is-the-most-efficient-w
-function generateNormal() {
+function generateStandardNormal() {
   return ((Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3) / 3;
 }
 
+function generateScaledNormal(mean, stdDev) {
+  return mean + stdDev * generateStandardNormal();
+}
+
+function generateClippedNormal(mean, stdDev, lowerBound, upperBound) {
+  // clip at edge and just stick the leftovers at the edge
+  // this produces a funky looking distribution
+  return Math.min(upperBound, Math.max(lowerBound, generateScaledNormal(mean, stdDev)));
+}
+
+function generateTruncatedNormal(mean, stdDev, lowerBound, upperBound) {
+  // technically a different distribution: "truncated normal distribution"
+  // reject candidates outside range until you get one.
+  while (true) {
+    const candidate = generateScaledNormal(mean, stdDev);
+    if (candidate >= lowerBound && candidate <= upperBound) {
+      return candidate;
+    }
+  }
+
+}
+
+
+
 function pickColors(numSquaresH, numSquaresV) {
   var colors = new Float32Array(numSquaresH * numSquaresV * 4);
+  console.log('onAlpha', params.onAlpha)
+  console.log('onNoise', params.onNoise)
+  console.log('offAlpha', params.offAlpha)
+  console.log('offNoise', params.offNoise)
 
   for (i = 0; i < numSquaresH; i++) {
     for (j = 0; j < numSquaresV; j++) {
@@ -87,14 +145,16 @@ function pickColors(numSquaresH, numSquaresV) {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = params.onAlpha + params.onNoise * generateNormal();
+        colors[index + 3] = generateTruncatedNormal(params.onAlpha, params.onNoise, 0., 1.);
+        histograms['on'].addVal(colors[index + 3])
       }
 
       else {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = params.offAlpha + params.offNoise * generateNormal();
+        colors[index + 3] = generateTruncatedNormal(params.offAlpha, params.offNoise, 0., 1.);
+        histograms['off'].addVal(colors[index + 3])
       }
     }
   }
@@ -130,7 +190,7 @@ function drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasCon
       var r = colors[index];
       var g = colors[index + 1];
       var b = colors[index + 2];
-      var alpha = Math.round(colors[index + 3] / 255. * 100) / 100.;
+      var alpha = colors[index + 3];
       var rgba = "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
 
       myCanvasContext.fillStyle = rgba;
@@ -163,7 +223,10 @@ function drawCanvas(){
   var squareLength = x / numSquaresH;
   var numSquaresV = Math.max(Math.ceil(y / squareLength));
 
+  histograms['on'].reset();
+  histograms['off'].reset();
   var colors = pickColors(numSquaresH, numSquaresV);
+  console.log(histograms)
 
   myCanvasContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
   drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasContext);
@@ -180,6 +243,8 @@ function drawCanvas(){
 }
 
 
+
+
 function drawBackground(){
 	// var img = new Image();
 	// img.onload = function (){
@@ -187,6 +252,7 @@ function drawBackground(){
 	// }
 	// var nhorizontal = document.getElementById("nhorizontal").value;
 	// var nvertical = document.getElementById("nvertical").value;
+
 
 	drawCanvas();
 
@@ -200,4 +266,15 @@ function toggleSettings() {
   $('.settings-tray').toggleClass('closed');
 }
 
+// todo
+// - clear/populate histograms as alphas get assigned
+// - little d3 histograms next to sliders
+// - label/style sliders
+// - color picker?
+// - resolution picker?
+// - animation picker?
+//
+// - mobile-friendly
+// - buttons
+// - fontify text/add last name?
 

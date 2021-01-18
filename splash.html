@@ -15,11 +15,11 @@
             <a href="/">blah</a>
           </div>
           <div class="settings-tray closed">
-            <input type="range" min="0" max="256" value="0" id="onAlpha">
-            <input type="range" min="0" max="1000" value="0" id="onNoise">
+            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha">
+            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onNoise">
             <br>
-            <input type="range" min="0" max="256" value="0" id="offAlpha">
-            <input type="range" min="0" max="1000" value="0" id="offNoise">
+            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha">
+            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offNoise">
           </div>
         </div>
       </div>
@@ -27,9 +27,9 @@
         // $( document ).ready(function() {
         //  createBackground();
         // });
-      // $( window ).on("resize", function(){
-      //  drawBackground();
-      // });
+        $( window ).on("resize", function(){
+         drawBackground();
+        });
         // setInterval(drawBackground, 100);
         // bind
         [
@@ -41,7 +41,7 @@
           var slider = $('#' + name);
           slider.val(params[name]);
           slider.on('input', function() {
-            params[name] = parseInt(this.value);
+            params[name] = parseFloat(this.value);
             drawBackground();
           })
         });
