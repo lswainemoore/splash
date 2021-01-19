@@ -1,0 +1,39 @@
+* {
+  margin : 0;
+  padding: 0;
+}
+
+.page {
+  position: relative;
+}
+
+.bottom-section {
+  position: absolute;
+  bottom: 0px;
+  .links {
+    margin-bottom: 30px;
+    transition: 0.5s;
+    a {
+      background-color: rgba(256, 256, 256, 0.7);
+      padding: 20px;
+      border-radius: 5px;
+    }
+  }
+}
+
+.settings-tray {
+  height: 200px;
+  width: 100vw;
+  background-color: rgba(256, 256, 256, 0.6);
+  overflow: hidden;
+  transition: 0.5s;
+
+  &.closed {
+    height: 0px;
+  }
+
+  .distribution-settings,
+  .viz {
+    display: inline-block;
+  }
+}
