@@ -33,3 +33,8 @@
 .settings-tray.closed {
   height: 0px;
 }
+
+.settings-tray > .settings,
+.settings-tray > .viz {
+  display: inline-block;
+}

@@ -3,7 +3,8 @@
   <head>
     <script type="text/javascript" src="js/splash.js"></script>
     <script type="text/javascript" src="js/jQuery.js"></script>
-      <link rel="stylesheet" href="splashstyle.css">
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <link rel="stylesheet" href="splashstyle.css">
   </head>
     <body onload="drawBackground()">
       <div class="page">
@@ -15,11 +16,16 @@
             <a href="/">blah</a>
           </div>
           <div class="settings-tray closed">
-            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha">
-            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onNoise">
-            <br>
-            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha">
-            <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offNoise">
+            <div class="settings">
+              <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha">
+              <input type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise">
+              <br>
+              <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha">
+              <input type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise">
+            </div>
+            <div class="viz">
+              <div id='hist'><!-- Plotly chart will be drawn inside this DIV --></div>
+            </div>
           </div>
         </div>
       </div>

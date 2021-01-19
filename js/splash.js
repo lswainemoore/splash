@@ -99,6 +99,10 @@ var histograms = {
   on: new Histogram(),
   off: new Histogram(),
 }
+var alphas = {
+  on: [],
+  off: []
+}
 
 // http://jsfiddle.net/guffa/tvt5k/
 // http://stackoverflow.com/questions/20160827/when-generating-normally-distributed-random-values-what-is-the-most-efficient-w
@@ -109,6 +113,7 @@ function generateStandardNormal() {
 function generateScaledNormal(mean, stdDev) {
   return mean + stdDev * generateStandardNormal();
 }
+
 
 function generateClippedNormal(mean, stdDev, lowerBound, upperBound) {
   // clip at edge and just stick the leftovers at the edge
@@ -145,16 +150,18 @@ function pickColors(numSquaresH, numSquaresV) {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = generateTruncatedNormal(params.onAlpha, params.onNoise, 0., 1.);
+        colors[index + 3] = generateClippedNormal(params.onAlpha, params.onNoise, 0., 1.);
         histograms['on'].addVal(colors[index + 3])
+        alphas['on'].push(colors[index + 3]);
       }
 
       else {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = generateTruncatedNormal(params.offAlpha, params.offNoise, 0., 1.);
+        colors[index + 3] = generateClippedNormal(params.offAlpha, params.offNoise, 0., 1.);
         histograms['off'].addVal(colors[index + 3])
+        alphas['off'].push(colors[index + 3]);
       }
     }
   }
@@ -225,11 +232,77 @@ function drawCanvas(){
 
   histograms['on'].reset();
   histograms['off'].reset();
+  alphas['on'] = [];
+  alphas['off'] = [];
   var colors = pickColors(numSquaresH, numSquaresV);
   console.log(histograms)
 
   myCanvasContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
   drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasContext);
+
+  const binInfo = {
+    end: 1.02,  // this boundary is open
+    size: 0.02,
+    start: 0.
+  }
+  Plotly.newPlot(
+    'hist',
+    [
+      {
+        x: alphas['on'],
+        name: 'text',
+        type: 'histogram',
+        histnorm: 'probability',
+        autobinx: false,
+        xbins: binInfo,
+        marker: {
+          color: "rgba(255, 255, 255, 1)",
+          line: {
+            color: "rgba(0, 0, 0, 1)",
+            width: 1
+          }
+        }
+      },
+      {
+        x: alphas['off'],
+        name: 'background',
+        type: 'histogram',
+        histnorm: 'probability',
+        autobinx: false,
+        xbins: binInfo,
+        marker: {
+          color: "rgba(0, 0, 0, 1)",
+          line: {
+            color: "rgba(0, 0, 0, 1)",
+            width: 1
+          }
+        }
+      }
+    ],
+    {
+      autosize: false,
+      width: 400,
+      height: 150,
+      margin: {
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0
+      },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      yaxis: {
+        showgrid: false,
+      },
+      legend: {
+        x: 1,
+        xanchor: 'right',
+        y: 1,
+        bgcolor: 'rgba(255,255,255,.5)'
+      }
+    },
+    {staticPlot: true}
+  )
 
   // var imoutData = myCanvasContext.createImageData(x,y);
 
