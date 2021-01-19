@@ -55,7 +55,7 @@ function scale(original, factor) {
 
 }
 
-var scaledName = scale(loadName(), 5);
+var scaledName = scale(loadName(), 3);
 
 var params = {
   color: {

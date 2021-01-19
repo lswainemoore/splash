@@ -16,12 +16,24 @@
             <a href="/">blah</a>
           </div>
           <div class="settings-tray closed">
-            <div class="settings">
-              <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha">
-              <input type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise">
-              <br>
-              <input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha">
-              <input type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise">
+            <div class="distribution-settings">
+              <table>
+                <tr>
+                  <th></th>
+                  <th>Mean</th>
+                  <th>Std. Dev.</th>
+                </tr>
+                <tr>
+                  <td>Text</td>
+                  <td><input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha"></td>
+                  <td><input type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise"></td>
+                </tr>
+                <tr>
+                  <td>Background</td>
+                  <td><input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha"></td>
+                  <td><input type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise"></td>
+                </tr>
+              </table>
             </div>
             <div class="viz">
               <div id='hist'><!-- Plotly chart will be drawn inside this DIV --></div>

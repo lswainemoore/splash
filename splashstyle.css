@@ -34,7 +34,7 @@
   height: 0px;
 }
 
-.settings-tray > .settings,
+.settings-tray > .distribution-settings,
 .settings-tray > .viz {
   display: inline-block;
 }
