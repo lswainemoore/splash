@@ -1,29 +1,3 @@
-class Histogram {
-  constructor(numBuckets = 20., lowerBound = 0., upperBound = 1.) {
-    this.numBuckets = numBuckets;
-    this.lowerBound = lowerBound;
-    this.upperBound = upperBound;
-    this.reset();
-  }
-
-  reset() {
-    this.buckets = {};
-    for (i in [...Array(this.numBuckets)]) {
-      this.buckets[i] = 0;
-    }
-  }
-
-  addVal(val) {
-    const step = (this.upperBound - this.lowerBound) / this.numBuckets;
-    var index = Math.floor(val / step);
-    if (index == this.numBuckets) {
-      // this makes the last bucket inclusive of the upper bound
-      index--;
-    }
-    this.buckets[index]++;
-  }
-}
-
 //returns index in data given with variable I, height variable J, and width W
 function getIndex (i,j,w) {
   return (j * 4) * w + i * 4;
@@ -95,10 +69,6 @@ var params = {
   offNoise: .4
 };
 
-var histograms = {
-  on: new Histogram(),
-  off: new Histogram(),
-}
 var alphas = {
   on: [],
   off: []
@@ -150,8 +120,7 @@ function pickColors(numSquaresH, numSquaresV) {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = generateClippedNormal(params.onAlpha, params.onNoise, 0., 1.);
-        histograms['on'].addVal(colors[index + 3])
+        colors[index + 3] = generateTruncatedNormal(params.onAlpha, params.onNoise, 0., 1.);
         alphas['on'].push(colors[index + 3]);
       }
 
@@ -159,8 +128,7 @@ function pickColors(numSquaresH, numSquaresV) {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = generateClippedNormal(params.offAlpha, params.offNoise, 0., 1.);
-        histograms['off'].addVal(colors[index + 3])
+        colors[index + 3] = generateTruncatedNormal(params.offAlpha, params.offNoise, 0., 1.);
         alphas['off'].push(colors[index + 3]);
       }
     }
@@ -230,12 +198,9 @@ function drawCanvas(){
   var squareLength = x / numSquaresH;
   var numSquaresV = Math.max(Math.ceil(y / squareLength));
 
-  histograms['on'].reset();
-  histograms['off'].reset();
   alphas['on'] = [];
   alphas['off'] = [];
   var colors = pickColors(numSquaresH, numSquaresV);
-  console.log(histograms)
 
   myCanvasContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
   drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasContext);
