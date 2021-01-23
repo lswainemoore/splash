@@ -16,9 +16,19 @@
             <a href="/">blah</a>
           </div>
           <div class="settings-tray">
-          <!-- <div class="settings-tray closed"> -->
             <div class="distribution-settings">
               <table>
+                <tr>
+                  <th>
+                    Scale
+                  </th>
+                </tr>
+                <tr>
+                </tr>
+                  <td>
+                    <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale">
+                  </td>
+                </tr>
                 <tr>
                   <th></th>
                   <th>Mean</th>
@@ -52,6 +62,7 @@
         // setInterval(drawBackground, 100);
         // bind
         [
+          'scale',
           'onAlpha',
           'offAlpha',
           'onNoise',
