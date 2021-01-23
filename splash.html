@@ -15,7 +15,8 @@
             <a href="javascript:void(0)" onclick="toggleSettings()">Settings</a>
             <a href="/">blah</a>
           </div>
-          <div class="settings-tray closed">
+          <div class="settings-tray">
+          <!-- <div class="settings-tray closed"> -->
             <div class="distribution-settings">
               <table>
                 <tr>
@@ -24,12 +25,12 @@
                   <th>Std. Dev.</th>
                 </tr>
                 <tr>
-                  <td>Text</td>
+                  <td class="dist-name">Text</td>
                   <td><input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha"></td>
                   <td><input type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise"></td>
                 </tr>
                 <tr>
-                  <td>Background</td>
+                  <td class="dist-name">Background</td>
                   <td><input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha"></td>
                   <td><input type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise"></td>
                 </tr>

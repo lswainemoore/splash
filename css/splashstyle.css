@@ -27,3 +27,5 @@
   .settings-tray .distribution-settings,
   .settings-tray .viz {
     display: inline-block; }
+  .settings-tray .distribution-settings td.dist-name {
+    text-align: right; }

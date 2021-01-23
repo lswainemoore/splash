@@ -55,25 +55,6 @@ function scale(original, factor) {
 
 }
 
-var scaledName = scale(loadName(), 3);
-
-var params = {
-  color: {
-    r: 0,
-    g: 110,
-    b: 207
-  },
-  onAlpha: .35,
-  offAlpha: .5,
-  onNoise: .4,
-  offNoise: .4
-};
-
-var alphas = {
-  on: [],
-  off: []
-}
-
 // http://jsfiddle.net/guffa/tvt5k/
 // http://stackoverflow.com/questions/20160827/when-generating-normally-distributed-random-values-what-is-the-most-efficient-w
 function generateStandardNormal() {
@@ -100,10 +81,33 @@ function generateTruncatedNormal(mean, stdDev, lowerBound, upperBound) {
       return candidate;
     }
   }
-
 }
 
 
+var distributionChoices = {
+  truncated: generateTruncatedNormal,
+  clipped: generateClippedNormal
+}
+var params = {
+  color: {
+    r: 0,
+    g: 110,
+    b: 207
+  },
+  scale: 3,
+  distributionChoice: 'truncated',
+  onAlpha: .35,
+  offAlpha: .5,
+  onNoise: .4,
+  offNoise: .4
+};
+
+var alphas = {
+  on: [],
+  off: []
+}
+
+var scaledName;
 
 function pickColors(numSquaresH, numSquaresV) {
   var colors = new Float32Array(numSquaresH * numSquaresV * 4);
@@ -120,7 +124,7 @@ function pickColors(numSquaresH, numSquaresV) {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = generateTruncatedNormal(params.onAlpha, params.onNoise, 0., 1.);
+        colors[index + 3] = distributionChoices[params.distributionChoice](params.onAlpha, params.onNoise, 0., 1.);
         alphas['on'].push(colors[index + 3]);
       }
 
@@ -128,7 +132,7 @@ function pickColors(numSquaresH, numSquaresV) {
         colors[index] = params.color.r;
         colors[index + 1] = params.color.g;
         colors[index + 2] = params.color.b;
-        colors[index + 3] = generateTruncatedNormal(params.offAlpha, params.offNoise, 0., 1.);
+        colors[index + 3] = distributionChoices[params.distributionChoice](params.offAlpha, params.offNoise, 0., 1.);
         alphas['off'].push(colors[index + 3]);
       }
     }
@@ -176,6 +180,7 @@ function drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasCon
 
 // adapted from http://stackoverflow.com/questions/3914203/javascript-filter-image-color
 function drawCanvas(){
+  scaledName = scale(loadName(), params.scale);
 
   var numSquaresH = scaledName.length;
 

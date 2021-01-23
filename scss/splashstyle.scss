@@ -36,4 +36,12 @@
   .viz {
     display: inline-block;
   }
+
+  .distribution-settings {
+    th {
+    }
+    td.dist-name {
+      text-align: right;
+    }
+  }
 }
