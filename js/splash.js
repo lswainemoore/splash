@@ -291,6 +291,7 @@ function plotify() {
     }
   )
 
+  // attempt at better responsiveness. see: https://gist.github.com/aerispaha/63bb83208e6728188a4ee701d2b25ad5
   // var d3 = Plotly.d3;
   // var WIDTH_IN_PERCENT_OF_PARENT = 90,
   //     HEIGHT_IN_PERCENT_OF_PARENT = 100;
