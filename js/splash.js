@@ -210,6 +210,20 @@ function drawCanvas(){
   myCanvasContext.clearRect(0, 0, myCanvas.width, myCanvas.height);
   drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasContext);
 
+  plotify();
+
+  // var imoutData = myCanvasContext.createImageData(x,y);
+
+  // assignColors(x, y, squareLength, numSquaresH, colors, imoutData);
+
+  // myCanvasContext.putImageData(imoutData, 0, 0);
+
+  colors = undefined;
+  imoutData = undefined;
+
+}
+
+function plotify() {
   const binInfo = {
     end: 1.02,  // this boundary is open
     size: 0.02,
@@ -251,7 +265,7 @@ function drawCanvas(){
     ],
     {
       autosize: false,
-      width: 400,
+      width: '100%',
       height: 150,
       margin: {
         l: 0,
@@ -271,21 +285,29 @@ function drawCanvas(){
         bgcolor: 'rgba(255,255,255,.5)'
       }
     },
-    {staticPlot: true}
+    {
+      staticPlot: true,
+      // responsive: true,
+    }
   )
 
-  // var imoutData = myCanvasContext.createImageData(x,y);
+  // var d3 = Plotly.d3;
+  // var WIDTH_IN_PERCENT_OF_PARENT = 90,
+  //     HEIGHT_IN_PERCENT_OF_PARENT = 100;
+  // var gd3 = d3.selectAll(".responsive-plot")
+  //     .style({
+  //       width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+  //       'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
 
-  // assignColors(x, y, squareLength, numSquaresH, colors, imoutData);
+  //       height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+  //       'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+  //     });
 
-  // myCanvasContext.putImageData(imoutData, 0, 0);
-
-  colors = undefined;
-  imoutData = undefined;
-
+  // var nodes_to_resize = gd3[0]; //not sure why but the goods are within a nested array
+  // for (var i = 0; i < nodes_to_resize.length; i++) {
+  //   Plotly.Plots.resize(nodes_to_resize[i]);
+  // }
 }
-
-
 
 
 function drawBackground(){

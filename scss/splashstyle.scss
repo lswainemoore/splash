@@ -3,6 +3,7 @@
   padding: 0;
 }
 
+
 .page {
   position: relative;
 }
@@ -22,26 +23,56 @@
 }
 
 .settings-tray {
-  height: 200px;
+  height: 400px;
   width: 100vw;
   background-color: rgba(256, 256, 256, 0.6);
   overflow: hidden;
-  transition: 0.5s;
+  transition: height 0.5s;
 
   &.closed {
     height: 0px;
   }
 
-  .distribution-settings,
-  .viz {
-    display: inline-block;
+  // input[type="range"] {
+  //   max-width: 200px;
+  // }
+
+
+  .settings {
+    text-align: right;
   }
 
-  .distribution-settings {
-    th {
-    }
-    td.dist-name {
-      text-align: right;
+  .big-label {
+    font-weight: bold;
+    font-family: serif;
+    font-size: 18px;
+  }
+  .small-label {
+    font-family: sans-serif;
+    font-size: 16px;
+  }
+  .warning {
+    background: black;
+    color: white;
+    padding: 0 6px;
+    border-radius: 10px;
+    &::after {
+      content: "!";
     }
   }
+  #scale {
+    margin-top: 15px;
+  }
+  // .distribution-settings,
+  // .viz {
+  //   display: inline-block;
+  // }
+
+  // .distribution-settings {
+  //   th {
+  //   }
+  //   td.dist-name {
+  //     text-align: right;
+  //   }
+  // }
 }

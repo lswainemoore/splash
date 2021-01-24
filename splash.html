@@ -4,6 +4,7 @@
     <script type="text/javascript" src="js/splash.js"></script>
     <script type="text/javascript" src="js/jQuery.js"></script>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="css/splashstyle.css">
   </head>
     <body onload="drawBackground()">
@@ -16,38 +17,51 @@
             <a href="/">blah</a>
           </div>
           <div class="settings-tray">
-            <div class="distribution-settings">
-              <table>
-                <tr>
-                  <th>
-                    Scale
-                  </th>
-                </tr>
-                <tr>
-                </tr>
-                  <td>
-                    <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale">
-                  </td>
-                </tr>
-                <tr>
-                  <th></th>
-                  <th>Mean</th>
-                  <th>Std. Dev.</th>
-                </tr>
-                <tr>
-                  <td class="dist-name">Text</td>
-                  <td><input type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha"></td>
-                  <td><input type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise"></td>
-                </tr>
-                <tr>
-                  <td class="dist-name">Background</td>
-                  <td><input type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha"></td>
-                  <td><input type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise"></td>
-                </tr>
-              </table>
-            </div>
-            <div class="viz">
-              <div id='hist'><!-- Plotly chart will be drawn inside this DIV --></div>
+            <div class="distribution-settings container-fluid">
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-12 settings">
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <div class="big-label">Resolution</div>
+                        <div class="small-label"><span class="warning"></span> larger values may slow page</div>
+                      </div>
+                      <div class="col-xs-8">
+                        <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-4 big-label">
+                        Distribution
+                      </div>
+                      <div class="col-xs-4 small-label">Mean</div>
+                      <div class="col-xs-4 small-label">Std. Dev.</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-4 small-label">Text</div>
+                      <div class="col-xs-4">
+                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha">
+                      </div>
+                      <div class="col-xs-4">
+                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-xs-4 small-label">Background</div>
+                      <div class="col-xs-4">
+                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha">
+                      </div>
+                      <div class="col-xs-4">
+                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 viz">
+                    <div id='hist' class="responsive-plot"><!-- Plotly chart will be drawn inside this DIV --></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

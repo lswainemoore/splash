@@ -17,15 +17,28 @@
       border-radius: 5px; }
 
 .settings-tray {
-  height: 200px;
+  height: 400px;
   width: 100vw;
   background-color: rgba(255, 255, 255, 0.6);
   overflow: hidden;
-  transition: 0.5s; }
+  transition: height 0.5s; }
   .settings-tray.closed {
     height: 0px; }
-  .settings-tray .distribution-settings,
-  .settings-tray .viz {
-    display: inline-block; }
-  .settings-tray .distribution-settings td.dist-name {
+  .settings-tray .settings {
     text-align: right; }
+  .settings-tray .big-label {
+    font-weight: bold;
+    font-family: serif;
+    font-size: 18px; }
+  .settings-tray .small-label {
+    font-family: sans-serif;
+    font-size: 16px; }
+  .settings-tray .warning {
+    background: black;
+    color: white;
+    padding: 0 6px;
+    border-radius: 10px; }
+    .settings-tray .warning::after {
+      content: "!"; }
+  .settings-tray #scale {
+    margin-top: 15px; }
