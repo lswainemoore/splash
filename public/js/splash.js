@@ -331,16 +331,3 @@ function toggleSettings() {
   // see https://stackoverflow.com/a/36317392
   $('.settings-tray').toggleClass('closed');
 }
-
-// todo
-// - clear/populate histograms as alphas get assigned
-// - little d3 histograms next to sliders
-// - label/style sliders
-// - color picker?
-// - resolution picker?
-// - animation picker?
-//
-// - mobile-friendly
-// - buttons
-// - fontify text/add last name?
-
