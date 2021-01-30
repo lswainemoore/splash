@@ -1,0 +1,2 @@
+run dev with
+`npx nodemon app.js`

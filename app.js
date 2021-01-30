@@ -11,6 +11,10 @@ app.get('/blue', (req, res) => {
   res.render('splash.html')
 })
 
+app.get('/writing', (req, res) => {
+  res.redirect('https://lswainemoore.github.io')
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
