@@ -38,12 +38,6 @@
 ehthumbs.db
 Thumbs.db
 
-# Other stuff #
-##################
-name.txt
-# todo.txt
-
-
 # CUSTOM #
 ##########
 node_modules/*

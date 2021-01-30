@@ -1,0 +1,7 @@
+- label/style sliders
+- color picker?
+- animation picker?
+
+- mobile-friendly
+- buttons
+- fontify text/add last name?
