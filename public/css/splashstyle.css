@@ -100,8 +100,16 @@
       content: "!"; }
   .tray .viz {
     padding-bottom: 10px; }
+  @media screen and (max-width: 480px) {
+    .tray p {
+      font-size: 12px; }
+    .tray .big-label {
+      font-size: 16px; }
+    .tray .small-label {
+      font-size: 10px; } }
   .tray #scale {
-    margin-top: 15px; }
+    margin-top: 15px;
+    max-width: 200px; }
   @media screen and (max-width: 667px) {
     .tray .scale-row {
       text-align: left; }

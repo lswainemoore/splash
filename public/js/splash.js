@@ -219,7 +219,7 @@ function drawCanvas(){
 
 function plotify() {
   const width = $('.hist-wrapper').width();
-  const height = Math.min(width / 3., 150.);
+  const height = Math.min(width / 4., 150.);
   const binInfo = {
     end: 1.02,  // this boundary is open
     size: 0.02,
