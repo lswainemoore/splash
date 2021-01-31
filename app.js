@@ -7,6 +7,10 @@ app.engine('html', require('ejs').renderFile)
 app.use(express.static('public'))
 
 
+app.get('/', (req, res) => {
+  res.redirect('/blue')
+})
+
 app.get('/blue', (req, res) => {
   res.render('splash.html')
 })

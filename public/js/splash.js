@@ -94,10 +94,10 @@ var params = {
     g: 110,
     b: 207
   },
-  scale: 3,
+  scale: 1,
   distributionChoice: 'truncated',
-  onAlpha: .35,
-  offAlpha: .5,
+  onAlpha: .3,
+  offAlpha: .6,
   onNoise: .4,
   offNoise: .4
 };
@@ -197,6 +197,13 @@ function drawCanvas(){
     x = w.innerWidth || e.clientWidth || g.clientWidth,
     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
+  // x = screen.width;
+  // y = screen.height;
+  console.log(w)
+  console.log(e)
+  console.log(x)
+  console.log(y)
+
   myCanvas.width = x;
   myCanvas.height = y;
 
@@ -265,7 +272,7 @@ function plotify() {
     ],
     {
       autosize: false,
-      width: '100%',
+      width: $('.hist-wrapper').width(),
       height: 150,
       margin: {
         l: 0,
@@ -329,5 +336,6 @@ function drawBackground(){
 
 function toggleSettings() {
   // see https://stackoverflow.com/a/36317392
-  $('.settings-tray').toggleClass('closed');
+  $('.tray').toggleClass('closed');
+  $('#chevron').toggleClass('rotate');
 }

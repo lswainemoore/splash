@@ -1,2 +1,5 @@
 run dev with
 `npx nodemon app.js`
+
+run css compiling
+`npm run scss`

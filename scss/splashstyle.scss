@@ -4,7 +4,7 @@
 }
 
 
-$transluscent: rgba(256, 256, 256, 0.7);
+$transluscent: rgba(256, 256, 256, 0.8);
 // * { outline: solid 0.25rem hsla(210, 100%, 100%, 0.9); }
 
 .page {
@@ -19,32 +19,69 @@ $transluscent: rgba(256, 256, 256, 0.7);
     transition: 0.5s;
     a {
       background-color: $transluscent;
-      padding: 20px;
       border-radius: 5px;
-      &.triangled {
-        border-radius: 5px 5px 0px 0px;
-      }
-    }
-    // see: https://stackoverflow.com/a/19719176
-    // and: https://css-tricks.com/the-shapes-of-css/
-    // and: https://stackoverflow.com/a/7922042
-    .triangled::after {
-      content:'';
-      position: absolute;
-      top: 38px;
-      left: 50%;
-      margin-left: -46px;
-      width: 92px;
-      height: 0;
-      border-top: solid 12px $transluscent;
-      border-left: solid 5px transparent;
-      border-right: solid 5px transparent;
+      display: flex;
+      width: 100%;
+      max-width: 130px;
+      height: 50px;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
     }
 
+    // adapted from: https://css-tricks.com/the-shapes-of-css/
+    // (which in turn cites: https://twitter.com/apticknor)
+    .chevron-container {
+      width: 50px;
+      display: flex;
+      margin: 0 auto;
+      height: 0;
+      // width: 100px;
+    }
+    $angle: 15deg;
+    #chevron {
+      position: absolute;
+      text-align: center;
+      width: 54px;
+      bottom: 9px;
+
+
+
+      &:before,
+      &:after {
+        height: 8px;
+        background: $transluscent;
+        content: '';
+        position: absolute;
+        top: 20px;
+
+        transition: all .5s;
+      }
+
+      &:before {
+        left: 0;
+        width: 50%;
+        transform: skew(0deg, $angle);
+      }
+      &:after {
+        right: 0;
+        width: 50%;
+        transform: skew(0deg, -$angle);
+      }
+
+      &.rotate {
+        &:before {
+          transform: skew(0deg, -$angle);
+        }
+        &:after {
+          transform: skew(0deg, $angle);
+        }
+      }
+    }
   }
 }
 
-.settings-tray {
+.tray {
   height: 400px;
   width: 100vw;
   background-color: $transluscent;

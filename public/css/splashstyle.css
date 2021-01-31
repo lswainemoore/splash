@@ -12,46 +12,68 @@
     margin-bottom: 30px;
     transition: 0.5s; }
     .bottom-section .links a {
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 20px;
-      border-radius: 5px; }
-      .bottom-section .links a.triangled {
-        border-radius: 5px 5px 0px 0px; }
-    .bottom-section .links .triangled::after {
-      content: '';
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      display: flex;
+      width: 100%;
+      max-width: 130px;
+      height: 50px;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto; }
+    .bottom-section .links .chevron-container {
+      width: 50px;
+      display: flex;
+      margin: 0 auto;
+      height: 0; }
+    .bottom-section .links #chevron {
       position: absolute;
-      top: 38px;
-      left: 50%;
-      margin-left: -46px;
-      width: 92px;
-      height: 0;
-      border-top: solid 12px rgba(255, 255, 255, 0.7);
-      border-left: solid 5px transparent;
-      border-right: solid 5px transparent; }
+      text-align: center;
+      width: 54px;
+      bottom: 9px; }
+      .bottom-section .links #chevron:before, .bottom-section .links #chevron:after {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        content: '';
+        position: absolute;
+        top: 20px;
+        transition: all .5s; }
+      .bottom-section .links #chevron:before {
+        left: 0;
+        width: 50%;
+        transform: skew(0deg, 15deg); }
+      .bottom-section .links #chevron:after {
+        right: 0;
+        width: 50%;
+        transform: skew(0deg, -15deg); }
+      .bottom-section .links #chevron.rotate:before {
+        transform: skew(0deg, -15deg); }
+      .bottom-section .links #chevron.rotate:after {
+        transform: skew(0deg, 15deg); }
 
-.settings-tray {
+.tray {
   height: 400px;
   width: 100vw;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   overflow: hidden;
   transition: height 0.5s; }
-  .settings-tray.closed {
+  .tray.closed {
     height: 0px; }
-  .settings-tray .settings {
+  .tray .settings {
     text-align: right; }
-  .settings-tray .big-label {
+  .tray .big-label {
     font-weight: bold;
     font-family: serif;
     font-size: 18px; }
-  .settings-tray .small-label {
+  .tray .small-label {
     font-family: sans-serif;
     font-size: 16px; }
-  .settings-tray .warning {
+  .tray .warning {
     background: black;
     color: white;
     padding: 0 6px;
     border-radius: 10px; }
-    .settings-tray .warning::after {
+    .tray .warning::after {
       content: "!"; }
-  .settings-tray #scale {
+  .tray #scale {
     margin-top: 15px; }
