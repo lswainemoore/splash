@@ -3,16 +3,15 @@
   padding: 0; }
 
 #squares {
-  position: -webkit-sticky;
-  /* Safari */
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: -1;
   display: block; }
 
 .bottom-section {
   position: absolute;
-  bottom: 0px;
+  display: block;
+  top: calc(100% - 80px);
   width: 100%; }
   .bottom-section .links {
     margin-bottom: 30px;

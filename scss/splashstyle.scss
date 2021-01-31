@@ -8,8 +8,8 @@ $transluscent: rgba(256, 256, 256, 0.8);
 
 #squares {
   // see: https://www.w3schools.com/howto/howto_css_sticky_element.asp
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
+  // position: -webkit-sticky; /* Safari */
+  position: fixed;
   top: 0;
   z-index: -1;
   display: block;
@@ -18,7 +18,10 @@ $transluscent: rgba(256, 256, 256, 0.8);
 
 .bottom-section {
   position: absolute;
-  bottom: 0px;
+  display: block;
+  // top: 700px;
+  top: calc(100% - 80px);
+  // bottom: 0px;
   width: 100%;
   .links {
     margin-bottom: 30px;
