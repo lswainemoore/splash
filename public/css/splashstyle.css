@@ -20,7 +20,17 @@
       height: 50px;
       align-items: center;
       justify-content: center;
-      margin: 0 auto; }
+      margin: 0 auto;
+      color: #006ecf;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold; }
+      .bottom-section .links a:hover {
+        width: 95%;
+        text-decoration: none; }
+      @media screen and (max-width: 320px) {
+        .bottom-section .links a {
+          font-size: 13px; } }
     .bottom-section .links .chevron-container {
       width: 50px;
       display: flex;
@@ -59,6 +69,12 @@
   transition: height 0.5s; }
   .tray.closed {
     height: 0px; }
+  .tray #distribution-settings-tray {
+    padding-top: 10px; }
+  .tray .title {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: serif; }
   .tray .settings {
     text-align: right; }
   .tray .big-label {
@@ -68,6 +84,13 @@
   .tray .small-label {
     font-family: sans-serif;
     font-size: 16px; }
+    .tray .small-label.mobile {
+      display: none; }
+    @media screen and (max-width: 667px) {
+      .tray .small-label.desktop {
+        display: none; }
+      .tray .small-label.mobile {
+        display: inherit; } }
   .tray .warning {
     background: black;
     color: white;
@@ -75,5 +98,12 @@
     border-radius: 10px; }
     .tray .warning::after {
       content: "!"; }
+  .tray .viz {
+    padding-bottom: 10px; }
   .tray #scale {
     margin-top: 15px; }
+  @media screen and (max-width: 667px) {
+    .tray .scale-row {
+      text-align: left; }
+      .tray .scale-row #scale {
+        margin-top: 5px; } }

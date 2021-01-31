@@ -34,29 +34,24 @@
               </div>
             </div>
           </div>
-          <div class="tray">
-            <div id="about-tray" class="container-fluid">
-
-            </div>
-            <div id="distribution-settings-tray" class="distribution-settings container-fluid">
+          <div class="tray closed">
+            <div id="distribution-settings-tray" class="distribution-settings ">
               <div class="container">
+                <div class="title">
+                  Distribution Settings
+                </div>
+                <p>
+                  The alpha values for the squares on this page are drawn from two (<a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">truncated</a>) normal distributions. Tweak them below to see how differences between the distributions affect the visibility of the text.
+                </p>
                 <div class="row">
                   <div class="col-xs-12 settings">
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-2">
-                        <div class="big-label">Resolution</div>
-                        <div class="small-label"><span class="warning"></span> larger values may slow page</div>
-                      </div>
-                      <div class="col-xs-12 col-sm-10">
-                        <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale">
-                      </div>
-                    </div>
+
                     <div class="row">
                       <div class="col-xs-2 big-label">
                         Distribution
                       </div>
                       <div class="col-xs-5 small-label">Mean</div>
-                      <div class="col-xs-5 small-label">Std. Dev.</div>
+                      <div class="col-xs-5 small-label" title="standard deviation">Std. Dev.</div>
                     </div>
                     <div class="row">
                       <div class="col-xs-2 small-label">Text</div>
@@ -69,7 +64,8 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-xs-2 small-label">Background</div>
+                      <div class="col-xs-2 small-label mobile" title="background">Bg.</div>
+                      <div class="col-xs-2 small-label desktop">Background</div>
                       <div class="col-xs-5">
                         <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha">
                       </div>
@@ -77,13 +73,25 @@
                         <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise">
                       </div>
                     </div>
-                  </div>
-                  <div class="col-xs-12 viz">
-                    <div class="hist-wrapper">
-                      <div id='hist' class="responsive-plot"><!-- Plotly chart will be drawn inside this DIV --></div>
+
+                    <div class="col-xs-12 viz">
+                      <div class="hist-wrapper">
+                        <div id='hist' class="responsive-plot"><!-- Plotly chart will be drawn inside this DIV --></div>
+                      </div>
+
                     </div>
 
+                    <div class="row scale-row">
+                      <div class="col-xs-12 col-sm-2">
+                        <div class="big-label">Resolution</div>
+                        <div class="small-label"><span class="warning"></span> larger values may slow page</div>
+                      </div>
+                      <div class="col-xs-12 col-sm-10">
+                        <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale">
+                      </div>
+                    </div>
                   </div>
+
                 </div>
               </div>
             </div>

@@ -27,6 +27,22 @@ $transluscent: rgba(256, 256, 256, 0.8);
       align-items: center;
       justify-content: center;
       margin: 0 auto;
+
+
+      color: rgb(0, 110, 207);
+
+      text-decoration: none;
+      &:hover {
+        width: 95%;
+        text-decoration: none;
+      }
+
+      font-size: 16px;
+      font-weight: bold;
+
+      @media screen and (max-width: 320px) {
+        font-size: 13px;
+      }
     }
 
     // adapted from: https://css-tricks.com/the-shapes-of-css/
@@ -36,7 +52,6 @@ $transluscent: rgba(256, 256, 256, 0.8);
       display: flex;
       margin: 0 auto;
       height: 0;
-      // width: 100px;
     }
     $angle: 15deg;
     #chevron {
@@ -44,8 +59,6 @@ $transluscent: rgba(256, 256, 256, 0.8);
       text-align: center;
       width: 54px;
       bottom: 9px;
-
-
 
       &:before,
       &:after {
@@ -96,6 +109,17 @@ $transluscent: rgba(256, 256, 256, 0.8);
   //   max-width: 200px;
   // }
 
+  #distribution-settings-tray {
+    // this should be half the padding that we add in
+    // splash.js:toggleSettings
+    padding-top: 10px;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: serif;
+  }
 
   .settings {
     text-align: right;
@@ -109,6 +133,18 @@ $transluscent: rgba(256, 256, 256, 0.8);
   .small-label {
     font-family: sans-serif;
     font-size: 16px;
+
+    &.mobile {
+      display: none;
+    }
+    @media screen and (max-width: 667px) {
+      &.desktop {
+        display: none;
+      }
+      &.mobile {
+        display: inherit;
+      }
+    }
   }
   .warning {
     background: black;
@@ -119,7 +155,20 @@ $transluscent: rgba(256, 256, 256, 0.8);
       content: "!";
     }
   }
+  .viz {
+    padding-bottom: 10px;
+  }
+
   #scale {
     margin-top: 15px;
   }
+  .scale-row {
+    @media screen and (max-width: 667px) {
+      text-align: left;
+      #scale {
+        margin-top: 5px;
+      }
+    }
+  }
+
 }

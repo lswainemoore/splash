@@ -218,6 +218,8 @@ function drawCanvas(){
 }
 
 function plotify() {
+  const width = $('.hist-wrapper').width();
+  const height = Math.min(width / 3., 150.);
   const binInfo = {
     end: 1.02,  // this boundary is open
     size: 0.02,
@@ -259,8 +261,8 @@ function plotify() {
     ],
     {
       autosize: false,
-      width: $('.hist-wrapper').width(),
-      height: 150,
+      width: width,
+      height: height,
       margin: {
         l: 0,
         r: 0,
@@ -325,4 +327,16 @@ function toggleSettings() {
   // see https://stackoverflow.com/a/36317392
   $('.tray').toggleClass('closed');
   $('#chevron').toggleClass('rotate');
+
+  // size full tray to content
+  // unfortunately, seems to require specification of height
+  // (rather than auto or something), in order to make
+  // transform work
+  const padding = 20;
+  if ($('.tray').hasClass('closed')) {
+    $('.tray').height('0px');
+  } else {
+    $(".tray").height(($("#distribution-settings-tray").height() + padding) + 'px');
+  }
+
 }
