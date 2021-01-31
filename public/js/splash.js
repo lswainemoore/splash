@@ -340,3 +340,21 @@ function toggleSettings() {
   }
 
 }
+
+window.onscroll = function(e) {
+  if (this.oldScroll === undefined) {
+    this.oldScroll = 0;
+  }
+  // print "false" if direction is down and "true" if up
+  console.log(this.oldScroll > this.scrollY);
+  if (this.oldScroll > this.scrollY) {
+    if (!$('.tray').hasClass('closed')) {
+      toggleSettings();
+    }
+  } else {
+    if ($('.tray').hasClass('closed')) {
+      toggleSettings();
+    }
+  }
+  this.oldScroll = this.scrollY;
+}
