@@ -2,6 +2,16 @@
   margin: 0;
   padding: 0; }
 
+html {
+  height: 100%;
+  overflow: hidden;
+  position: relative; }
+
+body {
+  height: 100%;
+  overflow: auto;
+  position: relative; }
+
 .page {
   position: relative; }
 

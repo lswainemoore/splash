@@ -341,7 +341,7 @@ function toggleSettings() {
 
 }
 
-window.onscroll = function(e) {
+window.addEventListener('scroll', function(e) {
   // prevent us from hitting this multiple times
   if (this.scrollBlock) {
     return;
@@ -354,22 +354,24 @@ window.onscroll = function(e) {
     }, 500);
   }
 
+  blockScroll();
+  toggleSettings();
 
-  if (this.oldScroll === undefined) {
-    this.oldScroll = 0;
-  }
+  // if (this.oldScroll === undefined) {
+  //   this.oldScroll = 0;
+  // }
 
-  // adapted from: https://stackoverflow.com/a/45719399
-  if (this.oldScroll > this.scrollY) {
-    if (!$('.tray').hasClass('closed')) {
-      blockScroll();
-      toggleSettings();
-    }
-  } else {
-    if ($('.tray').hasClass('closed')) {
-      blockScroll();
-      toggleSettings();
-    }
-  }
-  this.oldScroll = this.scrollY;
-}
+  // // adapted from: https://stackoverflow.com/a/45719399
+  // if (this.oldScroll > window.scrollY) {
+  //   if (!$('.tray').hasClass('closed')) {
+  //     blockScroll();
+  //     toggleSettings();
+  //   }
+  // } else {
+  //   if ($('.tray').hasClass('closed')) {
+  //     blockScroll();
+  //     toggleSettings();
+  //   }
+  // }
+  // this.oldScroll = window.scrollY;
+}, true);
