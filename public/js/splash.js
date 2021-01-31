@@ -325,6 +325,7 @@ function drawBackground(){
 
 var expanded = false;
 function toggleSettings() {
+  console.log(window)
   expanded = !expanded;
   toggleChevron();
   if (expanded) {
@@ -335,7 +336,7 @@ function toggleSettings() {
     });
   } else {
     window.scrollTo({
-      top: 0,
+      top: -10,
       left: 0,
       behavior: 'smooth'
     });
