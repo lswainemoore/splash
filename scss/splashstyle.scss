@@ -3,30 +3,22 @@
   padding: 0;
 }
 
-// adapted from: https://www.bram.us/2016/05/02/prevent-overscroll-bounce-in-ios-mobilesafari-pure-css/
-html,
-body {
-    position: fixed;
-    overflow: hidden;
-    overscroll-behavior-y: none;
-}
-.page {
-  width: 100vw;
-  height: 100vh;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
-}
-
 $transluscent: rgba(256, 256, 256, 0.8);
 // * { outline: solid 0.25rem hsla(210, 100%, 100%, 0.9); }
 
-.page {
-  position: relative;
+#squares {
+  // see: https://www.w3schools.com/howto/howto_css_sticky_element.asp
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  z-index: -1;
 }
+
 
 .bottom-section {
   position: absolute;
   bottom: 0px;
+  width: 100%;
   .links {
     margin-bottom: 30px;
     transition: 0.5s;
@@ -108,24 +100,11 @@ $transluscent: rgba(256, 256, 256, 0.8);
 }
 
 .tray {
-  height: 400px;
-  width: 100vw;
   background-color: $transluscent;
-  overflow: hidden;
-  transition: height 0.5s;
-
-  &.closed {
-    height: 0px;
-  }
-
-  // input[type="range"] {
-  //   max-width: 200px;
-  // }
 
   #distribution-settings-tray {
-    // this should be half the padding that we add in
-    // splash.js:toggleSettings
-    padding-top: 10px;
+    padding: 20px 0px;
+
   }
 
   .title {

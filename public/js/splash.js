@@ -323,55 +323,68 @@ function drawBackground(){
 
 }
 
+var expanded = false;
 function toggleSettings() {
-  // see https://stackoverflow.com/a/36317392
-  $('.tray').toggleClass('closed');
+  expanded = !expanded;
   $('#chevron').toggleClass('rotate');
-
-  // size full tray to content
-  // unfortunately, seems to require specification of height
-  // (rather than auto or something), in order to make
-  // transform work
-  const padding = 20;
-  if ($('.tray').hasClass('closed')) {
-    $('.tray').height('0px');
+  if (expanded) {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
   } else {
-    $(".tray").height(($("#distribution-settings-tray").height() + padding) + 'px');
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
-
 }
 
-window.addEventListener('scroll', function(e) {
-  // prevent us from hitting this multiple times
-  if (this.scrollBlock) {
-    return;
+var oldScroll = 0;
+window.addEventListener('scroll', e => {
+  // adapted from: https://stackoverflow.com/a/45719399
+  // and: https://stackoverflow.com/a/50412319
+  if (oldScroll > window.scrollY && expanded) {
+    expanded = false;
+    $('#chevron').toggleClass('rotate');
+  } else if (oldScroll <= window.scrollY && !expanded) {
+    expanded = true;
+    $('#chevron').toggleClass('rotate');
   }
-
-  blockScroll = () => {
-    this.scrollBlock = true;
-    setTimeout(() => {
-      this.scrollBlock = false;
-    }, 500);
-  }
-
-  blockScroll();
-  toggleSettings();
-
-  // if (this.oldScroll === undefined) {
-  //   this.oldScroll = 0;
-  // }
-
-  // // adapted from: https://stackoverflow.com/a/45719399
-  // if (this.oldScroll > window.scrollY) {
-  //   if (!$('.tray').hasClass('closed')) {
-  //     blockScroll();
-  //     toggleSettings();
-  //   }
-  // } else {
-  //   if ($('.tray').hasClass('closed')) {
-  //     blockScroll();
-  //     toggleSettings();
-  //   }
-  // }
-  // this.oldScroll = window.scrollY;
+  oldScroll = window.scrollY;
 }, true);
+//   // prevent us from hitting this multiple times
+//   if (this.scrollBlock) {
+//     return;
+//   }
+
+//   blockScroll = () => {
+//     this.scrollBlock = true;
+//     setTimeout(() => {
+//       this.scrollBlock = false;
+//     }, 500);
+//   }
+
+//   blockScroll();
+//   toggleSettings();
+
+//   // if (this.oldScroll === undefined) {
+//   //   this.oldScroll = 0;
+//   // }
+
+//   // //
+//   // if (this.oldScroll > window.scrollY) {
+//   //   if (!$('.tray').hasClass('closed')) {
+//   //     blockScroll();
+//   //     toggleSettings();
+//   //   }
+//   // } else {
+//   //   if ($('.tray').hasClass('closed')) {
+//   //     blockScroll();
+//   //     toggleSettings();
+//   //   }
+//   // }
+//   // this.oldScroll = window.scrollY;
+// }, true);
