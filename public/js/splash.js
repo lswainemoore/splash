@@ -111,10 +111,6 @@ var scaledName;
 
 function pickColors(numSquaresH, numSquaresV) {
   var colors = new Float32Array(numSquaresH * numSquaresV * 4);
-  console.log('onAlpha', params.onAlpha)
-  console.log('onNoise', params.onNoise)
-  console.log('offAlpha', params.offAlpha)
-  console.log('offNoise', params.offNoise)
 
   for (i = 0; i < numSquaresH; i++) {
     for (j = 0; j < numSquaresV; j++) {
@@ -160,8 +156,6 @@ function assignColors(x, y, squareLength, numSquaresH, colors, imoutData) {
 }
 
 function drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasContext) {
-  // console.log(numSquaresV);
-
   for (i = 0; i < numSquaresH; i++) {
     for (j = 0; j < numSquaresV; j++) {
       var index = getIndex(i, j, numSquaresH);
@@ -196,13 +190,6 @@ function drawCanvas(){
     g = d.getElementsByTagName('body')[0],
     x = w.innerWidth || e.clientWidth || g.clientWidth,
     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-
-  // x = screen.width;
-  // y = screen.height;
-  console.log(w)
-  console.log(e)
-  console.log(x)
-  console.log(y)
 
   myCanvas.width = x;
   myCanvas.height = y;
