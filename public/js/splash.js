@@ -326,7 +326,7 @@ function drawBackground(){
 var expanded = false;
 function toggleSettings() {
   expanded = !expanded;
-  $('#chevron').toggleClass('rotate');
+  toggleChevron();
   if (expanded) {
     window.scrollTo({
       top: document.body.scrollHeight,
@@ -342,16 +342,31 @@ function toggleSettings() {
   }
 }
 
+function toggleChevron() {
+  const chevron = $('#chevron')
+  if (
+    (
+      expanded && chevron.hasClass('rotate')
+    ) || (
+      !expanded && !chevron.hasClass('rotate')
+    )
+  ) {
+    // nothing necessary
+    return;
+  }
+  chevron.toggleClass('rotate');
+}
+
 var oldScroll = 0;
 window.addEventListener('scroll', e => {
   // adapted from: https://stackoverflow.com/a/45719399
   // and: https://stackoverflow.com/a/50412319
   if (oldScroll > window.scrollY && expanded) {
     expanded = false;
-    $('#chevron').toggleClass('rotate');
+    toggleChevron();
   } else if (oldScroll <= window.scrollY && !expanded) {
     expanded = true;
-    $('#chevron').toggleClass('rotate');
+    toggleChevron();
   }
   oldScroll = window.scrollY;
 }, true);
