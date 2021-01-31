@@ -4,7 +4,8 @@
 }
 
 
-* { outline: solid 0.25rem hsla(210, 100%, 100%, 0.9); }
+$transluscent: rgba(256, 256, 256, 0.7);
+// * { outline: solid 0.25rem hsla(210, 100%, 100%, 0.9); }
 
 .page {
   position: relative;
@@ -17,17 +18,34 @@
     margin-bottom: 30px;
     transition: 0.5s;
     a {
-      background-color: rgba(256, 256, 256, 0.7);
+      background-color: $transluscent;
       padding: 20px;
       border-radius: 5px;
+      &.triangled {
+        border-radius: 5px 5px 0px 0px;
+      }
     }
+    .triangled::after {
+      content:'';
+      position: absolute;
+      top: 38px;
+      left: 50%;
+      margin-left: -46px;
+      width: 92px;
+      height: 0;
+      border-top: solid 12px $transluscent;
+      // border-bottom: solid 12px rgba(256, 256, 256, 0.7);
+      border-left: solid 5px transparent;
+      border-right: solid 5px transparent;
+    }
+
   }
 }
 
 .settings-tray {
   height: 400px;
   width: 100vw;
-  background-color: rgba(256, 256, 256, 0.6);
+  background-color: $transluscent;
   overflow: hidden;
   transition: height 0.5s;
 

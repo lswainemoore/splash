@@ -11,6 +11,10 @@ app.get('/blue', (req, res) => {
   res.render('splash.html')
 })
 
+app.get('/talking-about-himself', (req, res) => {
+  res.render('about.html')
+})
+
 app.get('/writing', (req, res) => {
   res.redirect('https://lswainemoore.github.io')
 })
