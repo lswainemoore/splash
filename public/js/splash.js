@@ -342,17 +342,32 @@ function toggleSettings() {
 }
 
 window.onscroll = function(e) {
+  // prevent us from hitting this multiple times
+  if (this.scrollBlock) {
+    return;
+  }
+
+  blockScroll = () => {
+    this.scrollBlock = true;
+    setTimeout(() => {
+      this.scrollBlock = false;
+    }, 500);
+  }
+
+
   if (this.oldScroll === undefined) {
     this.oldScroll = 0;
   }
-  // print "false" if direction is down and "true" if up
-  console.log(this.oldScroll > this.scrollY);
+
+  // adapted from: https://stackoverflow.com/a/45719399
   if (this.oldScroll > this.scrollY) {
     if (!$('.tray').hasClass('closed')) {
+      blockScroll();
       toggleSettings();
     }
   } else {
     if ($('.tray').hasClass('closed')) {
+      blockScroll();
       toggleSettings();
     }
   }
