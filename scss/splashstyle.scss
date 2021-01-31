@@ -3,15 +3,18 @@
   padding: 0;
 }
 
-html {
-    height  : 100%;
-    overflow: hidden;
-    position: relative;
-}
+// adapted from: https://www.bram.us/2016/05/02/prevent-overscroll-bounce-in-ios-mobilesafari-pure-css/
+html,
 body {
-    height  : 100%;
-    overflow: auto;
-    position: relative;
+    position: fixed;
+    overflow: hidden;
+    overscroll-behavior-y: none;
+}
+.page {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
 }
 
 $transluscent: rgba(256, 256, 256, 0.8);
