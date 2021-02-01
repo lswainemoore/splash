@@ -6,6 +6,10 @@
 $transluscent: rgba(256, 256, 256, 0.8);
 // * { outline: solid 0.25rem hsla(210, 100%, 100%, 0.9); }
 
+html {
+  scroll-behavior: smooth;
+}
+
 #squares {
   // see: https://www.w3schools.com/howto/howto_css_sticky_element.asp
   // position: -webkit-sticky; /* Safari */

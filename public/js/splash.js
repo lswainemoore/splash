@@ -317,39 +317,25 @@ function drawBackground(){
 
 
 	drawCanvas();
-
-
-
-
 }
 
-var expanded = false;
 function toggleSettings() {
-  console.log(window)
-  expanded = !expanded;
   toggleChevron();
-  if (expanded) {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      left: 0,
-      behavior: 'smooth'
-    });
+  if (!isAtBottom()) {
+    document.getElementById('distribution-settings-tray').scrollIntoView();
   } else {
-    window.scrollTo({
-      top: -10,
-      left: 0,
-      behavior: 'smooth'
-    });
+    document.getElementById('top').scrollIntoView();
   }
 }
 
 function toggleChevron() {
-  const chevron = $('#chevron')
+  const chevron = $('#chevron');
+  const atBottom = isAtBottom();
   if (
     (
-      expanded && chevron.hasClass('rotate')
+      atBottom && chevron.hasClass('rotate')
     ) || (
-      !expanded && !chevron.hasClass('rotate')
+      !atBottom && !chevron.hasClass('rotate')
     )
   ) {
     // nothing necessary
@@ -358,49 +344,21 @@ function toggleChevron() {
   chevron.toggleClass('rotate');
 }
 
-var oldScroll = 0;
 window.addEventListener('scroll', e => {
-  // adapted from: https://stackoverflow.com/a/45719399
-  // and: https://stackoverflow.com/a/50412319
-  if (oldScroll > window.scrollY && expanded) {
-    expanded = false;
-    toggleChevron();
-  } else if (oldScroll <= window.scrollY && !expanded) {
-    expanded = true;
-    toggleChevron();
-  }
-  oldScroll = window.scrollY;
+  toggleChevron();
 }, true);
-//   // prevent us from hitting this multiple times
-//   if (this.scrollBlock) {
-//     return;
-//   }
 
-//   blockScroll = () => {
-//     this.scrollBlock = true;
-//     setTimeout(() => {
-//       this.scrollBlock = false;
-//     }, 500);
-//   }
+// from: https://j11y.io/javascript/get-document-height-cross-browser/
+function getDocHeight() {
+  var D = document;
+  return Math.max(
+    D.body.scrollHeight, D.documentElement.scrollHeight,
+    D.body.offsetHeight, D.documentElement.offsetHeight,
+    D.body.clientHeight, D.documentElement.clientHeight
+  );
+}
 
-//   blockScroll();
-//   toggleSettings();
-
-//   // if (this.oldScroll === undefined) {
-//   //   this.oldScroll = 0;
-//   // }
-
-//   // //
-//   // if (this.oldScroll > window.scrollY) {
-//   //   if (!$('.tray').hasClass('closed')) {
-//   //     blockScroll();
-//   //     toggleSettings();
-//   //   }
-//   // } else {
-//   //   if ($('.tray').hasClass('closed')) {
-//   //     blockScroll();
-//   //     toggleSettings();
-//   //   }
-//   // }
-//   // this.oldScroll = window.scrollY;
-// }, true);
+function isAtBottom() {
+  // adapted from https://stackoverflow.com/a/10795797
+  return $(window).scrollTop() + $(window).height() >= (getDocHeight() - 100);
+}
