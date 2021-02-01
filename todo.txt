@@ -5,3 +5,7 @@
 - mobile-friendly
 - buttons
 - fontify text/add last name?
+
+
+- templatize header
+- style about/books

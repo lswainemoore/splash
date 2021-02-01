@@ -23,6 +23,10 @@ app.get('/writing', (req, res) => {
   res.redirect('https://lswainemoore.github.io')
 })
 
+app.get('/reading', (req, res) => {
+  res.render('reading.html')
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
