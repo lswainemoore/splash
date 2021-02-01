@@ -34,8 +34,9 @@ html {
       font-size: 16px;
       font-weight: bold; }
       .bottom-section .links a:hover {
-        width: 95%;
-        text-decoration: none; }
+        text-decoration: none;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8), 4px 4px;
+        transition: all .2s; }
       @media screen and (max-width: 320px) {
         .bottom-section .links a {
           font-size: 13px; } }

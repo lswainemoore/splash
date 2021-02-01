@@ -173,7 +173,7 @@ function drawSquares(numSquaresH, numSquaresV, colors, squareLength, myCanvasCon
 }
 
 // adapted from http://stackoverflow.com/questions/3914203/javascript-filter-image-color
-function drawCanvas(){
+function drawCanvas(x, y){
   scaledName = scale(loadName(), params.scale);
 
   var numSquaresH = scaledName.length;
@@ -182,14 +182,6 @@ function drawCanvas(){
   // var myCanvas = document.createElement("canvas");
   var myCanvas = document.getElementById("squares");
   var myCanvasContext = myCanvas.getContext("2d");
-
-  // http://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
-  var w = window,
-    d = document,
-    e = d.documentElement,
-    g = d.getElementsByTagName('body')[0],
-    x = w.innerWidth || e.clientWidth || g.clientWidth,
-    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
   myCanvas.width = x;
   myCanvas.height = y;
@@ -286,37 +278,35 @@ function plotify() {
       // responsive: true,
     }
   )
-
-  // attempt at better responsiveness. see: https://gist.github.com/aerispaha/63bb83208e6728188a4ee701d2b25ad5
-  // var d3 = Plotly.d3;
-  // var WIDTH_IN_PERCENT_OF_PARENT = 90,
-  //     HEIGHT_IN_PERCENT_OF_PARENT = 100;
-  // var gd3 = d3.selectAll(".responsive-plot")
-  //     .style({
-  //       width: WIDTH_IN_PERCENT_OF_PARENT + '%',
-  //       'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
-
-  //       height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-  //       'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
-  //     });
-
-  // var nodes_to_resize = gd3[0]; //not sure why but the goods are within a nested array
-  // for (var i = 0; i < nodes_to_resize.length; i++) {
-  //   Plotly.Plots.resize(nodes_to_resize[i]);
-  // }
 }
 
+var previousDims = {
+  x: null,
+  y: null
+};
+function drawBackground(force = false) {
+  // http://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
+  var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName('body')[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
-function drawBackground(){
-	// var img = new Image();
-	// img.onload = function (){
- //  		createCanvas(img,img.n,img.m);
-	// }
-	// var nhorizontal = document.getElementById("nhorizontal").value;
-	// var nvertical = document.getElementById("nvertical").value;
-
-
-	drawCanvas();
+  // trigger redraw on...
+  if (
+    // ...a forcing call
+    (force) ||
+    // ....any horizontal resize
+    (x != previousDims.x) ||
+    // ...a sufficiently large vertical resize
+    // (important bc otherwise too much resizing on mobile)
+    (Math.abs(y - previousDims.y) >= 100)
+  ) {
+    previousDims.x = x;
+    previousDims.y = y;
+	  drawCanvas(x, y);
+  }
 }
 
 function toggleSettings() {

@@ -46,8 +46,11 @@ html {
 
       text-decoration: none;
       &:hover {
-        width: 95%;
         text-decoration: none;
+        box-shadow:
+          0 0 0 1px $transluscent,
+          4px 4px;
+        transition: all .2s;
       }
 
       font-size: 16px;
