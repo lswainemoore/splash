@@ -11,7 +11,7 @@
     <body onload="drawBackground()">
       <span id="top"></span>
       <div class="page">
-        <canvas id='squares'></canvas>
+        <canvas id='squares' aria-label="The name &quot;Lincoln&quot; made out of squares of varying colors."></canvas>
         <div class="bottom-section">
           <div class="links container-fluid">
             <div class="container">
@@ -45,30 +45,30 @@
                   <div class="col-xs-12 settings">
 
                     <div class="row">
-                      <div class="col-xs-2 big-label">
+                      <div class="col-xs-2 big-label" id="distribution-label">
                         Distribution
                       </div>
-                      <div class="col-xs-5 small-label">Mean</div>
-                      <div class="col-xs-5 small-label" title="standard deviation">Std. Dev.</div>
+                      <div class="col-xs-5 small-label" id="mean-label">Mean</div>
+                      <div class="col-xs-5 small-label" title="standard deviation" id="stddev-label">Std. Dev.</div>
                     </div>
                     <div class="row">
-                      <div class="col-xs-2 small-label">Text</div>
+                      <div class="col-xs-2 small-label" id="text-label">Text</div>
                       <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha">
+                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha" aria-describedby="distribution-label mean-label text-label">
                       </div>
                       <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise">
+                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise" aria-describedby="distribution-label stddev-label text-label">
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-xs-2 small-label mobile" title="background">Bg.</div>
-                      <div class="col-xs-2 small-label desktop">Background</div>
+                      <div class="col-xs-2 small-label mobile" title="background" id="background-label">Bg.</div>
+                      <div class="col-xs-2 small-label desktop" id="background-label-full">Background</div>
                       <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha">
+                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha" aria-describedby="distribution-label mean-label background-label background-label-full">
                       </div>
                       <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise">
+                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise" aria-describedby="distribution-label stddev-label background-label background-label-full">
                       </div>
                     </div>
 
@@ -81,11 +81,11 @@
 
                     <div class="row scale-row">
                       <div class="col-xs-12 col-sm-2">
-                        <div class="big-label">Resolution</div>
-                        <div class="small-label"><span class="warning"></span> larger values may slow page</div>
+                        <div class="big-label" id="resolution-label">Resolution</div>
+                        <div class="small-label" id="warning-label"><span class="warning"></span> larger values may slow page</div>
                       </div>
                       <div class="col-xs-12 col-sm-10">
-                        <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale">
+                        <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale" aria-labeledby="resolution-label" aria-describedby="warning-label">
                       </div>
                     </div>
                   </div>
