@@ -295,6 +295,8 @@ function drawBackground(force = false) {
 
   // trigger redraw on...
   if (
+    // ...haven't drawn yet
+    (previousDims.x === null || previousDims.y === null) ||
     // ...a forcing call
     (force) ||
     // ....any horizontal resize

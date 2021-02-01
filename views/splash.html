@@ -98,7 +98,9 @@
 
       </div>
       <script>
-        $( window ).on("resize", drawBackground);
+        $(window).on('resize', function() {
+          drawBackground();
+        });
         [
           'scale',
           'onAlpha',
@@ -110,7 +112,7 @@
           slider.val(params[name]);
           slider.on('input', function() {
             params[name] = parseFloat(this.value);
-            drawBackground(force=true);
+            drawBackground(force = true);
           })
         });
 
