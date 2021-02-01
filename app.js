@@ -27,6 +27,10 @@ app.get('/reading', (req, res) => {
   res.render('reading.html')
 })
 
+app.get('*', function(req, res) {
+  res.redirect('/')
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
