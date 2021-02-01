@@ -94,7 +94,7 @@ var params = {
     g: 110,
     b: 207
   },
-  scale: 1,
+  scale: 2,
   distributionChoice: 'truncated',
   onAlpha: .3,
   offAlpha: .6,
@@ -303,7 +303,7 @@ function drawBackground(force = false) {
     (x != previousDims.x) ||
     // ...a sufficiently large vertical resize
     // (important bc otherwise too much resizing on mobile)
-    (Math.abs(y - previousDims.y) >= 100)
+    (Math.abs(y - previousDims.y) >= 70)
   ) {
     previousDims.x = x;
     previousDims.y = y;
