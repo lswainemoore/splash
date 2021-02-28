@@ -23,6 +23,10 @@ app.get('/writing', (req, res) => {
   res.redirect('https://lswainemoore.github.io')
 })
 
+app.get('/doodling', (req, res) => {
+  res.render('doodling.html')
+})
+
 app.get('/reading', (req, res) => {
   res.render('reading.html')
 })
