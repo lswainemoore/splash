@@ -17,6 +17,7 @@ window.onload = function() {
     [
       'squarish',
       'jadeite',
+      'turbulence',
     ],
     function (i, v) {
       var p = $('<p>');
