@@ -16,7 +16,7 @@ window.onload = function() {
   $.each(
     [
       'squarish',
-      'jadeite'
+      'jadeite',
     ],
     function (i, v) {
       var p = $('<p>');
