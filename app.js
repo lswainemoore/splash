@@ -27,6 +27,10 @@ app.get('/doodling', (req, res) => {
   res.render('doodling.html')
 })
 
+app.get('/having-fun-with-favicons', (req, res) => {
+  res.render('funicons.html')
+})
+
 app.get('/reading', (req, res) => {
   res.render('reading.html')
 })
