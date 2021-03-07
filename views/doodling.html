@@ -1,3 +1,33 @@
+{% set title = 'Lincoln is...doodling' %}
+
+{% extends "base.html" %}
+
+{% block external_js %}
+  <script type="text/javascript" src="js/jQuery.js"></script>
+{% endblock %}
+{% block internal_js %}
+  <script type="text/javascript" src="js/doodling.js"></script>
+{% endblock %}
+
+{% block external_css %}
+{% endblock %}
+{% block internal_css %}
+  <link rel="stylesheet" href="css/doodling.css">
+{% endblock %}
+
+
+{% block body %}
+<body>
+  <h1>
+    Doodling
+  </h1>
+
+  <div id="links"></div>
+
+  <iframe id="doodle" src=""></iframe>
+
+</body>
+{% endblock %}
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,14 +50,5 @@
 
     <title>Lincoln is...doodling</title>
   </head>
-  <body>
-    <h1>
-      Doodling
-    </h1>
 
-    <div id="links"></div>
-
-    <iframe id="doodle" src=""></iframe>
-
-  </body>
 </html>

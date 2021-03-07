@@ -1,66 +1,64 @@
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% set title = 'Lincoln is...reading' %}
 
-    <!-- generated from https://realfavicongenerator.net/ -->
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="/favicon/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <!-- end generated -->
+{% extends "base.html" %}
 
-    <title>Lincoln is...reading</title>
-  </head>
-  <body>
-    <h1>
-      Books
-    </h1>
-    <ul>
-      <li><i>Brat</i> Michael DeForge</li>
-      <li><i>Dark Matter</i> Blake Crouch</li>
-      <li><i>2666</i> Roberto Bolaño</li>
-      <li><i>The Hitchiker's Guide to the Galaxy</i>* Douglas Adams</li>
-      <li><i>The Argonauts</i> Maggie Nelson</li>
-      <li><i>Pachinko</i> Min Jin Lee</li>
-      <li><i>The Underground Railroad</i> Colson Whitehead</li>
-      <li><i>The Idiot</i> Elif Batuman</li>
-      <li><i>Barbarian Days: A Surfing Life</i> William Finnegan</li>
-      <li><i>Borne</i> Jeff VanderMeer</li>
-      <li><i>Lincoln in the Bardo</i> George Saunders</li>
+{% block external_js %}
+{% endblock %}
+{% block internal_js %}
+{% endblock %}
 
-      <li><i>Dawn</i> Octavia Butler</li>
-      <li><i>Say Nothing</i> Patrick Radden Keefe</li>
-      <li><i>The Remains of the Day</i> Kazuo Ishiguro</li>
-      <li><i>Parable of the Sower</i> Octavia Butler</li>
-      <li><i>Bad Blood</i> John Carreyrou</li>
-      <li><i>Norwegian Wood</i> Haruki Murakami</li>
-      <li><i>The Sparrow</i> Mary Doria Russell</li>
-      <li><i>The Unwinding</i> George Packer</li>
-      <li><i>A Visit from the Goon Squad</i> Jennifer Egan</li>
-      <li><i>Libra</i> Don Delillo</li>
-      <li><i>Consider Phlebas</i> Iaian M. Banks</li>
-      <li><i>Secondhand Time: The Last of the Soviets</i> Svetlana Alexievich</li>
-      <li><i>Outline</i> Rachel Cusk</li>
-      <li><i>Waiting for Godot</i> Samuel Beckett</li>
-      <li><i>Old Man's War</i> John Scalzi</li>
-      <li><i>Milkman</i> Anna Burns</li>
-      <li><i>Flow My Tears, the Policeman Said</i> Philip K. Dick</li>
-      <li><i>Invisible Women: Data Bias in a World Designed for Men</i> Caroline Criado Perez</li>
-      <li><i>Let's Explore Diabetes with Owls</i> David Sedaris</li>
-      <li><i>A Terrible Country</i> Keith Gessen</li>
-      <li><i>My Brilliant Friend</i> Elena Ferrante</li>
-      <li><i>Nixonland</i> Rick Perlstein</li>
-      <li><i>Less</i> Andre Sean Greer</li>
-      <li><i>Hall of Small Mammals: Stories</i> Thomas Pierce</li>
-      <li><i>The Wind-Up Bird Chronicle</i> Haruki Murakami</li>
-    </ul>
-    <p>(current from about beginning of 2020...I probably should find a way to bulk export from my Goodreads account)</p>
+{% block external_css %}
+{% endblock %}
+{% block internal_css %}
+{% endblock %}
 
-    <p><i>* reread</i></p>
-  </body>
-</html>
+
+{% block body %}
+<body>
+  <h1>
+    Books
+  </h1>
+  <ul>
+    <li><i>Brat</i> Michael DeForge</li>
+    <li><i>Dark Matter</i> Blake Crouch</li>
+    <li><i>2666</i> Roberto Bolaño</li>
+    <li><i>The Hitchiker's Guide to the Galaxy</i>* Douglas Adams</li>
+    <li><i>The Argonauts</i> Maggie Nelson</li>
+    <li><i>Pachinko</i> Min Jin Lee</li>
+    <li><i>The Underground Railroad</i> Colson Whitehead</li>
+    <li><i>The Idiot</i> Elif Batuman</li>
+    <li><i>Barbarian Days: A Surfing Life</i> William Finnegan</li>
+    <li><i>Borne</i> Jeff VanderMeer</li>
+    <li><i>Lincoln in the Bardo</i> George Saunders</li>
+
+    <li><i>Dawn</i> Octavia Butler</li>
+    <li><i>Say Nothing</i> Patrick Radden Keefe</li>
+    <li><i>The Remains of the Day</i> Kazuo Ishiguro</li>
+    <li><i>Parable of the Sower</i> Octavia Butler</li>
+    <li><i>Bad Blood</i> John Carreyrou</li>
+    <li><i>Norwegian Wood</i> Haruki Murakami</li>
+    <li><i>The Sparrow</i> Mary Doria Russell</li>
+    <li><i>The Unwinding</i> George Packer</li>
+    <li><i>A Visit from the Goon Squad</i> Jennifer Egan</li>
+    <li><i>Libra</i> Don Delillo</li>
+    <li><i>Consider Phlebas</i> Iaian M. Banks</li>
+    <li><i>Secondhand Time: The Last of the Soviets</i> Svetlana Alexievich</li>
+    <li><i>Outline</i> Rachel Cusk</li>
+    <li><i>Waiting for Godot</i> Samuel Beckett</li>
+    <li><i>Old Man's War</i> John Scalzi</li>
+    <li><i>Milkman</i> Anna Burns</li>
+    <li><i>Flow My Tears, the Policeman Said</i> Philip K. Dick</li>
+    <li><i>Invisible Women: Data Bias in a World Designed for Men</i> Caroline Criado Perez</li>
+    <li><i>Let's Explore Diabetes with Owls</i> David Sedaris</li>
+    <li><i>A Terrible Country</i> Keith Gessen</li>
+    <li><i>My Brilliant Friend</i> Elena Ferrante</li>
+    <li><i>Nixonland</i> Rick Perlstein</li>
+    <li><i>Less</i> Andre Sean Greer</li>
+    <li><i>Hall of Small Mammals: Stories</i> Thomas Pierce</li>
+    <li><i>The Wind-Up Bird Chronicle</i> Haruki Murakami</li>
+  </ul>
+  <p>(current from about beginning of 2020...I probably should find a way to bulk export from my Goodreads account)</p>
+
+  <p><i>* reread</i></p>
+</body>
+{% endblock %}
