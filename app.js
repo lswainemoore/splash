@@ -1,8 +1,13 @@
 const express = require('express')
+const nunjucks = require('nunjucks')
 
 const app = express()
 const port = process.env.PORT || 3000
-app.engine('html', require('ejs').renderFile)
+nunjucks.configure('views', {
+    autoescape: true,
+    express: app
+});
+
 
 app.use(express.static('public'))
 

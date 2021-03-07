@@ -1,0 +1,50 @@
+{% set title = title | default('Lincoln Swaine-Moore') %}
+{% set description = description | default('Lincoln Swaine-Moore\'s site! Welcome!') %}
+{% set meta_image = meta_image | default('/img/meta.png') %}
+
+<html lang="en">
+  {% block head %}
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+      {% block favicons %}
+        <!-- generated from https://realfavicongenerator.net/ -->
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/site.webmanifest">
+        <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <!-- end generated -->
+      {% endblock %}
+
+      {% block external_js %}
+        <script type="text/javascript" src="js/jQuery.js"></script>
+      {% endblock %}
+      {% block internal_js %}
+      {% endblock %}
+      {% block external_css %}
+      {% endblock %}
+      {% block internal_css %}
+      {% endblock %}
+
+
+      <title>
+        {{ title }}
+      </title>
+      <meta name="description" content="{{ description }}">
+      <meta name="og:title" content="{{ title }}"/>
+      <meta name="og:description" content="{{ description }}"/>
+      <meta name="og:image" content="{{ meta_image }}"/>
+      <meta name="twitter:image" content="{{ meta_image }}"/>
+      <meta name="twitter:card" content="summary_large_image"/>
+      <meta name="twitter:site" content="@lswainemoore"/>
+    </head>
+  {% endblock %}
+  {% block body %}
+  {% endblock %}
+</html>

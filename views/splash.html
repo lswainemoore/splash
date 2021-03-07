@@ -1,150 +1,134 @@
-<html lang="en">
+{% set title = 'Lincoln is...blue' %}
+{% set description = 'Lincoln Swaine-Moore\'s site! Welcome! I\'m not actually blue, but my name is.' %}
+{% set meta_image = '/img/meta.png' %}
 
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="js/splash.js"></script>
-    <script type="text/javascript" src="js/jQuery.js"></script>
-    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/splashstyle.css">
+{% extends "base.html" %}
 
-    <!-- generated from https://realfavicongenerator.net/ -->
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="/favicon/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <!-- end generated -->
+{% block external_js %}
+  <script type="text/javascript" src="js/jQuery.js"></script>
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+{% endblock %}
+{% block internal_js %}
+  <script type="text/javascript" src="js/splash.js"></script>
+{% endblock %}
 
-    <title>Lincoln is...blue</title>
-    <meta name="description" content="Lincoln Swaine-Moore's site! Welcome! I'm not actually blue, but my name is.">
-
-    <meta name="og:title" content="Lincoln is blue."/>
-    <meta name="og:description" content="Lincoln Swaine-Moore's site! Welcome! I'm not actually blue, but my name is."/>
-    <meta name="og:image" content="/img/meta.png"/>
-    <meta name="twitter:image" content="/img/meta.png"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:site" content="@lswainemoore"/>
+{% block external_css %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+{% endblock %}
+{% block internal_css %}
+  <link rel="stylesheet" href="css/splashstyle.css">
+{% endblock %}
 
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  </head>
-    <body onload="drawBackground()">
-      <span id="top"></span>
-      <div class="page">
-        <canvas id='squares' aria-label="The name &quot;Lincoln&quot; made out of squares of varying colors."></canvas>
-        <div class="bottom-section">
-          <div class="links container-fluid">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-4">
-                  <a href="/talking-about-himself">
-                    About Me
-                  </a>
-                </div>
-                <div class="col-xs-4">
-                  <a href="javascript:void(0)" onclick="toggleSettings()">
-                    Settings
-                  </a>
-                  <div class="chevron-container">
-                    <div id="chevron"></div>
-                  </div>
-                </div>
-                <div class="col-xs-4">
-                  <a href="/writing">Writing</a>
-                </div>
+{% block body %}
+<body onload="drawBackground()">
+  <span id="top"></span>
+  <div class="page">
+    <canvas id='squares' aria-label="The name &quot;Lincoln&quot; made out of squares of varying colors."></canvas>
+    <div class="bottom-section">
+      <div class="links container-fluid">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4">
+              <a href="/talking-about-himself">
+                About Me
+              </a>
+            </div>
+            <div class="col-xs-4">
+              <a href="javascript:void(0)" onclick="toggleSettings()">
+                Settings
+              </a>
+              <div class="chevron-container">
+                <div id="chevron"></div>
               </div>
             </div>
-          </div>
-          <div class="tray">
-            <div id="distribution-settings-tray" class="distribution-settings ">
-              <div class="container">
-                <p>
-                  The alpha values for the squares on this page are drawn from two (<a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">truncated</a>) normal distributions. Tweak each below to affect the visibility of the text.
-                </p>
-                <div class="row">
-                  <div class="col-xs-12 settings">
-
-                    <div class="row">
-                      <div class="col-xs-2 big-label" id="distribution-label">
-                        Distribution
-                      </div>
-                      <div class="col-xs-5 small-label" id="mean-label">Mean</div>
-                      <div class="col-xs-5 small-label" title="standard deviation" id="stddev-label">Std. Dev.</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-2 small-label" id="text-label">Text</div>
-                      <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha" aria-describedby="distribution-label mean-label text-label">
-                      </div>
-                      <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise" aria-describedby="distribution-label stddev-label text-label">
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-xs-2 small-label mobile" title="background" id="background-label">Bg.</div>
-                      <div class="col-xs-2 small-label desktop" id="background-label-full">Background</div>
-                      <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha" aria-describedby="distribution-label mean-label background-label background-label-full">
-                      </div>
-                      <div class="col-xs-5">
-                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise" aria-describedby="distribution-label stddev-label background-label background-label-full">
-                      </div>
-                    </div>
-
-                    <div class="col-xs-12 viz">
-                      <div class="hist-wrapper">
-                        <div id='hist' class="responsive-plot"><!-- Plotly chart will be drawn inside this DIV --></div>
-                      </div>
-
-                    </div>
-
-                    <div class="row scale-row">
-                      <div class="col-xs-12 col-sm-2">
-                        <div class="big-label" id="resolution-label">Resolution</div>
-                        <div class="small-label" id="warning-label"><span class="warning"></span> larger values may slow page</div>
-                      </div>
-                      <div class="col-xs-12 col-sm-10">
-                        <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale" aria-labeledby="resolution-label" aria-describedby="warning-label">
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+            <div class="col-xs-4">
+              <a href="/writing">Writing</a>
             </div>
           </div>
         </div>
-
       </div>
-      <script>
-        $(window).on('resize', function() {
-          drawBackground();
-        });
-        [
-          'scale',
-          'onAlpha',
-          'offAlpha',
-          'onNoise',
-          'offNoise'
-        ].forEach(function(name) {
-          var slider = $('#' + name);
-          slider.val(params[name]);
-          slider.on('input', function() {
-            params[name] = parseFloat(this.value);
-            drawBackground(force = true);
-          })
-        });
+      <div class="tray">
+        <div id="distribution-settings-tray" class="distribution-settings ">
+          <div class="container">
+            <p>
+              The alpha values for the squares on this page are drawn from two (<a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">truncated</a>) normal distributions. Tweak each below to affect the visibility of the text.
+            </p>
+            <div class="row">
+              <div class="col-xs-12 settings">
 
-      </script>
+                <div class="row">
+                  <div class="col-xs-2 big-label" id="distribution-label">
+                    Distribution
+                  </div>
+                  <div class="col-xs-5 small-label" id="mean-label">Mean</div>
+                  <div class="col-xs-5 small-label" title="standard deviation" id="stddev-label">Std. Dev.</div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-2 small-label" id="text-label">Text</div>
+                  <div class="col-xs-5">
+                    <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha" aria-describedby="distribution-label mean-label text-label">
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise" aria-describedby="distribution-label stddev-label text-label">
+                  </div>
+                </div>
 
-    </body>
+                <div class="row">
+                  <div class="col-xs-2 small-label mobile" title="background" id="background-label">Bg.</div>
+                  <div class="col-xs-2 small-label desktop" id="background-label-full">Background</div>
+                  <div class="col-xs-5">
+                    <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha" aria-describedby="distribution-label mean-label background-label background-label-full">
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise" aria-describedby="distribution-label stddev-label background-label background-label-full">
+                  </div>
+                </div>
 
+                <div class="col-xs-12 viz">
+                  <div class="hist-wrapper">
+                    <div id='hist' class="responsive-plot"><!-- Plotly chart will be drawn inside this DIV --></div>
+                  </div>
 
+                </div>
 
-</html>
+                <div class="row scale-row">
+                  <div class="col-xs-12 col-sm-2">
+                    <div class="big-label" id="resolution-label">Resolution</div>
+                    <div class="small-label" id="warning-label"><span class="warning"></span> larger values may slow page</div>
+                  </div>
+                  <div class="col-xs-12 col-sm-10">
+                    <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale" aria-labeledby="resolution-label" aria-describedby="warning-label">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    $(window).on('resize', function() {
+      drawBackground();
+    });
+    [
+      'scale',
+      'onAlpha',
+      'offAlpha',
+      'onNoise',
+      'offNoise'
+    ].forEach(function(name) {
+      var slider = $('#' + name);
+      slider.val(params[name]);
+      slider.on('input', function() {
+        params[name] = parseFloat(this.value);
+        drawBackground(force = true);
+      })
+    });
+
+  </script>
+</body>
+{% endblock %}
