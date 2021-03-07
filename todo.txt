@@ -7,7 +7,6 @@
 - fontify text/add last name?
 
 
-- templatize header
 - style about/books
 
 
@@ -15,3 +14,4 @@
 	- iframe works ok for "doodling", but not great for, say, favicon
 	- so i just put favicon in here, but that's not very pleasing.
 		- aside from code duplication, it's annoying that the html/js get separated (i combined them for now)
+	- hmm and make them inherit from base, if possible
