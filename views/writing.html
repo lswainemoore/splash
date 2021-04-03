@@ -1,19 +1,22 @@
 {% set title = 'Lincoln is...writing' %}
 
+{% extends "base.html" %}
+
 {% block external_js %}{% endblock %}
 
-{% block body %}
-<body>
+{% block maincontent %}
   <h1>Posts</h1>
   {% for post in posts %}
   <div class="post">
     <h2>
       {{post.title}}
     </h2>
+    <h3>
+      {{post.dateStr}}
+    </h3>
     ↳ <a href="/writing-about/{{post.slug}}">
       Read
     </a>
   </div>
   {% endfor %}
-</body>
 {% endblock %}

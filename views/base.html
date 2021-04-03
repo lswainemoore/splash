@@ -24,13 +24,14 @@
       {% endblock %}
 
       {% block external_js %}
-        <script type="text/javascript" src="js/jQuery.js"></script>
+        <script type="text/javascript" src="/js/jQuery.js"></script>
       {% endblock %}
       {% block internal_js %}
       {% endblock %}
       {% block external_css %}
       {% endblock %}
       {% block internal_css %}
+        <link rel="stylesheet" href="/css/maincontent.css">
       {% endblock %}
 
 
@@ -47,5 +48,11 @@
     </head>
   {% endblock %}
   {% block body %}
+  <body>
+    <div id="maincontent">
+      {% block maincontent %}
+      {% endblock %}
+    </div>
+  </body>
   {% endblock %}
 </html>
