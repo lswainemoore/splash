@@ -27,7 +27,7 @@ A few tweets later, Godfrey walked his claim  about the primary back slightly, [
 
 Luckily, Philadelphia is great about providing election results. With very little difficulty, I was able to download vote counts broken down by candidate and division from the both the 2012 primary and general elections (to do so yourself, click the "Raw Data" tab on [this page](http://www.philadelphiavotes.com/en/resources-a-data/ballot-box-app)).
 
-From there, it was as simple as reading the two .csv files into a [Pandas](http://pandas.pydata.org/) dataframe and playing around a bit with the data. If you'd like to see my work, I've attached my iPython notebook [here]({{base}}/ipython/philadelphia_analysis.html). I'd welcome some validation of my results! There are also some details on the analysis that I've skipped here that are included in the notebook.
+From there, it was as simple as reading the two .csv files into a [Pandas](http://pandas.pydata.org/) dataframe and playing around a bit with the data. If you'd like to see my work, I've attached my iPython notebook [here](/notebooks/philadelphia_analysis.html). I'd welcome some validation of my results! There are also some details on the analysis that I've skipped here that are included in the notebook.
 
 ## Results
 

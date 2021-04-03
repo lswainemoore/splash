@@ -4,12 +4,10 @@
 {% block external_js %}{% endblock %}
 
 {% block maincontent %}
-<body>
 <div id="post">
   <a href="/writing">< Back</a>
   <h1>{{ post.title }}</h1>
-  <h2>{{ post.dateStr }}</h2>
+  <span class="date">{{ post.dateStr }}</h2>
   {{ post.content | safe }}
 </div>
-</body>
 {% endblock %}
