@@ -1,4 +1,10 @@
+body {
+  background-image: url(/img/background.svg);
+  min-height: 100vh; // need this to prevent issues where bottom of one pattern meets top of next
+}
+
 #maincontent {
+  background-color: rgba(255,255,255,.95);
   max-width: 800px;
   margin: 0 auto;
   padding: 10px;

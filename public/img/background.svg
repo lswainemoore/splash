@@ -1,0 +1,14 @@
+<!-- adapated from: https://stackoverflow.com/a/14500054 -->
+<svg
+  viewport="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
+    <path d="M-1,1 l5,-5
+             M0,10 l10,-10
+             M9,11 l5,-5"
+          style="stroke:rgb(0,110,207); stroke-width:.7" />
+  </pattern>
+
+  <rect x="0" y="0" width="100%" height="100%" fill="url(#diagonalHatch)"/>
+</svg>
