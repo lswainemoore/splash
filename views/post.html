@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block external_js %}{% endblock %}
+
+{% block body %}
+<body>
+<div id="post">
+  <h1>{{ post.title }}</h1>
+  <h2>{{ post.dateStr }}</h2>
+  {{ post.content | safe }}
+</div>
+</body>
+{% endblock %}
