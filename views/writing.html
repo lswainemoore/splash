@@ -4,8 +4,24 @@
 
 {% block external_js %}{% endblock %}
 
+{% block custom_css %}
+<style type="text/css">
+  .post {
+    border-left: 2px solid black;
+    padding-left: 10px;
+  }
+  .post h2 {
+    margin-bottom: 0px;
+  }
+  .post h3 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+</style>
+{% endblock %}
+
 {% block maincontent %}
-  <h1>Posts</h1>
+  <h1>Writing</h1>
   {% for post in posts %}
   <div class="post">
     <h2>

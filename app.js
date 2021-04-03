@@ -43,17 +43,23 @@ app.get('/reading', (req, res) => {
 
 var formatDateStr = (date) => {
   // adapted from: https://stackoverflow.com/a/30272803
-  return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${date.getDate()}`
+  return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + (date.getDate() + 1)).slice(-2)}`
 }
 
 app.get('/writing-about/:slug', (req, res) => {
   const post = allPosts[req.params.slug]
+
+  // if this has a redirect url, go there instead!
+  if (post.redirect) {
+    return res.redirect(302, post.redirect)
+  }
+
   res.render('post.html', {post: post})
 })
 app.get('/writing', (req, res) => {
   // order posts by date
   const posts = Object.values(allPosts).sort((i, j) => {
-    return i.date < j.date
+    return i.date < j.date ? 1 : -1;
   })
   res.render('writing.html', {
     posts: posts
@@ -77,6 +83,7 @@ var loadWritingData = () => {
       title: file.data.title,
       date: file.data.date,
       dateStr: formatDateStr(file.data.date),
+      redirect: file.data.redirect,
     }
   })
 }
