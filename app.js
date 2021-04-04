@@ -51,7 +51,9 @@ app.get('/writing-about/:slug', (req, res) => {
 
   // if this has a redirect url, go there instead!
   if (post.redirect) {
-    return res.redirect(302, post.redirect)
+    // i'm never sure if this should be 301 or 302,
+    // but i guess it's permanent so 301?
+    return res.redirect(301, post.redirect)
   }
 
   res.render('post.html', {post: post})
