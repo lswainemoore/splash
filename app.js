@@ -36,6 +36,10 @@ app.get('/reading', (req, res) => {
   res.render('reading.html')
 })
 
+app.get('/connecting-4', (req, res) => {
+  res.render('connect4.html')
+})
+
 
 // BLOG
 

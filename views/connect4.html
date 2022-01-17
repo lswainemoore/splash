@@ -1,0 +1,456 @@
+{# note to self: edit this in it's repo, then paste here #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>tk</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <style>
+    #message {
+      font-size: 32px;
+    }
+    #board {
+      margin-top: 20px;
+      border:1px solid #000000;
+      display:block
+    }
+    .buttons {
+      /*removes space between*/
+      font-size: 0;
+    }
+    .buttons > .button {
+      width: 75px;
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .buttons > .button > button {
+      width: 75%;
+      background: 0;
+      margin-top: 10px;
+      border-radius: 5px;
+      padding: 7px;
+      margin-left: 4px;
+    }
+
+    .settings {
+      margin-top: 40px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="message"></div>
+  <canvas id="board" width="600" height="600"></canvas>
+  <div class="buttons">
+    <div class="button"><button onclick="game.play(0)">x</button></div>
+    <div class="button"><button onclick="game.play(1)">x</button></div>
+    <div class="button"><button onclick="game.play(2)">x</button></div>
+    <div class="button"><button onclick="game.play(3)">x</button></div>
+    <div class="button"><button onclick="game.play(4)">x</button></div>
+    <div class="button"><button onclick="game.play(5)">x</button></div>
+    <div class="button"><button onclick="game.play(6)">x</button></div>
+    <div class="button"><button onclick="game.play(7)">x</button></div>
+  </div>
+  <div class="settings">
+    <div class="foresight-settings">
+      <input type="range" min="0" max="10" value="7" class="slider" id="foresight">
+      <div class="description">thinking <b><span id="foresight-message"></span></b> moves ahead</div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var canvas = document.getElementById('board')
+    var messageArea = document.getElementById('message')
+
+    const config = {
+      w: 600,
+      dim: 8,
+      toWin: 4,
+      maxDepth: null,
+    }
+
+    var slider = document.getElementById("foresight")
+    slider.oninput = function() {
+      config.maxDepth = parseInt(this.value)
+      document.getElementById("foresight-message").innerHTML = config.maxDepth
+      console.log(config)
+    }
+    slider.oninput()
+
+
+
+    class Board {
+      constructor() {
+        this.slots = []
+        for (var i = 0; i < config.dim; i++) {
+          this.slots.push([])
+          for (var j = 0; j < config.dim; j++) {
+            this.slots[i].push(0)
+          }
+        }
+      }
+
+      clone() {
+        const board = new Board()
+        for (var i = 0; i < config.dim; i++) {
+          for (var j = 0; j < config.dim; j++) {
+            board.slots[i][j] = this.slots[i][j]
+          }
+        }
+        return board
+      }
+
+      placePiece(col, side) {
+        // return the height at which it got played,
+        // which may help expedite search for victories.
+        // or -1 if it's not a valid move.
+        for (var i = 0; i < config.dim; i++) {
+          if (!this.slots[col][i]) {
+            this.slots[col][i] = side
+            return i
+          }
+        }
+        return -1
+      }
+
+      availableColumns() {
+        var availableColumns = []
+        for (var i = 0; i < config.dim; i++) {
+          if (!this.slots[i][config.dim - 1]) {
+            availableColumns.push(i)
+          }
+        }
+        return availableColumns
+      }
+
+      hasVictory() {
+        // returns 0 if no victory
+        // side of victory if has one.
+        // really, caller should know who won based on who played last
+        // but doesn't hurt to be explicit
+
+
+        // not very efficient...
+
+        // we'll start our search at bottom left, and proceed up then right.
+        // that way, we can basically always assume that if we're looking at a
+        // point, it wasn't part of a win that began from below or to the left.
+        for (var i = 0; i < config.dim; i++) {
+          for (var j = 0; j < config.dim; j++) {
+            const piece = this.slots[i][j]
+            if (!piece) {
+              continue
+            }
+
+            // check win to the right
+            if (i <= config.dim - config.toWin) {
+              var works = true
+              for (var k = 1; k < config.toWin; k++) {
+                if (this.slots[i + k][j] != piece) {
+                  works = false
+                  break
+                }
+              }
+              if (works) {
+                return piece
+              }
+            }
+
+            // check win to above
+            if (j <= config.dim - config.toWin) {
+              var works = true
+              for (var k = 1; k < config.toWin; k++) {
+                if (this.slots[i][j + k] != piece) {
+                  works = false
+                  break
+                }
+              }
+              if (works) {
+                return piece
+              }
+            }
+
+            // check win, diagonally up/right
+            if (i <= config.dim - config.toWin && j <= config.dim - config.toWin) {
+              var works = true
+              for (var k = 1; k < config.toWin; k++) {
+                if (this.slots[i + k][j + k] != piece) {
+                  works = false
+                  break
+                }
+              }
+              if (works) {
+                return piece
+              }
+            }
+
+            // check win, diagonally down/right
+            if (i <= config.dim - config.toWin && j >= config.toWin - 1) {
+              var works = true
+              for (var k = 1; k < config.toWin; k++) {
+                if (this.slots[i + k][j - k] != piece) {
+                  works = false
+                  break
+                }
+              }
+              if (works) {
+                return piece
+              }
+            }
+          }
+        }
+
+        return 0
+      }
+
+      draw() {
+        var ctx = canvas.getContext("2d")
+        ctx.clearRect(0, 0, config.w, config.w)
+        for (var i = 0; i < config.dim; i++) {
+          for (var j = 0; j < config.dim; j++) {
+            ctx.moveTo(config.w / config.dim * i, 0)
+            ctx.lineTo(config.w / config.dim * i, config.w)
+            ctx.stroke()
+            ctx.moveTo(0, config.w / config.dim * j)
+            ctx.lineTo(config.w, config.w / config.dim * j)
+            ctx.stroke()
+            ctx.beginPath()
+            ctx.arc(config.w / config.dim * (i + .5), config.w - config.w / config.dim * (j + .5), config.w / config.dim * .4, 0, 2 * Math.PI)
+            const piece = (this.slots[i][j])
+            if (piece) {
+              ctx.fillStyle = {
+                1: 'red',
+                2: 'blue',
+              }[piece]
+              ctx.fill()
+            }
+            else {
+              ctx.stroke()
+            }
+          }
+        }
+      }
+    }
+
+
+    class Player {
+      chooseMove(board, turnNum) {
+        // unimplemented
+        return -1
+      }
+    }
+
+    function randomChoice(arr) {
+      return arr[Math.floor(Math.random() * arr.length)]
+    }
+
+    class HumanPlayer extends Player {
+
+    }
+
+    class RandomPlayer extends Player {
+      chooseMove(board, turnNum) {
+        const possibleMoves = board.availableColumns()
+        return randomChoice(possibleMoves)
+      }
+    }
+
+    class MinMaxPlayer extends Player {
+      heuristicValue(board, moveSequence) {
+        // not implemented
+      }
+
+      chooseMove(board, turnNum) {
+        var that = this
+        function moveValuer(currentBoard, currentTurnNum, moveSequence) {
+          var spin = currentTurnNum % 2 == turnNum % 2 ? 1 : -1
+
+          const logSpacing = '  '.repeat(moveSequence.length)
+
+          var bestValue = null
+          var goodMoves
+          for (const possibleMove of currentBoard.availableColumns()) {
+            // console.log(logSpacing + `considering the value of player ${currentTurnNum % 2 + 1} doing ${possibleMove} on turn ${currentTurnNum}...`)
+
+            const newMoveSequence = [...moveSequence]
+            newMoveSequence.push(possibleMove)
+            const moveBoard = currentBoard.clone()
+            moveBoard.placePiece(possibleMove, currentTurnNum % 2 + 1)
+
+            var value
+            if (newMoveSequence.length >= config.maxDepth || moveBoard.hasVictory()) {
+              value = spin * that.heuristicValue(moveBoard, newMoveSequence)
+              // console.log(logSpacing + `leaf node has value ${value}`)
+            }
+            else {
+              let { bestValue } = moveValuer(moveBoard, currentTurnNum + 1, newMoveSequence)
+              value = bestValue
+              // console.log(logSpacing + `non-leaf node has value ${value}`)
+
+            }
+
+            // todo these two can probably be combined more elegantly using spin
+            if (spin == 1) {
+              // console.log(logSpacing + 'it\'s our turn so maximizing...')
+              if (bestValue == null || value > bestValue) {
+                bestValue = value
+                goodMoves = [possibleMove]
+              }
+              else if (value == bestValue) {
+                goodMoves.push(possibleMove)
+              }
+            }
+            else {
+              // console.log(logSpacing + 'it\'s opponent\'s turn so minimizing...')
+              if (bestValue == null || value < bestValue) {
+                bestValue = value
+                goodMoves = [possibleMove]
+              }
+              else if (value == bestValue) {
+                goodMoves.push(possibleMove)
+              }
+            }
+          }
+
+          // console.log(logSpacing + `the best moves for ${ spin == 1 ? 'us' : 'our opponent' } are ${goodMoves} with value ${bestValue}`)
+          return { bestValue, goodMoves }
+        }
+
+        let { bestValue, goodMoves } = moveValuer(board, turnNum, [])
+        // console.log(`ultimately choosing random from ${goodMoves} (value: ${bestValue})`)
+        // console.log('\n\n\n\n\n')
+        return randomChoice(goodMoves)
+      }
+    }
+
+    class LossAvoider extends MinMaxPlayer {
+      heuristicValue(board, moveSequence) {
+        if (board.hasVictory()) {
+          return 100
+        }
+        return 0
+      }
+    }
+
+
+    class SoonerLossAvoider extends MinMaxPlayer {
+      heuristicValue(board, moveSequence) {
+        if (board.hasVictory()) {
+          // make future victories slightly less appealing,
+          // and future losses slightly less appalling
+          return 100 * Math.pow(.99, moveSequence.length - 1)
+        }
+        return 0
+      }
+    }
+
+    class Game {
+      constructor(player1, player2) {
+        this.players = {
+          1: player1,
+          2: player2,
+        }
+
+        this.turnNum = 0
+        this.completed = false
+        this.board = new Board()
+        this.board.draw()
+        this.setTurnMessage()
+      }
+
+      start() {
+        this.requestMove()
+      }
+
+      requestMove() {
+        const move = this.players[this.whoseTurn()].chooseMove(this.board, this.turnNum)
+        // console.log('chose ', move)
+        if (move != -1) {
+          this.play(move)
+        }
+        else {
+          this.enableButtons()
+        }
+      }
+
+      getButtons() {
+        return document.querySelectorAll('button')
+      }
+
+      enableButtons() {
+        this.getButtons().forEach(function(button) {
+          button.disabled = false;
+        })
+      }
+
+      disableButtons() {
+        this.getButtons().forEach(function(button) {
+          button.disabled = true;
+        })
+      }
+
+      whoseTurn() {
+        return this.turnNum % 2 + 1
+      }
+
+      async play(col) {
+        this.disableButtons()
+
+        if (this.completed) {
+          return
+        }
+
+        var result = this.board.placePiece(col, this.whoseTurn())
+        if (result != -1) {
+          this.board.draw()
+
+          const v = this.board.hasVictory()
+          if (v) {
+            this.completed = true
+            this.setMessage(`victory for ${ this.sideToStr(v) }`)
+          }
+
+          else if (this.board.availableColumns().length == 0) {
+            this.completed = true
+            this.setMessage('game is drawn!')
+          }
+
+          else {
+            this.turnNum += 1
+            this.setTurnMessage()
+            // this makes convas/message get updated before we do the meaty stuff. :shrug:
+            await new Promise(r => setTimeout(r, .01));
+            this.requestMove()
+          }
+        } else {
+          this.setMessage('invalid move')
+        }
+      }
+
+      sideToStr(side) {
+        return {
+          1: 'red',
+          2: 'blue'
+        }[side]
+      }
+
+      setMessage(content) {
+        message.innerHTML = content
+      }
+
+      setTurnMessage() {
+        this.setMessage(`${ this.sideToStr(this.whoseTurn()) }'s turn (${this.turnNum})`)
+      }
+    }
+
+    const game = new Game(
+      new HumanPlayer(),
+      new SoonerLossAvoider(),
+    )
+    game.start()
+  </script>
+</body>
+</html>
