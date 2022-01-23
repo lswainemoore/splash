@@ -20,7 +20,7 @@
       font-size: 0;
     }
     .buttons > .button {
-      width: 75px;
+      width: 71.5px;
       display: inline-block;
       margin: 0;
       padding: 0;
@@ -43,7 +43,7 @@
 </head>
 <body>
   <div id="message"></div>
-  <canvas id="board" width="600" height="600"></canvas>
+  <canvas id="board" width="500" height="429"></canvas>
   <div class="buttons">
     <div class="button"><button onclick="game.play(0)">x</button></div>
     <div class="button"><button onclick="game.play(1)">x</button></div>
@@ -52,7 +52,6 @@
     <div class="button"><button onclick="game.play(4)">x</button></div>
     <div class="button"><button onclick="game.play(5)">x</button></div>
     <div class="button"><button onclick="game.play(6)">x</button></div>
-    <div class="button"><button onclick="game.play(7)">x</button></div>
   </div>
   <div class="settings">
     <div class="foresight-settings">
@@ -66,8 +65,9 @@
     var messageArea = document.getElementById('message')
 
     const config = {
-      w: 600,
-      dim: 8,
+      w: 500.,
+      xdim: 7,
+      ydim: 6,
       toWin: 4,
       maxDepth: null,
     }
@@ -85,9 +85,9 @@
     class Board {
       constructor() {
         this.slots = []
-        for (var i = 0; i < config.dim; i++) {
+        for (var i = 0; i < config.xdim; i++) {
           this.slots.push([])
-          for (var j = 0; j < config.dim; j++) {
+          for (var j = 0; j < config.ydim; j++) {
             this.slots[i].push(0)
           }
         }
@@ -95,8 +95,8 @@
 
       clone() {
         const board = new Board()
-        for (var i = 0; i < config.dim; i++) {
-          for (var j = 0; j < config.dim; j++) {
+        for (var i = 0; i < config.xdim; i++) {
+          for (var j = 0; j < config.ydim; j++) {
             board.slots[i][j] = this.slots[i][j]
           }
         }
@@ -107,7 +107,7 @@
         // return the height at which it got played,
         // which may help expedite search for victories.
         // or -1 if it's not a valid move.
-        for (var i = 0; i < config.dim; i++) {
+        for (var i = 0; i < config.ydim; i++) {
           if (!this.slots[col][i]) {
             this.slots[col][i] = side
             return i
@@ -118,8 +118,8 @@
 
       availableColumns() {
         var availableColumns = []
-        for (var i = 0; i < config.dim; i++) {
-          if (!this.slots[i][config.dim - 1]) {
+        for (var i = 0; i < config.xdim; i++) {
+          if (!this.slots[i][config.ydim - 1]) {
             availableColumns.push(i)
           }
         }
@@ -138,15 +138,15 @@
         // we'll start our search at bottom left, and proceed up then right.
         // that way, we can basically always assume that if we're looking at a
         // point, it wasn't part of a win that began from below or to the left.
-        for (var i = 0; i < config.dim; i++) {
-          for (var j = 0; j < config.dim; j++) {
+        for (var i = 0; i < config.xdim; i++) {
+          for (var j = 0; j < config.ydim; j++) {
             const piece = this.slots[i][j]
             if (!piece) {
               continue
             }
 
             // check win to the right
-            if (i <= config.dim - config.toWin) {
+            if (i <= config.xdim - config.toWin) {
               var works = true
               for (var k = 1; k < config.toWin; k++) {
                 if (this.slots[i + k][j] != piece) {
@@ -160,7 +160,7 @@
             }
 
             // check win to above
-            if (j <= config.dim - config.toWin) {
+            if (j <= config.ydim - config.toWin) {
               var works = true
               for (var k = 1; k < config.toWin; k++) {
                 if (this.slots[i][j + k] != piece) {
@@ -174,7 +174,7 @@
             }
 
             // check win, diagonally up/right
-            if (i <= config.dim - config.toWin && j <= config.dim - config.toWin) {
+            if (i <= config.xdim - config.toWin && j <= config.ydim - config.toWin) {
               var works = true
               for (var k = 1; k < config.toWin; k++) {
                 if (this.slots[i + k][j + k] != piece) {
@@ -188,7 +188,7 @@
             }
 
             // check win, diagonally down/right
-            if (i <= config.dim - config.toWin && j >= config.toWin - 1) {
+            if (i <= config.xdim - config.toWin && j >= config.ytoWin - 1) {
               var works = true
               for (var k = 1; k < config.toWin; k++) {
                 if (this.slots[i + k][j - k] != piece) {
@@ -208,17 +208,18 @@
 
       draw() {
         var ctx = canvas.getContext("2d")
-        ctx.clearRect(0, 0, config.w, config.w)
-        for (var i = 0; i < config.dim; i++) {
-          for (var j = 0; j < config.dim; j++) {
-            ctx.moveTo(config.w / config.dim * i, 0)
-            ctx.lineTo(config.w / config.dim * i, config.w)
+        const h = config.w * config.ydim / config.xdim
+        ctx.clearRect(0, 0, config.w, h)
+        for (var i = 0; i < config.xdim; i++) {
+          for (var j = 0; j < config.ydim; j++) {
+            ctx.moveTo(config.w / config.xdim * i, 0)
+            ctx.lineTo(config.w / config.xdim * i, config.w)
             ctx.stroke()
-            ctx.moveTo(0, config.w / config.dim * j)
-            ctx.lineTo(config.w, config.w / config.dim * j)
+            ctx.moveTo(0, h - config.w / config.xdim * j)
+            ctx.lineTo(config.w, h - config.w / config.xdim * j)
             ctx.stroke()
             ctx.beginPath()
-            ctx.arc(config.w / config.dim * (i + .5), config.w - config.w / config.dim * (j + .5), config.w / config.dim * .4, 0, 2 * Math.PI)
+            ctx.arc(config.w / config.xdim * (i + .5), h - config.w / config.xdim * (j + .5), config.w / config.xdim * .4, 0, 2 * Math.PI)
             const piece = (this.slots[i][j])
             if (piece) {
               ctx.fillStyle = {
