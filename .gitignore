@@ -41,3 +41,4 @@ Thumbs.db
 # CUSTOM #
 ##########
 node_modules/*
+node_modules
