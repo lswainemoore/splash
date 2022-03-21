@@ -1,3 +1,4 @@
+{% set breadcrumb_link = '/writing' %}
 
 {% extends 'base.html' %}
 
@@ -10,7 +11,6 @@
 
 {% block maincontent %}
 <div id="post">
-  <a href="/writing">< Back</a>
   <h1>{{ post.title }}</h1>
   <span class="date">{{ post.dateStr }}</h2>
   {{ post.content | safe }}
