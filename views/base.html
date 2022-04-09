@@ -1,6 +1,7 @@
 {% set title = title | default('Lincoln Swaine-Moore') %}
 {% set description = description | default('Lincoln Swaine-Moore\'s site! Welcome!') %}
 {% set meta_image = meta_image | default('/img/meta.png') %}
+{% set breadcrumb_link = breadcrumb_link | default('') %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +53,9 @@
   {% block body %}
   <body>
     <div id="maincontent">
+      {% if breadcrumb_link %}
+        <a href="{{ breadcrumb_link }}">< Back</a>
+      {% endif %}
       {% block maincontent %}
       {% endblock %}
     </div>

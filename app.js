@@ -53,6 +53,10 @@ var formatDateStr = (date) => {
 app.get('/writing-about/:slug', (req, res) => {
   const post = allPosts[req.params.slug]
 
+  if (!post) {
+    return res.redirect('/writing')
+  }
+
   // if this has a redirect url, go there instead!
   if (post.redirect) {
     // i'm never sure if this should be 301 or 302,
