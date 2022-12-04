@@ -230,7 +230,7 @@ function plotify() {
         marker: {
           color: "rgba(255, 255, 255, 1)",
           line: {
-            color: "rgba(0, 0, 0, 1)",
+            color: "#08264d",
             width: 1
           }
         }
@@ -243,9 +243,9 @@ function plotify() {
         autobinx: false,
         xbins: binInfo,
         marker: {
-          color: "rgba(0, 0, 0, 1)",
+          color: "#08264d",
           line: {
-            color: "rgba(0, 0, 0, 1)",
+            color: "#08264d",
             width: 1
           }
         }
@@ -270,7 +270,11 @@ function plotify() {
         x: 1,
         xanchor: 'right',
         y: 1,
-        bgcolor: 'rgba(255,255,255,.5)'
+        bgcolor: 'rgba(255,255,255,.5)',
+        font: {
+          family: 'IBM Plex Sans, sans-serif',
+          color: "#08264d"
+        }
       }
     },
     {

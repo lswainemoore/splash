@@ -1,0 +1,9 @@
+@mixin serif {
+  font-family: "IBM Plex Serif", serif;
+  color: #08264d;
+}
+
+@mixin sans {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #08264d;
+}

@@ -1,3 +1,5 @@
+@import "mixins";
+
 * {
   margin : 0;
   padding: 0;
@@ -118,10 +120,14 @@ html {
 
   }
 
+  .description {
+    font-size: 20px;
+  }
+
   .title {
     font-size: 24px;
     font-weight: bold;
-    font-family: serif;
+    @include serif;
   }
 
   .settings {
@@ -130,11 +136,11 @@ html {
 
   .big-label {
     font-weight: bold;
-    font-family: serif;
     font-size: 18px;
+    @include serif;
   }
   .small-label {
-    font-family: sans-serif;
+    @include sans;
     font-size: 16px;
 
     &.mobile {
@@ -147,6 +153,23 @@ html {
       &.mobile {
         display: inherit;
       }
+    }
+  }
+  .scale-row {
+    .small-label {
+      font-size: 12px;
+    }
+    input {
+      margin-top: 0px;
+    }
+  }
+  a, p {
+    @include serif;
+  }
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
     }
   }
   .warning {
@@ -175,11 +198,12 @@ html {
   }
 
   #scale {
-    margin-top: 15px;
+    margin-top: 5px;
     max-width: 200px;
   }
   .scale-row {
     @media screen and (max-width: 667px) {
+      margin-bottom: 20px;
       text-align: left;
       #scale {
         margin-top: 5px;

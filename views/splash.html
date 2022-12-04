@@ -14,6 +14,8 @@
 
 {% block external_css %}
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif">
 {% endblock %}
 {% block internal_css %}
   <link rel="stylesheet" href="css/splashstyle.css">
@@ -51,59 +53,65 @@
       <div class="tray">
         <div id="distribution-settings-tray" class="distribution-settings ">
           <div class="container">
-            <p>
-              The alpha values for the squares on this page are drawn from two (<a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">truncated</a>) normal distributions. Tweak each below to affect the visibility of the text.
-            </p>
             <div class="row">
-              <div class="col-xs-12 settings">
+              <div class="col-xs-12 col-md-3">
+                <p class="description">
+                  The alpha values for the squares on this page are drawn from two (<a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution" target="_blank">truncated</a>) normal distributions. Tweak them to affect the visibility of the text.
+                </p>
+                <div class="scale-row">
+                  <div class="big-label" id="resolution-label">Resolution</div>
+                  <div class="small-label" id="warning-label"><span class="warning"></span> larger values may slow page</div>
+                  <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale" aria-labeledby="resolution-label" aria-describedby="warning-label">
+                </div>
+              </div>
 
+              <div class="col-xs-12 col-md-9">
                 <div class="row">
-                  <div class="col-xs-2 big-label" id="distribution-label">
-                    Distribution
-                  </div>
-                  <div class="col-xs-5 small-label" id="mean-label">Mean</div>
-                  <div class="col-xs-5 small-label" title="standard deviation" id="stddev-label">Std. Dev.</div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-2 small-label" id="text-label">Text</div>
-                  <div class="col-xs-5">
-                    <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha" aria-describedby="distribution-label mean-label text-label">
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise" aria-describedby="distribution-label stddev-label text-label">
-                  </div>
-                </div>
+                  <div class="col-xs-12 settings">
 
-                <div class="row">
-                  <div class="col-xs-2 small-label mobile" title="background" id="background-label">Bg.</div>
-                  <div class="col-xs-2 small-label desktop" id="background-label-full">Background</div>
-                  <div class="col-xs-5">
-                    <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha" aria-describedby="distribution-label mean-label background-label background-label-full">
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise" aria-describedby="distribution-label stddev-label background-label background-label-full">
-                  </div>
-                </div>
+                    <div class="row">
+                      <div class="col-xs-2 big-label" id="distribution-label">
+                        Distribution
+                      </div>
+                      <div class="col-xs-5 small-label" id="mean-label">Mean</div>
+                      <div class="col-xs-5 small-label" title="standard deviation" id="stddev-label">Std. Dev.</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-2 small-label" id="text-label">Text</div>
+                      <div class="col-xs-5">
+                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="onAlpha" aria-describedby="distribution-label mean-label text-label">
+                      </div>
+                      <div class="col-xs-5">
+                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="onNoise" aria-describedby="distribution-label stddev-label text-label">
+                      </div>
+                    </div>
 
-                <div class="col-xs-12 viz">
-                  <div class="hist-wrapper">
-                    <div id='hist' class="responsive-plot"><!-- Plotly chart will be drawn inside this DIV --></div>
+                    <div class="row">
+                      <div class="col-xs-2 small-label mobile" title="background" id="background-label">Bg.</div>
+                      <div class="col-xs-2 small-label desktop" id="background-label-full">Background</div>
+                      <div class="col-xs-5">
+                        <input class="pull-right" type="range" type="number" min="0" max="1" step="0.05" value="0" id="offAlpha" aria-describedby="distribution-label mean-label background-label background-label-full">
+                      </div>
+                      <div class="col-xs-5">
+                        <input class="pull-right" type="range" type="number" min="0" max="2" step="0.05" value="0" id="offNoise" aria-describedby="distribution-label stddev-label background-label background-label-full">
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 viz">
+                      <div class="hist-wrapper">
+                        <div id='hist' class="responsive-plot"><!-- Plotly chart will be drawn inside this DIV --></div>
+                      </div>
+
+                    </div>
+
                   </div>
 
-                </div>
-
-                <div class="row scale-row">
-                  <div class="col-xs-12 col-sm-2">
-                    <div class="big-label" id="resolution-label">Resolution</div>
-                    <div class="small-label" id="warning-label"><span class="warning"></span> larger values may slow page</div>
-                  </div>
-                  <div class="col-xs-12 col-sm-10">
-                    <input type="range" type="number" min="1" max="6" step="1" value="3" id="scale" aria-labeledby="resolution-label" aria-describedby="warning-label">
-                  </div>
                 </div>
               </div>
 
             </div>
+
+
           </div>
         </div>
       </div>
