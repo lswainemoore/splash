@@ -1,3 +1,31 @@
+@import "mixins";
+
+h1,
+h2 {
+  @include serif;
+}
+
+h3,
+h4 {
+  @include sans;
+}
+
+p {
+  @include serif;
+}
+
+a {
+  @include serif;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+li {
+  @include serif;
+}
+
 body {
   background-image: url(/img/background.svg);
   min-height: 100vh; // need this to prevent issues where bottom of one pattern meets top of next

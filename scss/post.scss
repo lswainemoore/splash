@@ -1,3 +1,9 @@
+@import "mixins";
+
+.date {
+  @include sans;
+}
+
 img {
   max-width: 100%;
 }
