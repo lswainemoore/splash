@@ -21,12 +21,14 @@
 #resume .education h3,
 #resume .experience h3,
 #resume .skills h3 {
+  font-weight: normal;
   margin-top: 0;
   margin-bottom: 5px; }
 
 #resume .education h4,
 #resume .experience h4,
 #resume .skills h4 {
+  font-weight: normal;
   margin-top: 0;
   margin-bottom: 5px; }
 
