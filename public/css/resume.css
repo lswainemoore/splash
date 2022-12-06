@@ -3,6 +3,7 @@
   color: #08264d; }
 
 #resume .personal-details h1 {
+  margin-top: 10px;
   margin-bottom: 10px; }
 
 #resume .personal-details span {
@@ -28,7 +29,8 @@
 #resume .education ul,
 #resume .experience ul,
 #resume .skills ul {
-  margin-top: 0; }
+  margin-top: 0;
+  font-size: 14px; }
 
 #resume .education .date,
 #resume .experience .date,
