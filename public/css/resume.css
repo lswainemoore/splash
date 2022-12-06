@@ -1,0 +1,44 @@
+#resume span,
+#resume li {
+  color: #08264d; }
+
+#resume .personal-details h1 {
+  margin-bottom: 10px; }
+
+#resume .personal-details span {
+  display: block; }
+
+#resume .education h2,
+#resume .experience h2,
+#resume .skills h2 {
+  margin-bottom: 10px; }
+
+#resume .education h3,
+#resume .experience h3,
+#resume .skills h3 {
+  margin-top: 0;
+  margin-bottom: 5px; }
+
+#resume .education h4,
+#resume .experience h4,
+#resume .skills h4 {
+  margin-top: 0;
+  margin-bottom: 5px; }
+
+#resume .education ul,
+#resume .experience ul,
+#resume .skills ul {
+  margin-top: 0; }
+
+#resume .education .date,
+#resume .experience .date,
+#resume .skills .date {
+  float: right; }
+
+#resume .education .entry,
+#resume .experience .entry,
+#resume .skills .entry {
+  padding-left: 10px; }
+
+#resume .experience .entry {
+  border-left: 1.5px solid #08264d; }

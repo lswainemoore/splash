@@ -2,7 +2,7 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 nunjucks.configure('views', {
     autoescape: true,
     express: app
@@ -40,6 +40,9 @@ app.get('/connecting-4', (req, res) => {
   res.render('connect4.html')
 })
 
+app.get('/resume.html', (req, res) => {
+  res.render('resume.html')
+})
 
 // BLOG
 

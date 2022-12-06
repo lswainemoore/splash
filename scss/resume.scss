@@ -1,0 +1,45 @@
+#resume {
+  span,
+  li {
+    color: #08264d;
+  }
+
+  .personal-details {
+    h1 {
+      margin-bottom: 10px;
+    }
+    span {
+      display: block;
+    }
+  }
+  .education,
+  .experience,
+  .skills {
+    h2 {
+      margin-bottom: 10px;
+    }
+    h3 {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    h4 {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    ul {
+      margin-top: 0;
+    }
+
+    .date {
+      float: right;
+    }
+    .entry {
+      padding-left: 10px;
+    }
+  }
+  .experience {
+    .entry {
+      border-left: 1.5px solid #08264d;
+    }
+  }
+}

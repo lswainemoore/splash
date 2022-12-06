@@ -1,0 +1,83 @@
+{% set breadcrumb_link = '/blue' %}
+{% set title = 'Resume - Lincoln Swaine-Moore' %}
+
+{% extends 'base.html' %}
+
+{% block internal_css %}
+  <link rel="stylesheet" href="/css/maincontent.css">
+  <link rel="stylesheet" href="/css/resume.css">
+{% endblock %}
+{% block external_js %}{% endblock %}
+
+{% block maincontent %}
+<div id="resume">
+  <div class="personal-details">
+    <h1 class="name">Lincoln Swaine-Moore</h1>
+    <span class="contact">📞 (571) 271-7927 | 🏠 526 6th Ave #2L, Brooklyn, NY 11215 | 📧 <a target="_blank" href="mailto:lswainemoore@gmail.com">lswainemoore@gmail.com</a></span>
+    <span class="links">🔗 <a target="_blank" href="https://lincoln.swaine-moore.is">lincoln.swaine-moore.is</a> | 🧮 <a target="_blank" href="https://github.com/lswainemoore">github.com/lswainemoore</a> 🤝 <a target="_blank" href="https://www.linkedin.com/in/lincoln-swaine-moore/">linkedin.com/in/lincoln-swaine-moore</a></span>
+  </div>
+  <div class="education">
+    <h2>Education</h2>
+    <div class="entry">
+      <h3>
+        <b>Yale University</b>, New Haven, CT
+      </h3>
+      <h4><span class="title">B.S., Computer Science</span> <span class="date">(8/13 - 5/17)</span></h4>
+      <ul class="details">
+        <li><b>Technical coursework including: Data Mining and Machine Learning, The Law and Technology of Cyber Conflict, Computer Networks, Design and Analysis of Algorithms, Computer Graphics); other coursework including: Election Rules and Campaign Strategy, Constitutional Law, Classics of Political Journalism</li>
+        <li>Senior project: “Text Mining to Find Interactions between Political Contributions and Political Speech” (advised by Dragomir Radev) (<a target="_blank" href="https://github.com/lswainemoore/conflicts_of_interest">link to code/report/presentation</a>)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="experience">
+    <h2>Experience</h2>
+    <div class="entry">
+      <h3><b>Swing Left</b>, Washington, D.C.</h3>
+      <h4><span class="title">Senior Software Engineer</span> <span class="date">(1/21 - present)</span></h4>
+      <h4><span class="title">Software Engineer</span> <span class="date">(9/18 - 12/20)</span></h4>
+      <ul class="details">
+        <li>Full stack; maintaining <a target="_blank" href="https://swingleft.org">swingleft.org</a> and <a target="_blank" href="https://votefwd.org">votefwd.org</a> and building new tools (example project: <a target="_blank" href="https://blueprint.swingleft.org">Blueprint</a>—winner of <a target="_blank" href="https://www.fastcompany.com/90547358/blueprint-innovation-by-design-2020">Fast Company Innovation by Design Award</a>) for mobilizing grassroot volunteers to drive voter turnout; all manner of support for organizing, email, donation teams.
+      </ul>
+    </div>
+    <div class="entry">
+      <h3><b>Quorum</b>, Washington, D.C.</h3>
+      <h4><span class="title">Software Engineer</span> <span class="date">(9/17 - 8/18)</span></h4>
+      <ul class="details">
+        <li>Backend team at political tech startup; maintained and improved systems for large-scale data collection and management (primarily from state and local government websites); shared deployment and on-call duties.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <h3><b>Yale University</b>, New Haven, CT</h3>
+      <h4><span class="title">Research Assistant, Professor Frances Rosenbluth</span> <span class="date">(10/13 - 5/17)</span></h4>
+      <ul class="details">
+        <li>Investigated effects of terrain on state boundaries, using ArcGIS to analyze historical and geographical data; performed technical tasks for collaborations with other professors.</li>
+      </ul>
+      <h4><span class="title">Research Assistant</span> <span class="date">(8/15 - 7/16)</span></h4>
+      <ul class="details">
+        <li>Performed web scraping tasks in order to track ISIS activity, working for two PhD students in the political science department.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <h3><b>Catalist</b>, Washington, D.C.</h3>
+      <h4><span class="title">Analytics Intern</span> <span class="date">(5/14 - 7/14, 6/15 - 7/16)</span></h4>
+      <ul class="details">
+        <li>Analyzed and audited voter data and voter models, wrote SQL code to interact with Catalist databases.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <h3><b>Capitol Hill Office of Congressman Jim Moran</b>, Washington, D.C.</h3>
+      <h4><span class="title">Intern</span> <span class="date">(8/14)</span></h4>
+      <ul class="details">
+        <li>Researched and wrote memos regarding cosponsorship of House bills, attended congressional briefings (also performed various administrative functions).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li><i><b>Languages</b></i>: Python (frameworks: Flask, Django, SQLAlchemy), SQL, Javascript (frameworks: AngularJS, React, Next.js, Express), Bash, HTML, (S)CSS, R, C, Java</li>
+      <li><i><b>Tools/platforms</b></i>: PostgreSQL, Redis, Jupyter, ArcGIS, AWS, Snowflake, GCP</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
