@@ -11,7 +11,8 @@
   margin-bottom: 10px; }
 
 #resume .personal-details span {
-  display: block; }
+  display: block;
+  font-size: 14px; }
 
 #resume .education h2,
 #resume .experience h2,
