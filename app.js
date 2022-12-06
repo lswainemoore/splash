@@ -40,7 +40,7 @@ app.get('/connecting-4', (req, res) => {
   res.render('connect4.html')
 })
 
-app.get('/resume.html', (req, res) => {
+app.get('/bragging', (req, res) => {
   res.render('resume.html')
 })
 
