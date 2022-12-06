@@ -2,6 +2,10 @@
 #resume li {
   color: #08264d; }
 
+#resume ul, #resume li {
+  margin-left: 15px;
+  padding-left: 0; }
+
 #resume .personal-details h1 {
   margin-top: 10px;
   margin-bottom: 10px; }
