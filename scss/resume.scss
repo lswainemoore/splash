@@ -1,3 +1,5 @@
+@import "mixins";
+
 #resume {
   span,
   li {
@@ -17,6 +19,7 @@
     span {
       display: block;
       font-size: 14px;
+      @include serif;
     }
   }
   .education,
