@@ -12,7 +12,9 @@
 
 #resume .personal-details span {
   display: block;
-  font-size: 14px; }
+  font-size: 14px;
+  font-family: "IBM Plex Serif", serif;
+  color: #08264d; }
 
 #resume .education h2,
 #resume .experience h2,
