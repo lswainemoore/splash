@@ -166,7 +166,7 @@
       },
       acc: {
         x: 0,
-        y: -.02
+        y: -.05
       }
     };
 
@@ -199,8 +199,8 @@
         ball.pos[dir] += delta * ball.vel[dir];
 
         // collision with wall
-        if ((ball.pos[dir] + radius) > 1 || ball.pos[dir] < 0) {
-          ball.pos[dir] = Math.max(Math.min(ball.pos[dir], 1), 0);
+        if ((ball.pos[dir] + radius) >= 1 || ball.pos[dir] <= 0) {
+          ball.pos[dir] = Math.max(Math.min(ball.pos[dir], 1 - radius), 0);
           ball.vel[dir] = -1 * bounceFactor * ball.vel[dir];
         }
       }
@@ -223,15 +223,26 @@
           intervalLoop = undefined;
         });
 
-        // TODO add an arrow (e.g. like an arcade putting game)
-        // which goes in here.
-        // $(this).mousemove((e) => {
-        //   if (!clicking) {
-        //     return;
-        //   }
-        //   var dist = Math.sqrt(Math.pow(mousedownLoc.x - e.pageX, 2) + Math.pow(mousedownLoc.y - e.pageY, 2))
-        //   console.log(dist);
-        // });
+        // handle the trajector arrow
+        $(this).mousemove((e) => {
+          if (!clicking) {
+            return;
+          }
+          var arrow = $('.arrow');
+          arrow.css('visibility', 'visible');
+          arrow.css('background-color', 'black');
+          arrow.css('left', (ball.pos.x + radius / 2.) * windowSize);
+          arrow.css('bottom', (ball.pos.y + radius / 2.) * windowSize);
+          var dist = Math.sqrt(Math.pow(mousedownLoc.x - e.pageX, 2) + Math.pow(mousedownLoc.y - e.pageY, 2))
+          arrow.css('height', dist + 'px');
+          var angle = Math.atan2(mousedownLoc.y - e.pageY, mousedownLoc.x - e.pageX);
+          // little jankiness here...
+          if (angle < 0) { 
+            angle += 2 * Math.PI;
+          }
+          angle = angle + Math.PI / 2;
+          arrow.css('transform', 'rotate(' + angle + 'rad)')
+        });
 
         $(this).mousedown(function(e) {
           clicking = true;
@@ -240,6 +251,7 @@
         });
         $(this).mouseup(function(e) {
           clicking = false;
+          $('.arrow').css('visibility', 'hidden');
 
           ball.vel.x = (mousedownLoc.x - e.pageX) / windowSize;
           ball.vel.y = (e.pageY - mousedownLoc.y) / windowSize;
@@ -301,6 +313,13 @@
     left: 200px;
     bottom: 200px;
   }
+  .bouncing > .arrow {
+    background-color: black;
+    position: absolute;
+    visibility: hidden;
+    transform-origin: bottom center;
+    width: 2px;
+  }
 </style>
 {% endblock %}
 
@@ -311,11 +330,12 @@
     Favicons can be SVGs! SVGs can be generated procedurally and encoded as data URIs! You can accomplish really silly things with this information!
   </p>
   <p>
-    Note: this page will be baffling if you're not using a browser that supports favicons (e.g. mobile), or if you're using Safari, which has different standards that mystify me.
+    Note: this page will be mystifying if you're not using a browser that supports favicons (e.g. mobile), or if you're using Safari, which has different standards and mystifies me.
   </p>
   <p>
-    Credit to Matthew Wrayfield and <a target="_blank" href="https://matthewrayfield.com/articles/animating-urls-with-javascript-and-emojis/">this awesome article</a>, which inspired this.
+    Credit to Matthew Wrayfield and <a target="_blank" href="https://matthewrayfield.com/articles/animating-urls-with-javascript-and-emojis/">this awesome article</a>, which was the inspiration behind this.
   </p>
+
   <h2>A minimalist demo</h2>
   <p>
     Mouse over the two squares to switch the color of the favicon.
@@ -332,10 +352,11 @@
   </div>
   <h2>A (very legit) game engine</h2>
   <p>
-    Sure, if we wanted to watch a ball bounce, we could do it inline, but what if we wanted to do it *at a glance* in the tab bar?? Click and drag to launch it around your favicon. Note: animation only runs while your pointer is in box.
+    And sure, if we wanted to watch a ball bounce, we could do it inline, but what if we wanted to do it *at a glance* in the tab bar?? Click and drag to launch it around your favicon. Note: animation only runs while your pointer is in box.
   </p>
   <div class="bouncing">
     <div class="ball"></div>
+    <div class="arrow"></div>
   </div>
 
   
