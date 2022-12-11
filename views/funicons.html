@@ -206,11 +206,19 @@
       }
     };
 
+    var hideArrow = () => {
+      $('.arrow').css('visibility', 'hidden');
+    };
+
+    const state = {
+      // are we clicking?
+      clicking: false
+    };
+
     $('.bouncing')
       .mouseover(function() {
-
-        // are we clicking?
-        var clicking = false;
+        hideArrow();
+        state.clicking = false;
         // where we started a click.
         var mousedownLoc = {
           x: null,
@@ -225,7 +233,7 @@
 
         // handle the trajector arrow
         $(this).mousemove((e) => {
-          if (!clicking) {
+          if (!state.clicking) {
             return;
           }
           var arrow = $('.arrow');
@@ -245,13 +253,13 @@
         });
 
         $(this).mousedown(function(e) {
-          clicking = true;
+          state.clicking = true;
           mousedownLoc.x = e.pageX;
           mousedownLoc.y = e.pageY;
         });
         $(this).mouseup(function(e) {
-          clicking = false;
-          $('.arrow').css('visibility', 'hidden');
+          state.clicking = false;
+          hideArrow();
 
           ball.vel.x = (mousedownLoc.x - e.pageX) / windowSize;
           ball.vel.y = (e.pageY - mousedownLoc.y) / windowSize;
@@ -261,7 +269,7 @@
         // that would make it go double speed.
         if (!intervalLoop) {
           intervalLoop = setInterval(function(){
-            if (!clicking) {
+            if (!state.clicking) {
               moveBall(.1);
               drawBall(windowSize);
               drawBallSVG();
