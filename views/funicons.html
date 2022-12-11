@@ -15,6 +15,11 @@
 <script>
   $(document).ready(function() {
 
+    // TODO
+    // - make search/bounce boxes rectanges (requires h/v scaling differentiation)
+    // - reset button for search
+    // - fix styling for small screens
+
     // SHARED
 
     var link = $('#fav');
@@ -77,11 +82,11 @@
 
 
     var searchBox = () => {
-      return $('.search');
+      return $('#search');
     };
 
     var booty = () => {
-      return $('.booty');
+      return $('#booty');
     };
 
     var distance = (p0, p1) => {
@@ -102,7 +107,7 @@
         distance( new Point(0, 1), searchState.loc),
         distance( new Point(1, 1), searchState.loc),
       );
-      $('.search > .booty')
+      booty()
         .css('opacity', 0)
         .css('top', `${searchState.loc.cy - 35}px`)    // these hardcoded numbers are for centering based on width/height
         .css('left', `${searchState.loc.cx - 40}px`);
@@ -184,8 +189,8 @@
     var intervalLoop;
 
     var drawBall = (scale) => {
-      $('.ball').css('left', ball.pos.x * scale);
-      $('.ball').css('bottom', ball.pos.y * scale);
+      $('#ball').css('left', ball.pos.x * scale);
+      $('#ball').css('bottom', ball.pos.y * scale);
     };
 
     var drawBallSVG = () => {
@@ -207,7 +212,7 @@
     };
 
     var hideArrow = () => {
-      $('.arrow').css('visibility', 'hidden');
+      $('#arrow').css('visibility', 'hidden');
     };
 
     const state = {
@@ -215,7 +220,7 @@
       clicking: false
     };
 
-    $('.bouncing')
+    $('#bouncing')
       .mouseover(function() {
         hideArrow();
         state.clicking = false;
@@ -236,7 +241,7 @@
           if (!state.clicking) {
             return;
           }
-          var arrow = $('.arrow');
+          var arrow = $('#arrow');
           arrow.css('visibility', 'visible');
           arrow.css('background-color', 'black');
           arrow.css('left', (ball.pos.x + radius / 2.) * windowSize);
@@ -284,35 +289,37 @@
 {% block internal_css %}
 <link rel="stylesheet" href="/css/maincontent.css">
 <style>
+  .split {
+    margin-bottom: 20px;
+  }
   .split > div {
     height: 400px;
     width: 50%;
     display: inline-block;
   }
-  .search {
-    background-color: white;
-    border: 3px solid black;
-    height: 700px;
-    position: relative;
+
+  .experiment-container {
+    width: 100%; 
+    text-align: center;
   }
-  .search > .booty {
+
+  .experiment {
+    margin-bottom: 20px;
+    display: inline-block;
+    position: relative;
+    height: 400px;
+    width: 400px;
+    border: 3px solid black;
+    background-color: white;
+  }
+  #search > #booty {
     opacity: 0;
     position: absolute;
     height: 80px;
     width: 70px;
     font-size: 70px;
   }
-
-  .bouncing {
-    background-color: white;
-    border: 3px solid black;
-    height: 400px;
-    width: 400px;
-
-    display: inline-block;
-    position: relative;
-  }
-  .bouncing > .ball {
+  #bouncing > #ball {
     width: 40px;
     height: 40px;
     border-radius: 100px;
@@ -321,7 +328,7 @@
     left: 200px;
     bottom: 200px;
   }
-  .bouncing > .arrow {
+  #bouncing > #arrow {
     background-color: black;
     position: absolute;
     visibility: hidden;
@@ -349,22 +356,26 @@
     Mouse over the two squares to switch the color of the favicon.
   </p>
   <div class="split">
-    <div id="blue" style="background-color: blue;"></div><div id="green" style="background-color: green;"></div>
+    <div id="blue" style="background-color: blue;"></div><div id="red" style="background-color: red;"></div>
   </div>
   <h2>More fun</h2>
   <p>
     Next up: find the buried treasure! Mouse over the box, and your metal detector (favicon) will tell you if you're getting warmer (red) or cooler (blue).
   </p>
-  <div class="search">
-    <div class="booty">💰</div>
+  <div class="experiment-container">
+    <div class="experiment" id="search">
+      <div id="booty">💰</div>
+    </div>
   </div>
   <h2>A (very legit) game engine</h2>
   <p>
     And sure, if we wanted to watch a ball bounce, we could do it inline, but what if we wanted to do it *at a glance* in the tab bar?? Click and drag to launch it around your favicon. Note: animation only runs while your pointer is in box.
   </p>
-  <div class="bouncing">
-    <div class="ball"></div>
-    <div class="arrow"></div>
+  <div class="experiment-container">
+    <div class="experiment" id="bouncing">
+      <div id="ball"></div>
+      <div id="arrow"></div>
+    </div>
   </div>
 
   
