@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>tk</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <style>
+  </style>
+</head>
+
+<body>
+  <canvas id="paper" width="500" height="500"></canvas>
+
+
+  <script type="text/javascript">
+    // TODO i think there may be a more fruitful approach here, using layered feTurbulence filters (can supply them with randomness up fron:
+    // https://stackoverflow.com/questions/14585101/old-paper-background-texture-with-just-css
+    // https://tympanus.net/codrops/2019/02/19/svg-filter-effects-creating-texture-with-feturbulence/
+    // https://www.creativebloq.com/netmag/how-go-beyond-basics-svg-filters-71412280
+
+
+    var canvas = document.getElementById('paper')
+    var ctx = canvas.getContext("2d")
+    var imgData = ctx.createImageData(canvas.width, canvas.height)
+    var pixels = imgData.data
+
+    const config = {
+      w: canvas.width,
+      h: canvas.height,
+    }
+
+    class Color {
+      constructor(r, g, b) {
+        this.r = r
+        this.g = g
+        this.b = b
+      }
+
+      toString() {
+        return `rgb(${this.r},${this.g},${this.b})`
+      }
+    }
+
+    const baseColor = new Color(218,185,144)
+    console.log(baseColor)
+
+    function randomizeColor(color, maxVariation) {
+      return new Color(
+        color.r + (maxVariation / 2 - Math.floor(Math.random() * maxVariation)),
+        color.g + (maxVariation / 2 - Math.floor(Math.random() * maxVariation)),
+        color.b + (maxVariation / 2 - Math.floor(Math.random() * maxVariation)),
+      )
+    }
+
+
+    function draw() {
+      for (var i = 0; i < config.w; i++) {
+        for (var j = 0; j < config.h; j++) {
+          var index = i * 4 + j * config.w * 4
+          const color = randomizeColor(baseColor, 10)
+          pixels[index + 0] = color.r
+          pixels[index + 1] = color.g
+          pixels[index + 2] = color.b
+          pixels[index + 3] = 255
+        }
+      }
+      ctx.putImageData(imgData, 0, 0)
+    }
+    draw()
+  </script>
+</body>
