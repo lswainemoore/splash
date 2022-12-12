@@ -16,8 +16,6 @@
   $(document).ready(function() {
 
     // TODO
-    // - make search/bounce boxes rectanges (requires h/v scaling differentiation)
-    // - reset button for search
     // - fix styling for small screens
     // - transform vendor prefixes
     // - white background/black box for bouncing favicon
@@ -91,6 +89,10 @@
       return $('#booty');
     };
 
+    var resetButton = () => {
+      return $('#reset-search');
+    }
+
     var distance = (p0, p1) => {
       return Math.sqrt(Math.pow(p0.cx - p1.cx, 2) + Math.pow(p0.cy - p1.cy, 2));
     };
@@ -135,6 +137,14 @@
       }
     };
 
+    resetButton()
+      .click(function() {
+        searchState.found = false;
+        pickSearchLoc();
+        $(this).prop('disabled', true);
+        booty().css('opacity', 0); 
+      });
+
     searchBox()
       .mouseover(function() {
         $(this).mousemove((e) => {
@@ -155,6 +165,7 @@
     booty()
       .mouseover(() => {
         searchState.found = true;
+        resetButton().prop('disabled', false);
         setSVGText('💰');
         booty().css('opacity', 1);
       });
@@ -321,6 +332,12 @@
     width: 70px;
     font-size: 70px;
   }
+  #reset-search {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -10px;
+  }
   #bouncing > #ball {
     width: 40px;
     height: 40px;
@@ -368,6 +385,7 @@
     <div class="experiment" id="search">
       <div id="booty">💰</div>
     </div>
+    <button id="reset-search" disabled="true">reset</button>
   </div>
   <h2>A (very legit) game engine</h2>
   <p>
@@ -379,6 +397,10 @@
       <div id="arrow"></div>
     </div>
   </div>
+  <h2>Closing thoughts</h2>
+  <p>
+    When I first wrote this up, I thought there weren't any "practical" applications, mostly because I was under the impression that the browser stopped updating the favicon while the tab was inactive. But I actually think that's just because most browsers seem to cap setInvertal and its ilk at about <a target="_blank" href="https://stackoverflow.com/a/16033979">1000ms</a> when the page is inactive. So, possibilities are endless! Someone's a good demo of a loading bar here: <a target="_blank" href="https://rpsthecoder.github.io/square-loading-favicon/">https://rpsthecoder.github.io/square-loading-favicon/</a>. The possibilities are endless, but I'm pretty happy using this only for inane purposes.
+  </p>
 
   
 {% endblock %}
