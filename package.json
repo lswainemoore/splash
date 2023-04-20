@@ -16,6 +16,6 @@
     "gray-matter": "^4.0.3",
     "markdown-it": "^13.0.1",
     "node-sass": "^8.0.0",
-    "nunjucks": "^3.2.3"
+    "nunjucks": "^3.2.4"
   }
 }
