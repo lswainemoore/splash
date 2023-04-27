@@ -104,6 +104,21 @@ loadWritingData()
 
 // end BLOG
 
+app.get('/redirect/*', function(req, res) {
+  const url = req.params[0]
+  res.send(`
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="1; url='${url}'" />
+  </head>
+  <body>
+    <p>You will be redirected to ${url} now.</p>
+  </body>
+</html>
+  `)
+})
+
 // catch-all
 app.get('*', function(req, res) {
   res.redirect('/')
