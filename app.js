@@ -104,8 +104,10 @@ loadWritingData()
 
 // end BLOG
 
-app.get('/redirecting', function(req, res) {
-  const url = req.query.goto
+app.get('/redirecting/to/working-copy', function(req, res) {
+  const repo = req.query.repo
+  const path = req.query.path
+  const url = `working-copy://open?repo=${repo}&path=${path}`
   res.send(`
 <!DOCTYPE html>
 <html>
