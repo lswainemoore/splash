@@ -104,8 +104,8 @@ loadWritingData()
 
 // end BLOG
 
-app.get('/redirect/*', function(req, res) {
-  const url = req.params[0]
+app.get('/redirecting', function(req, res) {
+  const url = req.query.goto
   res.send(`
 <!DOCTYPE html>
 <html>
