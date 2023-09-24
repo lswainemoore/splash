@@ -48,7 +48,7 @@ const loadBooks = async () => {
       row[3].split('').forEach((flag) => {
         row[4].push(flagsToEmoji[flag])
       })
-      row[4] = row[4].join('/')
+      // row[4] = row[4].join('')
       books.push(row)
     })
 }

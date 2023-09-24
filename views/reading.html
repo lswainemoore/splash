@@ -10,15 +10,22 @@
   <h1>
     Books
   </h1>
-  <ul id="reading-list">
+  <ul id="reading-list" style="list-style-type: none;">
     {% for book in books %}
-      <li>
-        <b><i>{{book[1]}}</i></b> by <b>{{book[2]}}</b> {{ book[4] }}
+      <li style="display: flex; align-items: center;">
+        <div class="markers" style="padding-right: 7px;">
+          {% for marker in book[4] %}
+            <span class="marker" style="width:100%">
+              {{ marker }}
+            </span>
+          {% endfor %}
+        </div>
+        <div class="data">
+          <div class="title"><i><b>{{book[1]}}</b></i></div>
+          <div class="author" style="padding-left:5px; font-size:14px;">⮑ {{book[2]}}</div>
+        </div>
       </li>
     {% endfor %}
   </ul>
   <p>(current from about beginning of 2020...I probably should find a way to bulk export from my Goodreads account)</p>
-
-  <p><i>🔁 == reread</i></p>
-  <p><i>🔈 == audiobook</i></p>
 {% endblock %}
