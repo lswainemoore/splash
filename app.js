@@ -32,8 +32,30 @@ app.get('/having-fun-with-favicons', (req, res) => {
   res.render('funicons.html')
 })
 
+const books = []
+const loadBooks = async () => {
+  const flagsToEmoji = {
+    'a': '🔈',
+    'r': '🔁',
+    'b': '📖',
+  }
+  const fs = require("fs");
+  const { parse } = require("csv-parse");
+  fs.createReadStream("./data/reading.csv")
+    .pipe(parse({ delimiter: ",", from_line: 2 }))
+    .on("data", function (row) {
+      row.push([])
+      row[3].split('').forEach((flag) => {
+        row[4].push(flagsToEmoji[flag])
+      })
+      row[4] = row[4].join('/')
+      books.push(row)
+    })
+}
+loadBooks()
+
 app.get('/reading', (req, res) => {
-  res.render('reading.html')
+  res.render('reading.html', {books: books})
 })
 
 app.get('/connecting-4', (req, res) => {
