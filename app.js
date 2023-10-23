@@ -32,6 +32,10 @@ app.get('/having-fun-with-favicons', (req, res) => {
   res.render('funicons.html')
 })
 
+app.get('/finding-coordinates', (req, res) => {
+  res.render('coordinates.html')
+})
+
 const books = []
 const loadBooks = async () => {
   const flagsToEmoji = {

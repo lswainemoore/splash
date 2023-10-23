@@ -1,0 +1,355 @@
+<!-- 
+TODO: 
+- fix scoring
+- better styling
+- better color mapping
+- more interesting scoring system: 
+  - betting? hold to draw a circle, and get points if it's in it, but commensurately less? (right click and drag to make radius?)
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Guess the location from the coordinates</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 80%; }
+        #game { 
+            position: absolute; 
+            top: 80%; 
+            bottom: 0; 
+            width: 100%; 
+            height: 20%; 
+            border-top: 2px solid black;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-contents {
+            text-align: center;
+        }
+        .game-contents button {
+            margin: 5px;
+            min-width: 100px;
+            min-height: 40px;
+            border-radius: 10px;
+        }
+
+        .leaderboard li.is-last-game {
+            font-weight: bold;
+            background-color: yellow;
+        }
+        .leaderboard li {
+            list-style: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="game">
+        <div class="game-contents">
+            <button v-if="game.isPre()" @click="game.startGame()">
+                Start
+            </button>
+            <button v-if="game.isPost()" @click="game.startGame()">
+                Restart
+            </button>
+            <div v-if="game.isPost() && game.state.lastGame" class="leaderboard">
+                <ul>
+                    <li v-for="(entry, index) in game.displayLeaderboard()" :class="{'is-last-game': entry.id == game.state.lastGame.id}">
+                        [[index + 1]]. [[ entry.score ]] ([[ entry.date ]])
+                    </li>
+                    <span v-if="game.lastGameRank() > game.nLeaderboard" class="needs-extra">
+                        ...
+                        <li class="is-last-game">
+                            [[ game.lastGameRank() ]]. [[ game.state.lastGame.score ]] ([[ game.state.lastGame.date ]])
+                        </li>
+                    </span>
+                </ul>
+            </div>
+            
+
+    
+            <div>
+                <h4 v-if="game.isOngoing()">Turn [[ game.state.turn ]] of [[ game.nTurns ]]</h4>
+                <p v-if="game.state.message">
+                    [[ game.state.message ]]
+                </p>
+                <button v-if="game.isOngoing() && game.state.turnStage == 'clicked'" @click="game.advanceTurn()">
+                    Next turn
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoibHN3YWluZW1vb3JlIiwiYSI6ImNsbzB2c2licTE1eXgybmp5Y2dicXlua2cifQ.cjX32B10Zdi816dii4RAqg'
+        const map = new mapboxgl.Map({
+            container: 'map',
+            // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+            style: 'mapbox://styles/mapbox/satellite-streets-v11',
+            zoom: 1.5,
+            center: [30, 50],
+            projection: 'globe'
+        })
+
+        // from: https://github.com/mapbox/mapbox-gl-js/issues/10093#issuecomment-726192651
+        const graticule = {
+            type: 'FeatureCollection',
+            features: []
+        }
+        for (let lng = -170; lng <= 180; lng += 10) {
+            graticule.features.push({
+                type: 'Feature',
+                geometry: {type: 'LineString', coordinates: [[lng, -90], [lng, 90]]},
+                properties: {value: lng}
+            })
+        }
+        for (let lat = -80; lat <= 80; lat += 10) {
+            graticule.features.push({
+                type: 'Feature',
+                geometry: {type: 'LineString', coordinates: [[-180, lat], [180, lat]]},
+                properties: {value: lat}
+            })
+        }
+
+        map.on('load', () => {
+            // map.addSource('graticule', {
+            //     type: 'geojson',
+            //     data: graticule
+            // })
+            // map.addLayer({
+            //     id: 'graticule',
+            //     type: 'line',
+            //     source: 'graticule'
+            // })
+            // Set the default atmosphere style
+            // map.setFog({});
+        })
+
+        // https://github.com/mapbox/mapbox-gl-js/issues/9209#issuecomment-576717245
+        // marker = new mapboxgl.Marker()
+        // add_marker = function (event) {
+        //     var coordinates = event.lngLat;
+        //     console.log('Lng:', coordinates.lng, 'Lat:', coordinates.lat)
+        //     marker.setLngLat(coordinates).addTo(map)
+        // }
+        // map.on('click', add_marker.bind(this))
+
+        // var cubic = (x) => {
+        //     // magnifies small differences
+        //     return x * x * x;
+        // };
+
+        var pctToWarmth = (pct) => {
+            if (pct < .5) {
+                return `rgb(0, ${255 * (1 - pct)}, ${255 * pct})`;
+            } else {
+                return `rgb(${255 * pct}, 0, ${255 * (1 - pct)})`;
+            }
+            
+        };
+
+        const roundScore = (score) => {
+            return Number((score).toPrecision(3))
+        }
+
+        const roundLoc = (loc) => {
+            return [Number((loc[0]).toPrecision(3)), Number((loc[1]).toPrecision(3))]
+        }
+
+        const formatLoc = (loc) => {
+            return loc[0] + '°, ' + loc[1] + '°'
+        }
+
+        class locsGame {
+            constructor(map) {
+                this.map = map
+                this.map.on('click', this.receiveClick.bind(this))
+                this.nTurns = 10
+                this.nLeaderboard = 5
+                this.state = Vue.reactive({
+                    stage: 'pre',
+                    turnStage: null,
+                    locs: null,
+                    turn: null,
+                    score: null,
+                    message: null,
+
+                    placedMarker: null,
+                    correctMarker: null,
+
+                    lastGame: null,
+                })
+            }
+
+            updateLeaderboard(score) {
+                let leaderboard = JSON.parse(localStorage.getItem('leaderboard'))
+                if (!leaderboard) {
+                    leaderboard = [];
+                }
+                const entry = {
+                    id: leaderboard.length,
+                    score: score,
+                    date: new Date(),
+                }
+                leaderboard.push(entry)
+                localStorage.setItem('leaderboard', JSON.stringify(leaderboard))
+
+                // awkward, but it's good to have dates formatted as they emerge from storage
+                this.state.lastGame = JSON.parse(localStorage.getItem('leaderboard'))[entry.id]
+            }
+
+            sortedLeaderboard = () => {
+                return JSON.parse(localStorage.getItem('leaderboard'))
+                    .sort((a, b) => a.score - b.score)
+            }
+
+            lastGameRank() {
+                const leaderboard = this.sortedLeaderboard()
+                return leaderboard.findIndex(entry => entry.id == this.state.lastGame.id) + 1
+            }
+
+            displayLeaderboard() {
+                const sortedLeaderboard = this.sortedLeaderboard()
+                    .slice(0, this.nLeaderboard)
+                if (sortedLeaderboard.findIndex(entry => entry.id == this.state.lastGame.id) == -1) {
+                    // make room for the last game + ellipses on the "front end"
+                    return sortedLeaderboard.slice(0, this.nLeaderboard - 2)
+                }
+                return sortedLeaderboard
+            }
+
+            isOngoing() {
+                return this.state.stage == 'play'
+            }
+
+            isPre() {
+                return this.state.stage == 'pre'
+            }
+
+            isPost() {
+                return this.state.stage == 'post'
+            }
+
+            pickLocs(n) {
+                const locs = []
+                for (let i = 0; i < n; i++) {
+                    locs.push(roundLoc([Math.random() * 360 - 180, Math.random() * 180 - 90]))
+                }
+                return locs
+            }
+
+            startGame() {
+                this.state.locs = this.pickLocs(this.nTurns)
+                this.state.stage = 'play'
+                this.state.turn = 0
+                this.state.score = 0
+
+                this.advanceTurn()
+            }
+
+            endGame() {
+                this.state.stage = 'post'
+                this.turnStage = null
+                this.updateLeaderboard(this.state.score)
+                this.state.message = null
+            }
+
+            advanceTurn() {
+                if (this.state.placedMarker) {
+                    this.state.placedMarker.remove()
+                    this.state.placedMarker = null
+                }
+                if (this.state.correctMarker) {
+                    this.state.correctMarker.remove()
+                    this.state.correctMarker = null
+                }
+                if (this.state.turn == this.nTurns) {
+                    this.endGame()
+                    return
+                }
+                this.state.turn += 1
+                this.state.turnStage = 'clicking'
+                this.state.message = 'Find ' + formatLoc(this.state.locs[this.state.turn - 1])
+            }
+
+            distance(loc1, loc2) {
+                const [lng1, lat1] = loc1
+                const [lng2, lat2] = loc2
+                const dLng = Math.abs(lng1 - lng2)
+                const dLat = Math.abs(lat1 - lat2)
+                return Math.sqrt(dLng * dLng + dLat * dLat)
+            }
+
+            useClickToAdvance() {
+                if (this.state.stage != 'play') {
+                    this.startGame()
+                } else if (this.state.turnStage != 'clicking') {
+                    this.advanceTurn()
+                }
+            }
+
+            receiveClick(event) {
+                if (this.state.stage != 'play' || this.state.turnStage != 'clicking') {
+                    this.useClickToAdvance()
+                    return
+                }
+                this.state.turnStage = 'clicked'
+
+                const coordinates = event.lngLat
+                const loc = roundLoc([coordinates.lng, coordinates.lat])
+                const correctLoc = this.state.locs[this.state.turn - 1]
+                const dist = this.distance(loc, correctLoc)
+
+                // this really shouldn't be 180...
+                // this.state.placedMarker.color = pctToWarmth(dist / 180)
+                
+                this.state.correctMarker = new mapboxgl.Marker({color: 'rgb(0, 255, 0)'})
+                this.state.placedMarker = new mapboxgl.Marker({color: pctToWarmth(dist / 180)})
+                this.state.placedMarker.setLngLat(coordinates).addTo(this.map)
+                this.state.correctMarker.setLngLat(correctLoc).addTo(this.map)
+
+                this.map.flyTo({
+                    center: correctLoc,
+                    // zoom: 3,
+                    speed: 0.5,
+                    curve: 1,
+                    // easing(t) {
+                    //     return t;
+                    // }
+                
+                })
+                
+                // TODO refine score
+                const turnScore = roundScore(dist)
+
+                this.state.score = roundScore(this.state.score + turnScore)
+
+                this.state.message = 'Selected: ' + formatLoc(loc) + '. You were after: ' + formatLoc(correctLoc) + '. Score: ' + turnScore + ' (total: ' + this.state.score + ')'
+            }
+        }
+
+        const game = new locsGame(map)
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    game: game,
+                }
+            },
+            delimiters: ['[[', ']]'],
+        })
+        app.mount('#game')
+
+    </script>
+ 
+</body>
+</html>
