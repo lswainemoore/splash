@@ -19,20 +19,22 @@ TODO:
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
         body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 80%; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 75%; }
         #game { 
             position: absolute; 
-            top: 80%; 
+            top: 75%; 
             bottom: 0; 
             width: 100%; 
-            height: 20%; 
+            height: 25%; 
             border-top: 2px solid black;
+            overflow: scroll;
 
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .game-contents {
+            padding: 10px;
             text-align: center;
         }
         .game-contents button {
@@ -173,7 +175,7 @@ TODO:
             constructor(map) {
                 this.map = map
                 this.map.on('click', this.receiveClick.bind(this))
-                this.nTurns = 10
+                this.nTurns = 5
                 this.nLeaderboard = 5
                 this.state = Vue.reactive({
                     stage: 'pre',
