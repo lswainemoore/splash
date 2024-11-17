@@ -1,39 +1,313 @@
 {% set title = 'Lincoln is...writing' %}
 {% set breadcrumb_link = '/blue' %}
-
 {% extends "base.html" %}
 
-{% block external_js %}{% endblock %}
+{% block external_js %}
+{% endblock %}
 
-{% block custom_css %}
-<style type="text/css">
-  .post {
-    border-left: 2px solid #08264d;
-    padding-left: 10px;
+{% block internal_js %}
+<script type="text/javascript">
+function boxBlur(data, width, height, radius) {
+  const result = new Uint8ClampedArray(data.length);
+  
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let r = 0, g = 0, b = 0;
+      let count = 0;
+      
+      for (let dy = -radius; dy <= radius; dy++) {
+        for (let dx = -radius; dx <= radius; dx++) {
+          const nx = x + dx;
+          const ny = y + dy;
+          
+          if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+            const idx = (ny * width + nx) * 4;
+            r += data[idx];
+            g += data[idx + 1];
+            b += data[idx + 2];
+            count++;
+          }
+        }
+      }
+      
+      const idx = (y * width + x) * 4;
+      result[idx] = r / count;
+      result[idx + 1] = g / count;
+      result[idx + 2] = b / count;
+      result[idx + 3] = 255;
+    }
   }
-  .post h2 {
-    margin-bottom: 0px;
+  
+  return result;
+}
+
+function getColorForIntensity(intensity) {
+  const stages = [
+    { pos: 0, color: [249, 247, 245] },  // Fresh newsprint
+    { pos: 2.5, color: [244, 228, 188] }, // Light cream
+    { pos: 5, color: [232, 208, 169] },   // Warm cream
+    { pos: 7.5, color: [212, 179, 137] }, // Light sepia
+    { pos: 10, color: [139, 94, 52] }     // Deep sepia
+  ];
+  
+  let stage1 = stages[0];
+  let stage2 = stages[1];
+  
+  for (let i = 1; i < stages.length; i++) {
+    if (intensity <= stages[i].pos) {
+      stage1 = stages[i-1];
+      stage2 = stages[i];
+      break;
+    }
   }
-  .post h3 {
-    margin-top: 5px;
-    margin-bottom: 10px;
+  
+  const range = stage2.pos - stage1.pos;
+  const progress = (intensity - stage1.pos) / range;
+  
+  const r = Math.round(stage1.color[0] + (stage2.color[0] - stage1.color[0]) * progress);
+  const g = Math.round(stage1.color[1] + (stage2.color[1] - stage1.color[1]) * progress);
+  const b = Math.round(stage1.color[2] + (stage2.color[2] - stage1.color[2]) * progress);
+  
+  return [r, g, b];
+}
+
+function getIntensityFromDate(dateStr) {
+  const postDate = new Date(dateStr);
+  const now = new Date();
+  const ageInYears = (now - postDate) / (1000 * 60 * 60 * 24 * 365);
+  return Math.min(7, Math.pow(ageInYears / 3, 1.5) * 7);
+}
+
+function getIntensityAtY(y, postPositions, totalHeight) {
+  if (postPositions.length === 0) return 0;
+  
+  if (y < 100) return 0;
+  
+  if (y < postPositions[0].y) {
+    const progress = y / postPositions[0].y;
+    return postPositions[0].intensity * progress;
   }
+  
+  if (y > postPositions[postPositions.length - 1].y) {
+    return postPositions[postPositions.length - 1].intensity;
+  }
+  
+  for (let i = 1; i < postPositions.length; i++) {
+    const post1 = postPositions[i - 1];
+    const post2 = postPositions[i];
+    
+    if (y >= post1.y && y <= post2.y) {
+      const progress = (y - post1.y) / (post2.y - post1.y);
+      return post1.intensity + (post2.intensity - post1.intensity) * progress;
+    }
+  }
+  
+  return postPositions[0].intensity;
+}
+
+function createAgedBackground(posts) {
+  const container = document.getElementById('aged-paper');
+  const canvas = document.createElement('canvas');
+  const wrapper = document.querySelector('.content-wrapper');
+  
+  canvas.width = wrapper.offsetWidth;
+  canvas.height = wrapper.offsetHeight;
+  
+  const ctx = canvas.getContext('2d');
+  const noiseCanvas = document.createElement('canvas');
+  
+  noiseCanvas.width = Math.max(canvas.width / 4, 1);
+  noiseCanvas.height = Math.max(canvas.height / 4, 1);
+  
+  const noiseCtx = noiseCanvas.getContext('2d');
+
+  const postPositions = Array.from(posts).map(post => ({
+    y: post.offsetTop,
+    intensity: getIntensityFromDate(post.dataset.date)
+  })).sort((a, b) => a.y - b.y);
+
+  const imageData = noiseCtx.createImageData(noiseCanvas.width, noiseCanvas.height);
+  const data = imageData.data;
+
+  for (let y = 0; y < noiseCanvas.height; y++) {
+    const documentY = (y / noiseCanvas.height) * canvas.height;
+    const intensity = getIntensityAtY(documentY, postPositions, canvas.height);
+    const [r, g, b] = getColorForIntensity(intensity);
+
+    for (let x = 0; x < noiseCanvas.width; x++) {
+      const idx = (y * noiseCanvas.width + x) * 4;
+      
+      const noise = (Math.random() - 0.5) * 4;
+      const distanceX = Math.min(x, noiseCanvas.width - x) / noiseCanvas.width;
+      const distanceY = Math.min(y, noiseCanvas.height - y) / noiseCanvas.height;
+      const distance = Math.min(distanceX, distanceY);
+      const edgeIntensity = (1 - Math.pow(distance, 0.5)) * (intensity * 0.5) * (0.8 + Math.random() * 0.4);
+      
+      data[idx] = r + noise - edgeIntensity * 6;
+      data[idx + 1] = g + noise - edgeIntensity * 9;
+      data[idx + 2] = b + noise - edgeIntensity * 12;
+      data[idx + 3] = 255;
+    }
+  }
+
+  const blurred1 = boxBlur(data, noiseCanvas.width, noiseCanvas.height, 3);
+  const blurred2 = boxBlur(blurred1, noiseCanvas.width, noiseCanvas.height, 5);
+  
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = (blurred1[i] * 0.7 + blurred2[i] * 0.3);
+    data[i + 1] = (blurred1[i + 1] * 0.7 + blurred2[i + 1] * 0.3);
+    data[i + 2] = (blurred1[i + 2] * 0.7 + blurred2[i + 2] * 0.3);
+  }
+  
+  noiseCtx.putImageData(imageData, 0, 0);
+  
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(noiseCanvas, 0, 0, canvas.width, canvas.height);
+
+  for (let y = 100; y < canvas.height; y += 50) {
+    const intensity = getIntensityAtY(y, postPositions, canvas.height);
+    const edgeWeight = 100;
+    
+    const spotCount = Math.round(Math.max(0, Math.pow(intensity, 2) * 50));
+    
+    for (let i = 0; i < spotCount; i++) {
+      const x = Math.random() * canvas.width;
+      const yPos = y + (Math.random() - 0.5) * 50;
+      
+      const distanceToEdge = Math.min(
+        x, yPos, canvas.width - x, canvas.height - yPos
+      );
+      
+      const probability = Math.max(0, 1 - (distanceToEdge / edgeWeight));
+      
+      if (Math.random() > probability * 0.8) continue;
+      
+      const size = Math.random() * 1.5 + 0.5;
+      
+      ctx.beginPath();
+      ctx.arc(x, yPos, size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(139, 69, 19, ${Math.random() * 0.07 + 0.03})`;
+      ctx.fill();
+    }
+  }
+  
+  const url = canvas.toDataURL();
+  container.style.backgroundImage = `url(${url})`;
+}
+
+function initBlog() {
+  setTimeout(() => {
+    createAgedBackground(document.querySelectorAll('.post'));
+  }, 0);
+
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    if (resizeTimeout) clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      createAgedBackground(document.querySelectorAll('.post'));
+    }, 100);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initBlog);
+</script>
+{% endblock %}
+
+{% block internal_css %}
+{{ super() }}
+<style>
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background: #f9f7f5;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+}
+
+.content-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.aged-paper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-attachment: scroll;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  line-height: 1.1;
+  position: relative;
+  z-index: 1;
+  color: #1a1a1a;
+}
+
+.post {
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  border-left: 2px solid #08264d;
+  padding-left: 20px;
+}
+
+.post h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.post h3 {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: #666;
+  margin: 5px 0 12px 0;
+  font-weight: normal;
+}
+
+.post a {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: #2b5797;
+  text-decoration: none;
+  margin-left: 2px;
+}
+
+.post a:hover {
+  text-decoration: underline;
+}
 </style>
 {% endblock %}
 
-{% block maincontent %}
-  <h1>Writing</h1>
-  {% for post in posts %}
-  <div class="post">
-    <h2>
-      {{post.title}}
-    </h2>
-    <h3>
-      {{post.dateStr}}
-    </h3>
-    ↳ <a href="/writing-about/{{post.slug}}">
-      Read
-    </a>
+{% block body %}
+<div class="content-wrapper">
+  <div class="aged-paper" id="aged-paper"></div>
+  <div class="container">
+    <h1>Writing</h1>
+    {% for post in posts %}
+    <div class="post" data-date="{{post.date}}">
+      <h2>{{post.title}}</h2>
+      <h3>{{post.dateStr}}</h3>
+      ↳ <a href="/writing-about/{{post.slug}}">Read</a>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+</div>
 {% endblock %}
