@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scss": "node-sass --watch scss -o public/css"
+    "scss": "sass --watch scss:public/css"
   },
   "engines": {},
   "author": "",
@@ -16,7 +16,10 @@
     "express": "^4.18.2",
     "gray-matter": "^4.0.3",
     "markdown-it": "^13.0.1",
-    "node-sass": "^8.0.0",
-    "nunjucks": "^3.2.4"
+    "nunjucks": "^3.2.4",
+    "sass": "^1.83.0"
+  },
+  "devDependencies": {
+    "scss": "^0.2.4"
   }
 }
