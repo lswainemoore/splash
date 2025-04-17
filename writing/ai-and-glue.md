@@ -30,6 +30,6 @@ I have no idea what's going to happen further down the line than that. Putting a
 
 [^2]: I don't think I need to articulate its upsides, because they're pretty straightforward. There are lots of neat examples out there of people building things they couldn't have before.
 
-[^3]: Though connecting arrows is not really what I like to think of as my specialized skillset. ![AI bad at arrows tweet from https://x.com/SpencerKSchiff/status/1910106368205336769](/img/arrows.png)
+[^3]: Though connecting arrows is not really what I like to think of as my specialized skillset. ![AI bad at arrows tweet from https://x.com/SpencerKSchiff/status/1910106368205336769](/img/arrows.jpeg)
 
 [^4]: More generally, given the relatively slow progress of robotics compared to screen-based intelligence, we're headed toward a world where our embodiment remains our primary advantage over the machine, in all sorts of professions. Non-metaphorical plumbers (whose job, ironically, I'd guess more resembles bug-fixing than the sort of plumbing I've been talking about) are probably in good shape for a while, alongside a lot of other trade workers. And for some jobs that do become more glue-like, it might not feel quite as soulless as what I've been describing. For a trial lawyer, maybe it means being the deliverer of a case to the jury rather than the primary author of it. A doctor's bedside manner will grow in importance relative to diagnostic ability. (Let's not get into creative work, which I think will both benefit and suffer greatly from all of this.)
