@@ -37,3 +37,8 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

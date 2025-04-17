@@ -2,6 +2,7 @@
 {% set description = description | default('Lincoln Swaine-Moore\'s site! Welcome!') %}
 {% set meta_image = meta_image | default('/img/meta.png') %}
 {% set breadcrumb_link = breadcrumb_link | default('') %}
+{% set include_header = include_header | default(true) %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,9 +64,19 @@
   {% block body %}
   <body>
     <div id="maincontent">
-      {% if breadcrumb_link %}
-        <a href="{{ breadcrumb_link }}">< Back</a>
+      {% if include_header %}
+      <div class="header">
+        <span class="header-left">
+          {% if breadcrumb_link %}
+            <a href="{{ breadcrumb_link }}">< Back</a>
+          {% endif %}
+        </span>
+        <span class="header-right">
+          <a href="/blue" class="blue-link">Feeling blue?</a>
+        </span>
+      </div>
       {% endif %}
+      
       {% block maincontent %}
       {% endblock %}
     </div>

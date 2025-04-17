@@ -110,7 +110,7 @@ var allPosts = {};  // map from slug -> data
 var loadWritingData = () => {
   const gm = require('gray-matter');  // parsing markdown
   const fs = require('fs');
-  var md = require('markdown-it')()
+  var md = require('markdown-it')().use(require('markdown-it-footnote'));
   const postFiles = fs.readdirSync(`${__dirname}/writing`)
                   .filter(f => f.endsWith('.md'))
   postFiles.forEach((postFile) => {
