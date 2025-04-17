@@ -12,7 +12,7 @@ I make software as my day job, and like basically everyone I know at this point,
 
 Well, I like fixing thorny bugs! They're puzzles, and digging into them lets me learn about parts of the computer I usually don’t see. Same goes for refactoring--when I'm doing it right, I'm understanding the shape of my system better, and crystallizing that into a structure that expresses it. Solving these puzzles scratches an itch in my brain. I'm not sure it's the most rewarding part of my job, but it is the part I most enjoy.
 
-I don't think we're quite there yet, but the writing is on the wall: *very* conservatively, within five years, I'll be inferior to the computer at doing any task that's roughly shaped like "deep linear thinking about a concrete problem". 
+I don't think we're quite there yet, but the writing is on the wall: *very* conservatively, within ten years, I'll be inferior to the computer at doing most tasks roughly shaped like "deep linear thinking about a concrete problem". 
 
 When you excise that role from this work, you're left with two chunks that are mostly nonadjacent. There's ship-steering, and there's plumbing (forgive the mixed metaphors, here and throughout). When I hear from people who are excited about an AI-empowered future, they're universally talking about the former. The promise of vibe coding[^1] is that you only need to care about the top layer of the work--bring your sensibilities (idea / design / ethos) to the table, and the machine will do the rest for you. The human is freed to do the human work.
 
