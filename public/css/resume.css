@@ -1,54 +1,64 @@
 #resume span,
 #resume li {
-  color: #08264d; }
-
+  color: #08264d;
+}
 #resume ul, #resume li {
   margin-left: 15px;
-  padding-left: 0; }
-
+  padding-left: 0;
+}
 #resume .personal-details h1 {
   margin-top: 10px;
-  margin-bottom: 10px; }
-
+  margin-bottom: 10px;
+}
 #resume .personal-details span {
   display: block;
   font-size: 12px;
   font-family: "IBM Plex Serif", serif;
-  color: #08264d; }
-
+  color: #08264d;
+}
+#resume a {
+  text-decoration: none;
+  color: #3366CC;
+}
+#resume a:hover {
+  text-decoration: underline;
+}
 #resume .education h2,
 #resume .experience h2,
 #resume .skills h2 {
-  margin-bottom: 10px; }
-
+  margin-bottom: 10px;
+}
 #resume .education h3,
 #resume .experience h3,
 #resume .skills h3 {
   font-weight: normal;
   margin-top: 0;
-  margin-bottom: 5px; }
-
+  margin-bottom: 5px;
+}
 #resume .education h4,
 #resume .experience h4,
 #resume .skills h4 {
   font-weight: normal;
   margin-top: 0;
   margin-bottom: 5px;
-  font-size: 14px; }
-
+  font-size: 14px;
+}
 #resume .education ul,
 #resume .experience ul,
 #resume .skills ul {
   margin-top: 0;
-  font-size: 12px; }
-
+  font-size: 12px;
+}
 #resume .education .date,
 #resume .experience .date,
 #resume .skills .date {
-  float: right; }
-
+  float: right;
+}
 #resume .education .entry,
 #resume .experience .entry,
 #resume .skills .entry {
   border-left: 1.5px solid #08264d;
-  padding-left: 10px; }
+  padding-left: 10px;
+}
+
+/*# sourceMappingURL=resume.css.map */

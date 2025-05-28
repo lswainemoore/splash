@@ -70,6 +70,11 @@ app.get('/bragging', (req, res) => {
   res.render('resume.html')
 })
 
+app.get('/bragging.pdf', (req, res) => {
+  res.setHeader('Content-Type', 'application/pdf')
+  res.sendFile(`${__dirname}/public/pdf/resume.pdf`)
+})
+
 // BLOG
 
 // adapted from: https://dev.to/khalby786/creating-a-markdown-blog-with-ejs-express-j40
