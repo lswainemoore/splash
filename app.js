@@ -155,6 +155,36 @@ app.get('/redirecting/to/working-copy', function(req, res) {
   `)
 })
 
+// Sitemap generation
+app.get('/sitemap.xml', (req, res) => {
+  const baseUrl = 'https://lincoln.swaine-moore.is'; // Replace with your actual domain
+  let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  
+  // Add static routes
+  const staticRoutes = [
+    { path: '/', lastmod: '2022-12-10', priority: '1.0' },
+    { path: '/talking-about-himself', lastmod: '2025-05-27', priority: '1.0' },
+    { path: '/doodling', lastmod: '2021-04-03', priority: '0.4' },
+    { path: '/having-fun-with-favicons', lastmod: '2021-04-03', priority: '0.6' },
+    { path: '/reading', lastmod: '2025-05-27', priority: '0.6' },
+    { path: '/bragging', lastmod: '2025-05-27', priority: '1.0' },
+    { path: '/writing', lastmod: '2025-05-27', priority: '1.0' }
+  ];
+  
+  staticRoutes.forEach(route => {
+    sitemap += `  <url>\n    <loc>${baseUrl}${route.path}</loc>\n    <lastmod>${route.lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${route.priority}</priority>\n  </url>\n`;
+  });
+  
+  // Add blog posts
+  Object.values(allPosts).forEach(post => {
+    sitemap += `  <url>\n    <loc>${baseUrl}/writing-about/${post.slug}</loc>\n    <lastmod>${post.dateStr}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
+  });
+  
+  sitemap += '</urlset>';
+  res.header('Content-Type', 'application/xml');
+  res.send(sitemap);
+});
+
 // catch-all
 app.get('*', function(req, res) {
   res.redirect('/')
