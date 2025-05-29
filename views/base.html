@@ -1,6 +1,7 @@
 {% set title = title | default('Lincoln Swaine-Moore') %}
 {% set description = description | default('Lincoln Swaine-Moore\'s site! Welcome!') %}
 {% set meta_image = meta_image | default('/img/meta.png') %}
+{% set canonical_url = canonical_url | default('') %}
 {% set breadcrumb_link = breadcrumb_link | default('') %}
 {% set include_header = include_header | default(true) %}
 
@@ -10,6 +11,10 @@
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+      {% if canonical_url %}
+        <link rel="canonical" href="{{ canonical_url }}">
+      {% endif %}
 
       {% block favicons %}
         <!-- generated from https://realfavicongenerator.net/ -->

@@ -8,16 +8,18 @@ nunjucks.configure('views', {
     express: app
 });
 
+const domain = 'lincoln.swaine-moore.is'
+
 
 app.use(express.static('public'))
 
 
 app.get('/', (req, res) => {
-  res.redirect('/blue')
+  res.render('splash.html', {canonical_url: `https://${domain}/`})
 })
 
 app.get('/blue', (req, res) => {
-  res.render('splash.html')
+  res.render('splash.html', {canonical_url: `https://${domain}/`})
 })
 
 app.get('/talking-about-himself', (req, res) => {
@@ -98,7 +100,7 @@ app.get('/writing-about/:slug', (req, res) => {
     return res.redirect(301, post.redirect)
   }
 
-  res.render('post.html', {post: post})
+  res.render('post.html', {post: post, canonical_url: `https://${domain}/writing-about/${post.slug}`})
 })
 app.get('/writing', (req, res) => {
   // order posts by date
@@ -157,7 +159,7 @@ app.get('/redirecting/to/working-copy', function(req, res) {
 
 // Sitemap generation
 app.get('/sitemap.xml', (req, res) => {
-  const baseUrl = 'https://lincoln.swaine-moore.is'; // Replace with your actual domain
+  const baseUrl = `https://${domain}`
   let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
   
   // Add static routes

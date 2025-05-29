@@ -10,3 +10,6 @@ run dev with
 
 run css compiling
 `npm run scss`
+
+
+Note there's also a cloudflare worker up that's doing some stuff around domain redirection.
