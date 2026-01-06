@@ -1,0 +1,74 @@
+{% set title = 'Word Counter' %}
+{% set breadcrumb_link = '/widgets' %}
+
+{% extends 'base.html' %}
+
+{% block external_js %}{% endblock %}
+
+{% block custom_css %}
+<style>
+  .wordcount-container {
+    max-width: 600px;
+  }
+  .wordcount-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  .wordcount-stats {
+    margin-top: 16px;
+    padding: 12px;
+    background: #f5f5f5;
+    border-radius: 4px;
+  }
+  .wordcount-stats div {
+    margin: 4px 0;
+  }
+  .stat-label {
+    font-weight: bold;
+  }
+</style>
+{% endblock %}
+
+{% block maincontent %}
+  <div class="wordcount-container">
+    <h1>Word Counter</h1>
+    <textarea
+      class="wordcount-textarea"
+      id="text-input"
+      placeholder="Paste or type your text here..."
+      oninput="updateStats()"
+    ></textarea>
+    <div class="wordcount-stats">
+      <div><span class="stat-label">Words:</span> <span id="word-count">0</span></div>
+      <div><span class="stat-label">Characters:</span> <span id="char-count">0</span></div>
+      <div><span class="stat-label">Characters (no spaces):</span> <span id="char-no-space-count">0</span></div>
+      <div><span class="stat-label">Lines:</span> <span id="line-count">0</span></div>
+    </div>
+  </div>
+
+  <script>
+    function updateStats() {
+      const text = document.getElementById('text-input').value;
+
+      // Word count - split on whitespace and filter empty strings
+      const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+      document.getElementById('word-count').textContent = text.trim() === '' ? 0 : words.length;
+
+      // Character count
+      document.getElementById('char-count').textContent = text.length;
+
+      // Characters without spaces
+      document.getElementById('char-no-space-count').textContent = text.replace(/\s/g, '').length;
+
+      // Line count
+      const lines = text.split('\n');
+      document.getElementById('line-count').textContent = text === '' ? 0 : lines.length;
+    }
+  </script>
+{% endblock %}
