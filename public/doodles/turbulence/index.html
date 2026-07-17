@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body { margin: 0; }
+    </style>
+  </head>
+  <body>
+    <script src="three.js"></script>
+    <!--
+      this library from: https://github.com/josephg/noisejs
+      (Seph Gentle, adapting in turn from Stefan Gustavson/Peter Eastman)
+    -->
+    <script src="perlin.js"></script>
+    <script>
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      document.body.appendChild( renderer.domElement );
+
+      // N.B. creating a mesh with spherical coordinates is janky!
+      // would be nice to do something that produced more even triangles
+      // and was symmetric on more axes.
+      // some ideas here: https://medium.com/game-dev-daily/four-ways-to-create-a-mesh-for-a-sphere-d7956b825db4
+      // would be harder to think of how to number them in 2-space for the perlin noise though....
+
+      const nPolarDiv = 100;
+      const nAzimuthalDiv = 200;
+      const r = 10;
+      const randomScl = .2;
+      const perlinScl = .05;
+
+      function sphericalToRectangular(r, theta, phi) {
+        // see: https://math.libretexts.org/Bookshelves/Calculus/Book%3A_Calculus_(OpenStax)/12%3A_Vectors_in_Space/12.7%3A_Cylindrical_and_Spherical_Coordinates
+        // (annoyingly, theta/phi are swapped)
+        return [
+          r * Math.sin(theta) * Math.cos(phi),
+          r * Math.sin(theta) * Math.sin(phi),
+          r * Math.cos(theta)
+        ];
+      }
+
+      function myMesh() {
+        // have to do the poles separately, because they need to be shared points.
+        const bottomR = Math.random() * randomScl;
+        const topR = Math.random() * randomScl;
+
+        // see perlin.js import
+        noise.seed(Math.random());
+
+        function random(i, j) {
+          // shared points
+          if (i == 0) {
+            return topR;
+          } else if (i == nPolarDiv) {
+            return bottomR;
+          }
+
+          // return Math.random() * .2;  // just for debugging
+
+          // TODO: this produces something kind of awkward when we wrap.
+          // not sure what can be done though.
+          return Math.abs(noise.simplex2(i * perlinScl, j * perlinScl)) * randomScl;
+        }
+
+        var radii = [];
+        for (var i = 0; i <= nPolarDiv; i++) {
+          radii.push([]);
+          for (var j = 0; j <= nAzimuthalDiv; j++) {
+            radii[i].push(1 + random(i, j));
+          }
+        }
+
+        function indicesToPoint(i, j) {
+          let reali = Math.min(i, nPolarDiv);  // this is different so that it doesn't go through the center (b/c we don't iterate whole way around for theta/polar)
+          let realj = j % nAzimuthalDiv;
+          let r = radii[reali][realj];
+          let theta = (Math.PI / nPolarDiv) * reali;
+          let phi = ((Math.PI * 2) / nAzimuthalDiv) * realj;
+          return sphericalToRectangular(r, theta, phi);
+        }
+
+        var points = [];
+        for (var i = 0; i <= nPolarDiv; i++) {
+          for (var j = 0; j <= nAzimuthalDiv; j++) {
+            let a = indicesToPoint(i, j);
+            let b = indicesToPoint(i, j + 1);
+            let c = indicesToPoint(i + 1, j);
+            let d = indicesToPoint(i + 1, j + 1);
+
+            // order in which we push these points is important
+            // in order to get the normals in the right direction, etc.
+
+            // triangle 1
+            points.push(...c);
+            points.push(...b);
+            points.push(...a);
+
+            // triangle 2
+            points.push(...b);
+            points.push(...c);
+            points.push(...d);
+          }
+        }
+        const vertices = new Float32Array(points);
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+        geometry.computeVertexNormals();
+        const material = new THREE.MeshStandardMaterial( { color: 'blue' } );
+        const mesh = new THREE.Mesh( geometry, material );
+
+        // set upright
+        mesh.rotation.x = Math.PI / 2;
+
+        scene.add(mesh);
+
+        // useful for debugging (though would need to pause rotation elsewhere, etc.)
+        // const edges = new THREE.EdgesGeometry( geometry );
+        // const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
+        // scene.add( line );
+
+        return mesh;
+      }
+
+      const numMeshes = 2;
+      const meshes = [...Array(numMeshes).keys()].map(() => {
+        return myMesh();
+      });
+
+      // some ugly hardcoding going on here. color is from somewhere in docs.
+      const ambience = new THREE.AmbientLight( 0x404040 , 1);
+      scene.add(ambience);
+      const light = new THREE.PointLight( 0x404040, 9, 100 );;
+      light.position.set( 50, 50, 50 );
+      scene.add( light );
+
+      camera.position.z = 5;
+
+      function animate() {
+        requestAnimationFrame( animate );
+        renderer.render( scene, camera );
+
+        meshes.forEach((m, i) => {
+          m.rotation.z += (i == 1 ? i : -1) * 0.01;
+        });
+      }
+      animate();
+    </script>
+  </body>
+</html>
+<!--  -->

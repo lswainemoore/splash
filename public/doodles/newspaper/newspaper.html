@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>tk</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <style>
+  </style>
+</head>
+
+<body>
+
+  <canvas id="paper" width="500" height="500"></canvas>
+
+  <!--
+    this library from: https://github.com/josephg/noisejs
+    (Seph Gentle, adapting in turn from Stefan Gustavson/Peter Eastman)
+  -->
+  <script src="perlin.js"></script>
+  <script type="text/javascript">
+    const canvas = document.getElementById('paper')
+    const ctx = canvas.getContext("2d")
+    const imgData = ctx.createImageData(canvas.width, canvas.height)
+    const pixels = imgData.data
+
+    // see perlin.js import
+    noise.seed(Math.random());
+
+    const config = {
+      w: canvas.width,
+      h: canvas.height,
+      randomScl: .2,
+      perlinScl: .05,
+    }
+
+    class Color {
+      constructor(r, g, b) {
+        this.r = r
+        this.g = g
+        this.b = b
+      }
+
+      toString() {
+        return `rgb(${this.r},${this.g},${this.b})`
+      }
+    }
+
+    const baseColor = new Color(218,185,144)
+    console.log(baseColor)
+
+    function randomizeColor(color, maxVariation) {
+      return new Color(
+        color.r + (maxVariation / 2 - Math.floor(Math.random() * maxVariation)),
+        color.g + (maxVariation / 2 - Math.floor(Math.random() * maxVariation)),
+        color.b + (maxVariation / 2 - Math.floor(Math.random() * maxVariation)),
+      )
+    }
+
+    function perlinRandomizeColor(color, i, j) {
+
+    }
+
+
+    function draw() {
+      for (var i = 0; i < config.w; i++) {
+        for (var j = 0; j < config.h; j++) {
+          var index = i * 4 + j * config.w * 4
+          const color = randomizeColor(baseColor, 20)
+          pixels[index + 0] = color.r
+          pixels[index + 1] = color.g
+          pixels[index + 2] = color.b
+          pixels[index + 3] = 255
+        }
+      }
+      ctx.putImageData(imgData, 0, 0)
+    }
+    draw()
+  </script>
+</body>

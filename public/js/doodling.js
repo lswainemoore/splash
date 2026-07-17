@@ -1,4 +1,4 @@
-const BASE_URL = 'https://lincoln-doodling.herokuapp.com/';
+const BASE_URL = '/doodles/';
 function toggleDoodle(name) {
   var iframe = $('#doodle');
   var src = iframe.attr('src');
