@@ -2,25 +2,18 @@
   "name": "splash",
   "version": "1.0.0",
   "description": "splash page",
-  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "eleventy --serve",
+    "build": "rm -rf dist && eleventy",
     "scss": "sass --watch scss:public/css"
   },
-  "engines": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@11ty/eleventy": "^3.1.6",
     "csv": "^6.3.3",
-    "express": "^4.18.2",
-    "gray-matter": "^4.0.3",
     "markdown-it": "^13.0.1",
     "markdown-it-footnote": "^4.0.0",
-    "nunjucks": "^3.2.4",
     "sass": "^1.83.0"
-  },
-  "devDependencies": {
-    "scss": "^0.2.4"
   }
 }

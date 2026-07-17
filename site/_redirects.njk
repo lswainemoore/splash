@@ -1,0 +1,9 @@
+---
+permalink: /_redirects
+eleventyExcludeFromCollections: true
+---
+{% for post in collections.writingBySlug -%}
+{% if post.data.redirect -%}
+/writing-about/{{ post.page.fileSlug }} {{ post.data.redirect }} 301
+{% endif -%}
+{% endfor -%}

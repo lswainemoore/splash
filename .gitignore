@@ -42,3 +42,9 @@ Thumbs.db
 ##########
 node_modules/*
 node_modules
+
+# build output
+dist/
+.wrangler/
+.claude/settings.local.json
+public/css/*.map
