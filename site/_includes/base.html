@@ -1,6 +1,8 @@
 {% set title = title | default('Lincoln Swaine-Moore') %}
 {% set description = description | default('Lincoln Swaine-Moore\'s site! Welcome!') %}
 {% set meta_image = meta_image | default('/img/meta.png') %}
+{# scrapers (iMessage, Slack, FB, ...) ignore relative og:image URLs #}
+{% if meta_image[0] == '/' %}{% set meta_image = 'https://lincoln.swaine-moore.is' + meta_image %}{% endif %}
 {% set canonical_url = canonical_url | default('') %}
 {% set breadcrumb_link = breadcrumb_link | default('') %}
 {% set include_header = include_header | default(true) %}

@@ -2,8 +2,9 @@ const markdownIt = require('markdown-it')
 const markdownItFootnote = require('markdown-it-footnote')
 
 module.exports = function (eleventyConfig) {
-  // same markdown pipeline the old express app used
-  eleventyConfig.setLibrary('md', markdownIt().use(markdownItFootnote))
+  // same markdown pipeline the old express app used, plus raw HTML
+  // (for e.g. iframes in posts)
+  eleventyConfig.setLibrary('md', markdownIt({ html: true }).use(markdownItFootnote))
 
   // YYYY-MM-DD from UTC components, so output matches the frontmatter date
   // regardless of the build machine's timezone
