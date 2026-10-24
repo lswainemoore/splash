@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Morphisms
+title: Malanthropomorphism
 date: 2026-10-23
 ---
 
