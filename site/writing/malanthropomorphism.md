@@ -21,8 +21,8 @@ Ok, so Dessa (the project here, not the entity) wants me to speak to the machine
 
 [^1]: Jury's out for me--I think listening to a recording is very different from interacting directly, in terms of perceiving verisimilitude. Also tbh, I wasn't actually all that blown away by the demos.
 
-[^2] I don't have a good word for this distinction, but I'd like to note that I think of text-to-voice for accessibility purposes very differently. I can see a case for emulating mannerisms there, but that's not what Dorsey is up to.
+[^2]: I don't have a good word for this distinction, but I'd like to note that I think of text-to-voice for accessibility purposes very differently. I can see a case for emulating mannerisms there, but that's not what Dorsey is up to.
 
 [^3]: [This article](https://ryancordell.org/research/skeuomorphic) by Ryan C. Cordell helped crystallize the purpose and perils of skeuomorphism for me. He also makes the following astute point which I am cribbing here: that the text chat interface itself, which we take for granted at this point, uses a metaphor (texting, DMs, etc.) to "'conceal' the tool’s operation from users" (double quote because he is himself quoting Claude--read the post for more fun).
 
-[^4]: Evidently and unsurprisingly I am not the only person peeved. ![substack post by Daniel Falatko: "I never thought I was a humanist until the moment the Verizon AI agent literally sighed at me when I asked for a human agent"](/img/PITA.PNG)
+[^4]: Evidently and unsurprisingly I am not the only person peeved. ![substack post by Daniel Falatko: "I never thought I was a humanist until the moment the Verizon AI agent literally sighed at me when I asked for a human agent"](/img/pita.PNG)
